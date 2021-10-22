@@ -10,3 +10,8 @@ git checkout -b <branch>
 git add .
 git commit -m "..."
 git push -u origin <branch>
+
+  
+  
+// The shared account is in "MongoDB_Shared", Feel free to mess around with it. 
+// Make sure not to make this repo public.
