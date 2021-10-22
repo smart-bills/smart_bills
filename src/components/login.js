@@ -31,7 +31,7 @@ function Login() {
   const theme = createTheme();
   
   return (
-    <ThemeProvider theme={theme} fontFamily = 'Oxygen'>
+    <ThemeProvider theme={theme}>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
