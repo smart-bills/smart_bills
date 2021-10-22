@@ -1,5 +1,13 @@
-const { MongoClient } = require('mongodb');
-const uri = "mongodb+srv://smartbill:smartbill@smartbills.how1j.mongodb.net/SmartBills?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const mongoose = require('mongoose')
+const uri = "mongodb+srv://superman:smartbill@smartbillsdatabase.v48nf.mongodb.net/SmartBillsDatabase?retryWrites=true&w=majority";
 
-module.exports = client;
+async function connectDB(){
+    try {
+        await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })   
+        console.log('DB is now connected');
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = connectDB;

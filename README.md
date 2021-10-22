@@ -12,3 +12,11 @@ https://excalidraw.com/#room=adeb0ba335d66f97559a,ho36IK_Ko_HKeGB_A7EPJg
   git add .
   git commit -m "..." 
   git push -u origin <branch>
+git add .
+git commit -m "..."
+git push -u origin <branch>
+
+  
+  
+// The shared account is in "MongoDB_Shared", Feel free to mess around with it. 
+// Make sure not to make this repo public.
