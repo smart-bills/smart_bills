@@ -1,43 +1,18 @@
 const express = require('express');
-const cors = require('cors');
-const connectDB = require('./mongodb')
-const moogoose = require('mongoose')
-const User = require('../models/user')
+const app = express()
+const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+const routesUrls = require('./routes/userRoute')
+const cors = require('cors')
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+dotenv.config()
 
-app.use("/", require("../src/routes/userRoute"));
-app.get('/', async(req, res, next) =>
-{
-    try {
-        const result = await User.find();
-        res.send(result);   
-    } catch (error) {
-        console.error(error)
-    }
-})
+mongoose.connect(process.env.DATABASE_ACCESS, () => console.log ("Database connected"))   
 
-app.get('/user', async(req, res, next) =>
-{
-    // const user = new User({
-    //     userID: 'HEllo',
-    //     email: 'yo@gmail.com',
-    //     name: 'Testing name',
-    //     password: 'Testing password'
-    // })
-    
-    try {
-        const result = await user.save();
-        res.send(result);   
-    } catch (error) {
-        console.error(error)
-    }
-})
-
+app.use(express.json())
+app.use(cors())
+app.use('/app', routesUrls)
 app.listen(8000, () => {
-    connectDB();
-    console.log('Both database and backend are running now.')
+    console.log('backend are running now.')
 });
 

@@ -30,11 +30,16 @@ function Copyright(props) {
 const theme = createTheme();
 
 function Login() {
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios.post('http://localhost:3000/user', data);
+    const existUser = {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      email: data.get('email'),
+      password: data.get('password')
+  }
+    axios.get('http://localhost:8000/app/user', existUser);
   };
   
   return (
@@ -87,14 +92,17 @@ function Login() {
               label="Remember me"
             />
           </Box>
+          <Link href="/user">
           <Button
+            
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
+          >  
+              Sign In
           </Button>
+          </Link>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
