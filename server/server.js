@@ -8,19 +8,25 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) =>
+app.use("/", require("../src/routes/userRoute"));
+app.get('/', async(req, res, next) =>
 {
-    res.send('Backend running');
+    try {
+        const result = await User.find();
+        res.send(result);   
+    } catch (error) {
+        console.error(error)
+    }
 })
 
-app.get('/user', async(req, res) =>
+app.get('/user', async(req, res, next) =>
 {
-    const user = new User({
-        userID: 'HEllo',
-        email: 'yo@gmail.com',
-        name: 'Testing name',
-        password: 'Testing password'
-    })
+    // const user = new User({
+    //     userID: 'HEllo',
+    //     email: 'yo@gmail.com',
+    //     name: 'Testing name',
+    //     password: 'Testing password'
+    // })
     
     try {
         const result = await user.save();
@@ -34,3 +40,4 @@ app.listen(8000, () => {
     connectDB();
     console.log('Both database and backend are running now.')
 });
+

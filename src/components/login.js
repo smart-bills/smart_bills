@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -26,9 +27,15 @@ function Copyright(props) {
   );
 }
 
+const theme = createTheme();
+
 function Login() {
-  
-  const theme = createTheme();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    axios.post('http://localhost:3000/user', data);
+  };
   
   return (
     <ThemeProvider theme={theme}>
@@ -48,7 +55,7 @@ function Login() {
         <Typography component="h1" variant="h5">
           Smart Bills
         </Typography>
-        <Box component="form" noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -95,7 +102,7 @@ function Login() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
