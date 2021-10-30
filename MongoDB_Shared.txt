@@ -1,2 +1,0 @@
-smartbills.mongodb@gmail.com
-mongodb333

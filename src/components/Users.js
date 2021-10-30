@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 
-function Users (props) {
-    const [user, setUser] = useState([{
+function Users() {
+    const [users, setUser] = useState([{
         firstName: '',
         lastName: '',
         email: '',
@@ -18,7 +18,11 @@ function Users (props) {
     return (
         <div>
             Welcome back
-            {console.log(this.state)}
+            {users.map(user =>
+                <div key={user.email}>
+                    <h1>{user.firstName}</h1> 
+                </div>
+            )}
         </div>
     )
 }

@@ -92,17 +92,15 @@ function Login() {
               label="Remember me"
             />
           </Box>
-          <Link href="/user">
           <Button
-            
             type="submit"
+            href="/user"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >  
               Sign In
           </Button>
-          </Link>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
