@@ -3,7 +3,7 @@ const app = express()
 const mongoose = require('mongoose')
 //const dotenv = require('dotenv')
 const routesUrls = require('./routes/userRoute')
-const {dbKey} = require('../secret')
+const {dbKey} = require('../secrets')
 const cors = require('cors')
 
 const PORT = process.env.PORT || 8000
