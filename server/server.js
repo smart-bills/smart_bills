@@ -15,7 +15,6 @@ app.get('/', async(req, res) => {
     res.send('Hi')
 });
 
-
 app.post('/billImage', async(req, res) => {
     console.log(req.body);
 

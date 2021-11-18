@@ -38,7 +38,8 @@ const Bill = () => {
                         onChange={e => handleReceipt(e)}
                         required />
                     <button type='submit'>Upload</button>
-                </form>             
+                </form>    
+                         
                 {receiptBase64 && <img src={receiptBase64} height='200' alt='Receipt'/>}
             </div>
     )
