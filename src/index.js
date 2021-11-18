@@ -4,11 +4,12 @@ import './index.css';
 import App from './App';
 import { Router } from 'react-router-dom';
 import history from './history';
-
+import Bill from './components/Bill'
 
 ReactDOM.render(
       <Router history={history}>
         <App />
+        <Bill />
       </Router>
     ,
   document.getElementById('app')
