@@ -4,17 +4,25 @@ import {Link} from 'react-router-dom';
 import Button from '@mui/material/Button';
 
 function Nav() {
-  
-  //const theme = createTheme();
-  
   return (
-    //<ThemeProvider theme={theme} fontFamily = 'Oxygen'>
+      <div>
         <Link to='/'>
             <Button>
-            !!!!!!!!!!This is Nav bar!!!!!!!!!
+              SmartBills
+            </Button>   
+        </Link>
+        <Link to='/login'>
+            <Button>
+              Log In
+            </Button>
+            
+        </Link>
+        <Link to='/signup'>
+            <Button>
+              Signup
             </Button>
         </Link>
-  //</ThemeProvider>
+      </div>
   )
 }
 

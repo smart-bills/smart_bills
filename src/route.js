@@ -5,6 +5,8 @@ import {Route, Switch } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Login from './components/Login'
 import Home from './components/Home'
+import Signup from './components/Signup'
+import Users from './components/Users';
 
 
 /**
@@ -23,6 +25,8 @@ class Routes extends Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} /> 
+          <Route exact path="/user" component={Users} /> 
         </Switch>
       </div>
     );
