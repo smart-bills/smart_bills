@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 //import { createTheme, ThemeProvider } from '@mui/material/styles';
+//import pic from "../../public/"
 
 function Copyright(props) {
   return (
@@ -22,16 +23,14 @@ function Home() {
   //const theme = createTheme();
   
   return (
-    // <ThemeProvider theme={theme} fontFamily = 'Oxygen'>
     <div>
-        <Link to="/login">
-            <Button>
-                Login
-            </Button>
-        </Link>
+      <div className="row">
+        <div className="logo">
+        {/* <img src={homePic} height='200' alt='Receipt'/> */}
+        </div>
+      </div>
         <Copyright sx={{ mt: 8, mb: 4 }} />
         </div>
-//   </ThemeProvider>
   )
 }
 

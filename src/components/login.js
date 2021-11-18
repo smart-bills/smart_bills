@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -26,9 +27,20 @@ function Copyright(props) {
   );
 }
 
+const theme = createTheme();
+
 function Login() {
-  
-  const theme = createTheme();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const existUser = {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      email: data.get('email'),
+      password: data.get('password')
+  }
+    axios.get('http://localhost:8000/app/user', existUser);
+  };
   
   return (
     <ThemeProvider theme={theme}>
@@ -48,7 +60,7 @@ function Login() {
         <Typography component="h1" variant="h5">
           Smart Bills
         </Typography>
-        <Box component="form" noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -82,11 +94,12 @@ function Login() {
           </Box>
           <Button
             type="submit"
+            href="/user"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
+          >  
+              Sign In
           </Button>
           <Grid container>
             <Grid item xs>
@@ -95,7 +108,7 @@ function Login() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
