@@ -6,7 +6,7 @@
 ## checkout a new branch:
 ### git checkout -b <branch-name>
   
-# Edit files, add and commit. Then push with the -u (short for --set-upstream) option
-git add .
-git commit -m "..." 
-git push -u origin <branch-name>
+## Edit files, add and commit. Then push with the -u (short for --set-upstream) option
+### git add .
+### git commit -m "..." 
+### git push -u origin <branch-name>
