@@ -1,11 +1,11 @@
 const ocrSpace = require('ocr-space-api-wrapper');
-const APIKey = 'd5288346b188957';
+const {ocrKey} = require('../secrets')
 
 async function parseReceipt(receiptPath)
 {
     try {
         const response = await ocrSpace(receiptPath, {
-            apiKey: APIKey,
+            apiKey: ocrKey,
             scale: true,
             detectOrientation: true,
             isTable: true,

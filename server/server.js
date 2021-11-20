@@ -1,11 +1,11 @@
 const express = require('express');
 const cors = require('cors');
-// const connectDB = require('./mongodb');
 const parseReceipt = require('./ocr');
 const mongoose = require('mongoose');
-//const User = require('../models/user');
 const PORT = process.env.PORT || 8000
 // const upload = require('./uploadBill');
+// const User = require('../models/user');
+// const connectDB = require('./mongodb');
 const app = express();
 const routesUrls = require('./routes/userRoute')
 const {dbKey} = require('../secrets')
