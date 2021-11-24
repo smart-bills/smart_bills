@@ -1,6 +1,7 @@
 const ocrSpace  = require('ocr-space-api-wrapper');
-const {ocrKey} = require('../secrets')
-
+const {ocrKey} = require('../secrets');
+const Bill = require('./models/bill');
+const Dish = require('./models/dish');
 
 async function parseReceipt(receiptString)
 {
@@ -16,29 +17,24 @@ async function parseReceipt(receiptString)
         });
 
         if(response.OCRExitCode	=== 1) {
-            // const parsedResults = response.ParsedResults;
-            // let dishes = {};
+            const receiptRows = response.ParsedResults[0].ParsedText.split('\r\n');
+            // console.log(response.ParsedResults[0].ParsedText);
+            const bill = new Bill();
+
+            receiptRows.forEach(row => {
+                const dishInfo = row.split('\t');
+                if(Number(dishInfo[1])) {
             
-            // if(parsedResults.length === 1)
-            // {
-            //     console.log(parsedResults[0].ParsedText);
-            //     let parsedText = parsedResults[0].ParsedText.split('\n');
-            //     for(let text of parsedText){
-            //         let row = text.split('\t');
-                    
-            //         if(row[1] && row[1].includes('.')){
-            //             let dishName = row[0];
-            //             let price = row[1];
-            //             dishes[dishName] = price;
-            //         }
-            //     }
-            //     return dishes;
-            // }
-            const afterSplit = response.ParsedResults[0].ParsedText.split('\r\n');
-            afterSplit.forEach(stuff => {
-                const dish = stuff.split('\t');
-                console.log(`${dish[0]} ------ ${dish[1]}`);
+                    const DISH = {
+                        dishName: dishInfo[0],
+                        price: dishInfo[1]
+                    }
+
+                    bill.dishes.push(DISH);
+                    console.log(`${dishInfo[0]} ------ ${dishInfo[1]}`);
+                }
             });
+            bill.save().then(() => console.log('ok'));
         }
     } catch (error) {
         console.log(error);
