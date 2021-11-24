@@ -1,6 +1,7 @@
 const ocrSpace  = require('ocr-space-api-wrapper');
 const {ocrKey} = require('../secrets')
 
+
 async function parseReceipt(receiptString)
 {
     try {
@@ -36,7 +37,7 @@ async function parseReceipt(receiptString)
             const afterSplit = response.ParsedResults[0].ParsedText.split('\r\n');
             afterSplit.forEach(stuff => {
                 const dish = stuff.split('\t');
-                console.log(`The dish name is ${dish[0]} --------  The price is ${dish[1]}`);
+                console.log(`${dish[0]} ------ ${dish[1]}`);
             });
         }
     } catch (error) {

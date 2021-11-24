@@ -20,22 +20,15 @@ app.get('/', (req, res) => {
 });
 
 app.post('/billImage', async (req, res) => {
-    console.log('Received a receipt')
+    console.log('Received a receipt.')
     const receiptString = req.body.file;
+    await parseReceipt(receiptString);
     // const dishes = await parseReceipt(receiptString);
     // console.log(dishes);
-    await parseReceipt(receiptString);
 });
-
-mongoose.connect(dbKey, () => console.log ("Database connected"))
 
 app.use('/app', routesUrls)
 app.listen(PORT, () => {
-    console.log('backend are running now.')
+    console.log(`Backend is connected now: ${new Date()}`);
+    mongoose.connect(dbKey, () => console.log (`Database is connected now: ${new Date()}`));
 });
-
-// app.listen(8000, () => {
-//     connectDB();
-//     console.log('Both database and backend are running now.')
-// });
-
