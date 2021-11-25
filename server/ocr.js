@@ -1,7 +1,6 @@
 const ocrSpace  = require('ocr-space-api-wrapper');
 const {ocrKey} = require('../secrets');
 const Bill = require('./models/bill');
-const Dish = require('./models/dish');
 
 async function parseReceipt(receiptString)
 {
