@@ -1,40 +1,39 @@
-const ocrSpace = require('ocr-space-api-wrapper');
-const APIKey = 'd5288346b188957';
+const ocrSpace  = require('ocr-space-api-wrapper');
+const {ocrKey} = require('../secrets');
+const Bill = require('./models/bill');
 
-async function parseReceipt(receiptPath)
+async function parseReceipt(receiptString)
 {
     try {
-        const response = await ocrSpace(receiptPath, {
-            apiKey: APIKey,
+        const response = await ocrSpace(receiptString, {
+            apiKey: ocrKey,
             scale: true,
             detectOrientation: true,
             isTable: true,
             OCREngine: 2,
-            // For now please ignore these two parameters.
-            // !!! DO NOT DELETE / CHANGE THEM !!!
-            // language: 'eng',
-            // filetype: ' PDF, GIF, PNG, JPG, TIF, BMP '
+            language: 'eng',
+            filetype: ' PDF, GIF, PNG, JPG, TIF, BMP '
         });
 
-        if(response.OCRExitCode	=== 1 || response.OCRExitCode === 2) {
-            const parsedResults = response.ParsedResults;
-            let dishes = {};
+        if(response.OCRExitCode	=== 1) {
+            const receiptRows = response.ParsedResults[0].ParsedText.split('\r\n');
+            // console.log(response.ParsedResults[0].ParsedText);
+            const bill = new Bill();
 
-            if(parsedResults.length === 1)
-            {
-                // console.log(parsedResults[0].ParsedText);
-                let parsedText = parsedResults[0].ParsedText.split('\n');
-                for(let text of parsedText){
-                    let row = text.split('\t');
-                    
-                    if(row[1] && row[1].includes('.')){
-                        let dishName = row[0];
-                        let price = row[1];
-                        dishes[dishName] = price;
+            receiptRows.forEach(row => {
+                const dishInfo = row.split('\t');
+                if(Number(dishInfo[1])) {
+            
+                    const DISH = {
+                        dishName: dishInfo[0],
+                        price: dishInfo[1]
                     }
+
+                    bill.dishes.push(DISH);
+                    console.log(`${dishInfo[0]} ------ ${dishInfo[1]}`);
                 }
-                return dishes;
-            }
+            });
+            bill.save().then(() => console.log('ok'));
         }
     } catch (error) {
         console.log(error);

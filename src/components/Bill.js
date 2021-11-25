@@ -26,6 +26,9 @@ const Bill = () => {
                 
             }
         }
+        else {
+            alert("No")
+        }
     }
 
     return (
