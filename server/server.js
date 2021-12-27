@@ -1,10 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const routesUrls = require('./routes/userRoute')
+const express    =     require('express');
+const cors       =     require('cors');
+const mongoose   =     require('mongoose');
+const session    =     require('express-session');
+const routesUrls =     require('./routes/userRoute');
 // const parseReceipt = require('./ocr');
-const {dbKey} = require('../secrets')
-const PORT = process.env.PORT || 8000
+const {dbKey}    =     require('../secrets');
+const PORT       =     process.env.PORT || 8000
 
 const app = express();
 app.use(cors());
