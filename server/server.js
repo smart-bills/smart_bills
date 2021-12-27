@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const routesUrls = require('./routes/userRoute')
-const parseReceipt = require('./ocr');
+// const parseReceipt = require('./ocr');
 const {dbKey} = require('../secrets')
 const PORT = process.env.PORT || 8000
 
