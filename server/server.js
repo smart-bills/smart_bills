@@ -2,7 +2,7 @@ const express    =     require('express');
 const cors       =     require('cors');
 const mongoose   =     require('mongoose');
 const session    =     require('express-session');
-const routesUrls =     require('./routes/userRoute');
+const userRoute  =     require('./routes/userRoute');
 // const parseReceipt = require('./ocr');
 const {dbKey}    =     require('../secrets');
 const PORT       =     process.env.PORT || 8000
@@ -24,7 +24,7 @@ app.get('/', (req, res, next) => {
 //     // console.log(dishes);
 // });
 
-app.use('/app', routesUrls)
+app.use('/app', userRoute)
 app.listen(PORT, () => {
     console.log(`Backend is connected now: ${new Date()}`);
     mongoose.connect(dbKey, () => console.log (`Database is connected now: ${new Date()}`));
