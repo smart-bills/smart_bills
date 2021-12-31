@@ -32,6 +32,7 @@ const theme = createTheme();
 function Signup() {
   const handleSubmit = (event) => {
     event.preventDefault();
+
     const data = new FormData(event.currentTarget);
     const newUser = {
         firstName: data.get('firstName'),
@@ -39,6 +40,7 @@ function Signup() {
         email: data.get('email'),
         password: data.get('password')
     }
+    
     axios.post('http://localhost:8000/app/signup', newUser)
   };
 

@@ -32,14 +32,14 @@ const theme = createTheme();
 function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
+  
     const data = new FormData(event.currentTarget);
-    const existUser = {
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
+    const loginInfo = {
       email: data.get('email'),
       password: data.get('password')
-  }
-    axios.get('http://localhost:8000/app/user', existUser);
+    }
+
+    axios.post('http://localhost:8000/app/login', loginInfo);
   };
   
   return (
@@ -94,7 +94,7 @@ function Login() {
           </Box>
           <Button
             type="submit"
-            href="/user"
+            // href="/user"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
