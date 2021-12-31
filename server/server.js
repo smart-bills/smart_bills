@@ -1,11 +1,12 @@
-const express       =     require('express');
-const cors          =     require('cors');
-const mongoose      =     require('mongoose');
-const session       =     require('express-session');
-const MongoStore    =     require('connect-mongo');
-const userRoute     =     require('./routes/userRoute');
-const {dbKey, sessionSecret}       =     require('../secrets');
-const PORT          =     process.env.PORT || 8000
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const passport = require('passport');
+const userRoute = require('./routes/userRoute');
+const {dbKey, sessionSecret} = require('../secrets');
+const PORT = process.env.PORT || 8000
 
 const app = express();
 // Set up all the middlewares.
@@ -20,6 +21,14 @@ app.use(session({
     store: MongoStore.create({mongoUrl: dbKey})}));
 
 app.get('/', (req, res, next) => {
+    
+    // if(req.session.localVar) {
+    //     req.session.localVar = 'Hello';
+    // } else {
+    //     req.session.localVar = 'World';
+    // }
+
+    // console.log(req.session.localVar);
     res.send('Hi');
 });
 
