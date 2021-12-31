@@ -7,8 +7,8 @@ import Login from './components/Login'
 import Home from './components/Home'
 import Signup from './components/Signup'
 import Users from './components/Users';
-
-
+import Bill from './components/Bill';
+import Copyright from './components/Copyright';
 /**
  * COMPONENT
  */
@@ -28,6 +28,8 @@ class Routes extends Component {
           <Route exact path="/signup" component={Signup} /> 
           <Route exact path="/user" component={Users} /> 
         </Switch>
+        <Bill />
+        <Copyright sx={{ mt: 8, mb: 4 }} />
       </div>
     );
   }
