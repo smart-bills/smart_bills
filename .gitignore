@@ -32,3 +32,5 @@ node_modules
 
 *.png
 *.jpg
+
+VisionAPI.json
