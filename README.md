@@ -8,8 +8,11 @@
 ## Start the dev
     npm run start
 
+## conneting database
+    node server.js
+
 ## create a new branch:
-    git brancn <branch-name>
+    git branch <branch-name>
 
 ## checkout a branch:
     git checkout <branch-name>
