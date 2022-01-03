@@ -4,6 +4,13 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 
 router.post('/signup', async(req, res) => {
+    const user = await User.findOne({email: req.body.email});
+
+    if(user) {
+        res.json({message: 'User is already registered', isRegistered: true});
+        return;
+    }
+    
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -17,7 +24,7 @@ router.post('/signup', async(req, res) => {
 
         res.status(200).json({ message: 'User has been registered.'});
     } catch(err) {
-        res.status(400).json({ message: `${err}`});
+        res.json({ message: `${err}`});
     }
 });
 

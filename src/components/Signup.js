@@ -17,7 +17,8 @@ import axios from 'axios';
 const theme = createTheme();
 
 function Signup() {
-  const handleSubmit = (event) => {
+  
+  const handleSubmit = async(event) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
@@ -28,7 +29,9 @@ function Signup() {
         password: data.get('password')
     }
     
-    axios.post('http://localhost:8000/app/signup', newUser)
+    const res = await axios.post('http://localhost:8000/app/signup', newUser);
+    if(res.data.isRegistered) console.log('This email is no good');
+    console.log('Hi');
   };
 
   return (
