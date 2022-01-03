@@ -33,7 +33,7 @@ const Bill = () => {
 
     return (
             <div>
-                <form onSubmit={e => handleSubmit(e)}>
+                {/* <form onSubmit={e => handleSubmit(e)}>
                     <input type="file"
                         id="image"
                         name="image"
@@ -43,7 +43,7 @@ const Bill = () => {
                     <button type='submit'>Upload</button>
                 </form>    
                          
-                {receiptBase64 && <img src={receiptBase64} height='200' alt='Receipt'/>}
+                {receiptBase64 && <img src={receiptBase64} height='200' alt='Receipt'/>} */}
             </div>
     )
 }

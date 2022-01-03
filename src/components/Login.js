@@ -13,33 +13,21 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios";
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Copyright from './Copyright';
 
 const theme = createTheme();
 
 function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
+  
     const data = new FormData(event.currentTarget);
-    const existUser = {
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
+    const loginInfo = {
       email: data.get('email'),
       password: data.get('password')
-  }
-    axios.get('http://localhost:8000/app/user', existUser);
+    }
+
+    axios.post('http://localhost:8000/app/login', loginInfo);
   };
   
   return (
@@ -94,7 +82,7 @@ function Login() {
           </Box>
           <Button
             type="submit"
-            href="/user"
+            // href="/user"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
@@ -115,7 +103,6 @@ function Login() {
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
   </ThemeProvider>
   )
