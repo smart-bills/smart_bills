@@ -1,7 +1,9 @@
-const express = require('express')
+const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 
 router.post('/signup', async(req, res) => {
     const user = await User.findOne({email: req.body.email});
@@ -28,25 +30,34 @@ router.post('/signup', async(req, res) => {
     }
 });
 
-router.post('/login', async(req, res) => {
-    try {
-        const user = await User.findOne({
-            email: req.body.email
-        });
 
-        if(!user) {
-            console.log('No such an user');
-            return;
-        }
-        
-        const isPasswordCorrect = bcrypt.compareSync(req.body.password, user.password);
-        if(isPasswordCorrect) {
-            console.log('User has logged in');
-            return;
-        }     
-    } catch(err) {
-        console.log(err);
-    }
+router.post('/api/login', async (req, res) => {
+	const user = await User.findOne({
+		email: req.body.email,
+	})
+
+	if (!user) {
+		return { status: 'error', error: 'Invalid login' }
+	}
+
+	const isPasswordValid = await bcrypt.compare(
+		req.body.password,
+		user.password
+	)
+
+	if (isPasswordValid) {
+		const token = jwt.sign(
+			{
+				name: user.name,
+				email: user.email,
+			},
+			'secret123'
+		)
+        console.log('User has logged in');
+		return res.json({ status: 'ok', user: token })
+	} else {
+        console.log('Wrong password');
+		return res.json({ status: 'error', user: false })
+	}
 })
-
 module.exports = router;
