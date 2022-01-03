@@ -9,7 +9,7 @@
     npm run start
 
 ## create a new branch:
-    git brancn <branch-name>
+    git branch <branch-name>
 
 ## checkout a branch:
     git checkout <branch-name>
