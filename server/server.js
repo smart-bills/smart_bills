@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const userRoute = require('./routes/userRoute');
+const parseImage = require('./visionAPI');
 require('dotenv').config({path: '../.env'});
 const dbKey = process.env.dbKey;
 const PORT = process.env.PORT || 8000
@@ -14,6 +15,16 @@ app.use(express.urlencoded({limit: '50mb', extended: true}));
 app.get('/', (req, res, next) => {
     res.send('Hi');
 });
+
+app.post('/parseImage', async(req, res, next) => {
+    console.log('parseImage was run');
+    let imageInBase64 = req.body.file;
+    imageInBase64 = imageInBase64.split(',');
+    imageInBase64 = imageInBase64[1];
+
+    await parseImage(imageInBase64);
+    res.json({message: 'Upload was successful'});
+})
 
 app.use('/app', userRoute)
 app.listen(PORT, () => {
