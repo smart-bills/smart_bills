@@ -12,11 +12,15 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from "axios";
+import { useState } from 'react'
+
 
 const theme = createTheme();
 
 function Login() {
+  const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+
   const handleSubmit = (event) => {
     event.preventDefault();
   
@@ -25,12 +29,37 @@ function Login() {
       email: data.get('email'),
       password: data.get('password')
     }
+    console.log(loginInfo) 
+  }
 
-    axios.post('http://localhost:8000/app/login', loginInfo);
-  };
+	async function loginUser(event) {
+		event.preventDefault()
+
+		const response = await fetch('http://localhost:8000/api/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				email,
+				password
+			}),
+		})
+
+		const data = await response.json()
+
+		if (data.user) {
+			localStorage.setItem('token', data.user)
+			alert('Login successful')
+			window.location.href = '/dashboard'
+		} else {
+			alert('Please check your username and password')
+		}
+	}
+
   
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} onSubmit={loginUser}>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
@@ -55,7 +84,11 @@ function Login() {
             id="email"
             label="Email Address"
             name="email"
+            placeholder="Email"
             autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
             autoFocus
           />
           <TextField
@@ -67,6 +100,10 @@ function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            placeholder="Password"
           />
           <Box 
             sx={{
@@ -81,6 +118,7 @@ function Login() {
           </Box>
           <Button
             type="submit"
+            value="Login"
             // href="/user"
             fullWidth
             variant="contained"
@@ -107,4 +145,4 @@ function Login() {
   )
 }
 
-export default Login; 
+export default Login;  
