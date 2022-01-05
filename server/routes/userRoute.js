@@ -25,9 +25,7 @@ router.post('/signup', async(req, res) => {
         });
 
         res.json({ message: 'User has been registered.'});
-    } catch(err) {
-        res.json({ message: `${err}`});
-    }
+    } catch(err) { res.json({ message: `${err}`}); }
 });
 
 router.post('/login', async (req, res) => {
