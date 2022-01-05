@@ -14,7 +14,6 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react'
 
-
 const theme = createTheme();
 
 function Login() {
@@ -35,29 +34,26 @@ function Login() {
 	async function loginUser(event) {
 		event.preventDefault()
 
-		const response = await fetch('http://localhost:8000/api/login', {
+    const response = await fetch('http://localhost:8000/app/login', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
 				email,
 				password
-			}),
+      }),
 		})
 
 		const data = await response.json()
-
 		if (data.user) {
-			localStorage.setItem('token', data.user)
-			alert('Login successful')
-			window.location.href = '/dashboard'
-		} else {
-			alert('Please check your username and password')
-		}
+			localStorage.setItem('token', data.user);
+			alert('Login successful');
+			window.location.href = '/dashboard';
+		} else  
+        alert('Please check your username and password');
 	}
 
-  
   return (
     <ThemeProvider theme={theme} onSubmit={loginUser}>
     <Container component="main" maxWidth="xs">
@@ -102,7 +98,6 @@ function Login() {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            type="password"
             placeholder="Password"
           />
           <Box 
@@ -116,14 +111,8 @@ function Login() {
               label="Remember me"
             />
           </Box>
-          <Button
-            type="submit"
-            value="Login"
-            // href="/user"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >  
+          <Button type="submit" value="Login" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} > 
+          {/* href="/user"   */}
               Sign In
           </Button>
           <Grid container>

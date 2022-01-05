@@ -5,8 +5,7 @@ async function parseImage(imageInBase64) {
     const client = new vision.ImageAnnotatorClient(clientOptions);
 
     const request = {
-        image: { content: imageInBase64},
-        // image: {source: {'filename': '../testing1.jpg'}},
+        image: {content: imageInBase64},
         features: [{type: 'TEXT_DETECTION'}]
         // features: [{type: 'DOCUMENT_TEXT_DETECTION'}, {type: 'TEXT_DETECTION'}]
     };
