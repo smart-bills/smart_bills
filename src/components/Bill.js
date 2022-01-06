@@ -15,12 +15,12 @@ const Bill = () => {
         e.preventDefault();
         
         if(receiptBase64) {
-            const url = 'http://127.0.0.1:8000/billImage';
+            const url = 'http://127.0.0.1:8000/parseImage';
             const formData = { file: receiptBase64 };
 
             try {
-                console.log(receiptBase64)
-                const response = await axios.post(url, formData);
+                console.log(receiptBase64);
+                await axios.post(url, formData);
                 console.log('The upload was successful');
             } catch (error) {
                 
@@ -33,7 +33,7 @@ const Bill = () => {
 
     return (
             <div>
-                {/* <form onSubmit={e => handleSubmit(e)}>
+                <form onSubmit={e => handleSubmit(e)}>
                     <input type="file"
                         id="image"
                         name="image"
@@ -43,7 +43,7 @@ const Bill = () => {
                     <button type='submit'>Upload</button>
                 </form>    
                          
-                {receiptBase64 && <img src={receiptBase64} height='200' alt='Receipt'/>} */}
+                {receiptBase64 && <img src={receiptBase64} height='200' alt='Receipt'/>}
             </div>
     )
 }
