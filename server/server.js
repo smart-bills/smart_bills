@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const userRoute = require('./routes/userRoute');
 const billRoute = require('./routes/billRoute');
 const parseImage = require('./visionAPI');
 require('dotenv').config({ path: '../.env' });
@@ -28,7 +27,8 @@ app.post('/parseImage', async (req, res, next) => {
 });
 
 
-app.use('/app', userRoute);
+app.use('/app/users', require('./routes/userRoute'));
+app.use('/app/auth', require('./routes/authRoute'));
 app.use('/app', billRoute);
 
 app.listen(PORT, () => {
