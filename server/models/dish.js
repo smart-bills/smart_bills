@@ -6,9 +6,9 @@ const DishSchema = new Schema({
     amount: { type: String, required: true},
     paid: { type: Boolean, default: false},
     userEmail: { type: String, required: true},
-    date: { type: String, required: true},
     billID: { type: String, required: true},
-    storeName: { type: String, required: true},
+    date: Date,
+    storeName: String,
     description: String
 }, { timestamps: true });
 
