@@ -6,7 +6,7 @@ require('dotenv').config({ path: '../.env' });
 const { check, validationResult } = require('express-validator');
 const jwtSecret = process.env.jwtSecret;
 
-const User = require('../models/User');
+const User = require('../models/user');
 
 // @route   POST app/users
 // @desc    Register User
