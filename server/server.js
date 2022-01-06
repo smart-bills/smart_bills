@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const userRoute = require('./routes/userRoute');
+const billRoute = require('./routes/billRoute');
 const parseImage = require('./visionAPI');
 require('dotenv').config({path: '../.env'});
 const dbKey = process.env.dbKey;
@@ -14,6 +15,7 @@ app.use(express.urlencoded({limit: '50mb', extended: true}));
 
 app.get('/', (req, res, next) => {
     res.send('Hi');
+    
 });
 
 app.post('/parseImage', async(req, res, next) => {
@@ -26,7 +28,8 @@ app.post('/parseImage', async(req, res, next) => {
     res.json({message: 'Upload was successful'});
 })
 
-app.use('/app', userRoute)
+app.use('/app', userRoute);
+app.use('/app', billRoute);
 app.listen(PORT, () => {
     mongoose.connect(dbKey);
     console.log(`Backend is now connected ${Date()}`);
