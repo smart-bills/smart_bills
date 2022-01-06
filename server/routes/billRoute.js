@@ -8,7 +8,6 @@ router.post('/bill', async(req, res) => {
         await Bill.create({ 
             storeName: req.body.storeName,
             date: req.body.date,
-            dishes: req.body.dishes,
             amount: req.body.amount
         });
 
