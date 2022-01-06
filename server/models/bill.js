@@ -6,10 +6,10 @@ const BillSchema = new Schema({
     date: { type: String, required: true},
     dishes: { type: Array, required: true},
     amount: { type: String, required: true},
-    invitees: { type: Array },
-    description: { type: String }
+    paid: { type: Boolean},
+    invitees: { type: Array},
+    description: { type: String}
 }, { timestamps: true });
 
 const Bill = mongoose.model('Bill', BillSchema);
 module.exports = Bill;
-
