@@ -1,17 +1,15 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-const dishSchema = new Schema({
-    dishName: String,
-    price: mongoose.Decimal128 
-});
-
 const billSchema = new Schema({
-    dishes: [{
-        dishName: String,
-        price: mongoose.Decimal128
-    }]
+    storeName: { type: String, required: true},
+    date: { type: String, required: true},
+    dishes: { type: Array, required: true},
+    amount: { type: String, required: true},
+    invitees: { type: Array },
+    description: { type: String }
 }, { timestamps: true });
 
 const Bill = mongoose.model('Bill', billSchema);
 module.exports = Bill;
+
