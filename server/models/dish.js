@@ -9,7 +9,7 @@ const DishSchema = new Schema({
     date: { type: String, required: true},
     billID: { type: String, required: true},
     storeName: { type: String, required: true},
-    description: { type: String},
+    description: String
 }, { timestamps: true });
 
 const Dish = mongoose.model('Dish', DishSchema);
