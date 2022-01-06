@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const BillSchema = new Schema({
     hostID: { type: Schema.ObjectId, required: true},
     storeName: { type: String, required: true},
-    date: { type: Date, required: true},
     amount: { type: String, required: true},
     paid: { type: Boolean, default: false},
+    date: Date,
     dishes: [{
         user: { type: Schema.ObjectId, required: true},
         dishName: { type: String, required: true},
