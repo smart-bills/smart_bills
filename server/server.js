@@ -28,8 +28,7 @@ app.post('/parseImage', async (req, res, next) => {
 
 app.use('/app/users', require('./routes/userRoute'));
 app.use('/app/auth', require('./routes/authRoute'));
-app.use('/app', billRoute);
-app.use('/app/dashboard', require('./routes/dashboardRoute'));
+app.use('/app/bill', billRoute);
 
 app.listen(PORT, () => {
 	mongoose.connect(dbKey);
