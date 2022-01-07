@@ -13,7 +13,7 @@ app.use(express.json({ limit: '50mb', extended: true }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.get('/', (req, res, next) => {
-    res.send('Hi');
+	res.send('Hi');
 });
 
 app.post('/parseImage', async (req, res, next) => {
@@ -26,10 +26,9 @@ app.post('/parseImage', async (req, res, next) => {
 	res.json({ message: 'Upload was successful' });
 });
 
-
 app.use('/app/users', require('./routes/userRoute'));
 app.use('/app/auth', require('./routes/authRoute'));
-app.use('/app', billRoute);
+app.use('/app/bill', billRoute);
 
 app.listen(PORT, () => {
 	mongoose.connect(dbKey);
