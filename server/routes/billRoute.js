@@ -59,8 +59,8 @@ router.post(
 	async (req, res) => {}
 );
 
-// @route   get app/bill/:id
-// @desc    Get the bill by ID
+// @route   get app/bills
+// @desc    Get all the bill
 // @access  Private
 router.get('/bills', auth, (req, res) => {
 	// res.json( {message: 'HI'});
