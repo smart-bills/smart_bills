@@ -36,6 +36,10 @@ router.post('/bill',
         }
 })
 
+router.post('/add_dishes', async(req, res) => {
+    
+})
+
 router.get('/bills', (req, res) => {
     // res.json( {message: 'HI'});
 })
