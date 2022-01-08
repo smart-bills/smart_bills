@@ -45,18 +45,37 @@ router.post(
 // @desc    Add a dish to the bill
 // @access  Private
 
-/* :id is a placeholder for bill id. This way, we are only able add dishes,
+/* 
+	:id is a placeholder for bill id. This way, we are only able to add dishes
     when we have the bill id.
  */
 router.post(
-	'/dish/:id',
+	'/add_dishes',
 	[
 		auth,
+		check('billID', 'Bill ID is required').not().isEmpty(),
 		check('dishName', 'Dish name is required').not().isEmpty(),
 		check('amount', 'Amount is required').not().isEmpty(),
 		check('userEmail', 'User email is required').isEmail(),
 	],
-	async (req, res) => {}
+	async (req, res) => {
+
+		const bill = await Bill.findById(req.body.billID);
+		console.log(bill);
+		
+		// Create the new dish to append
+		let newDish = {
+		  dishName: req.body.dishName,
+		  amount: req.body.amount,
+		  userEmail: req.body.userEmail,
+		}
+	
+		await Bill.updateOne({_id: bill._id}, { $push: {
+			dishes: newDish
+		}}); 
+
+		res.json({ message: 'Append successfully'});
+	}
 );
 
 // @route   get app/bills
