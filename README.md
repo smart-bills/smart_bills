@@ -18,3 +18,8 @@
     git add .
     git commit -m "comments" 
     git push origin <branch-name>
+
+## merge main into the current branch
+    git checkout <branch-name>  (stay in the branch or switch to the branch)
+    git fetch
+    git merge origin main       (merge everything in main into the current branch)
