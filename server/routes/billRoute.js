@@ -71,13 +71,13 @@ router.post(
 	}
 );
 
-// @route   POST app/bill/add_dishes
-// @desc    Add dishes to the bill
+// @route   POST app/bill/update_dish
+// @desc    Update an existing dish
 // @access  Private
 router.post(
 	'/update_dish',
 	[
-
+		
 	]
 	
 	
