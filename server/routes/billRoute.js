@@ -6,7 +6,7 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 // const Dish = require('../models/dish');
 
-// @route   POST app/bill
+// @route   POST app/bill/
 // @desc    Create a bill
 // @access  Private
 router.post(
@@ -15,7 +15,6 @@ router.post(
 		auth,
 		check('storeName', 'Store name is required').not().isEmpty(),
 		check('amount', 'Please include a valid amount').not().isEmpty(),
-		// check('dishes', '').not().isEmpty()
 	],
 
 	async (req, res) => {
@@ -41,14 +40,9 @@ router.post(
 	}
 );
 
-// @route   POST app/bill/dish/:id
-// @desc    Add a dish to the bill
+// @route   POST app/bill/add_dishes
+// @desc    Add dishes to the bill
 // @access  Private
-
-/* 
-	:id is a placeholder for bill id. This way, we are only able to add dishes
-    when we have the bill id.
- */
 router.post(
 	'/add_dishes',
 	[
@@ -78,11 +72,7 @@ router.post(
 	}
 );
 
-// @route   get app/bills
-// @desc    Get all the bill
-// @access  Private
-router.get('/bills', auth, (req, res) => {
-	// res.json( {message: 'HI'});
-});
+
+
 
 module.exports = router;
