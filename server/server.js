@@ -26,7 +26,7 @@ app.get('/', (req, res, next) => {
 // });
 
 app.use('/app/dashboard', require('./routes/dashboardRoute'));
-app.use('/app/users', require('./routes/userRoute'));
+app.use('/app/register', require('./routes/registerRoute'));
 app.use('/app/auth', require('./routes/authRoute'));
 app.use('/app/bill', require('./routes/billRoute'));
 
