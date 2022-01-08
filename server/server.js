@@ -26,6 +26,7 @@ app.post('/parseImage', async (req, res, next) => {
 	res.json({ message: 'Upload was successful' });
 });
 
+app.use('/app/dashboard', require('./routes/dashboardRoute'));
 app.use('/app/users', require('./routes/userRoute'));
 app.use('/app/auth', require('./routes/authRoute'));
 app.use('/app/bill', billRoute);
