@@ -22,8 +22,8 @@ router.get('/', auth, async (req, res) => {
 	}
 });
 
-// @route   POST app/users
-// @desc    Authenticate user & get token
+// @route   POST app/auth
+// @desc    Login user & Return JWT token
 // @access  Public (no token needed)
 router.post(
 	'/',
