@@ -75,13 +75,27 @@ router.post(
 // @desc    Update an existing dish
 // @access  Private
 router.post(
-	'/update_dish',
+	'/update_dish', 
 	[
-		
-	]
-	
-	
-)
+		auth,
+		check('billID', 'Bill ID is required').not().isEmpty(),
+		check('dishID', 'Dish ID is required').not().isEmpty(),
+		check('dishName', 'Dish name is required').not().isEmpty(),
+	],
+	async (req, res) => {
+		const billID = req.body.billID;
+		const dishID = req.body.dishID;
+		const dishName = req.body.dishName;
 
+		const targetDish = await Bill.findOne(
+			{_id: billID},
+			{dishes: {$elemMatch: {_id: dishID}}}
+		);
+		targetDish.dishes[0].dishName = dishName;
+		await targetDish.save();
+
+		res.json({message: 'Dish has been updated,'});
+	}
+)
 
 module.exports = router;
