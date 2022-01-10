@@ -87,14 +87,18 @@ router.post(
 		const dishID = req.body.dishID;
 		const dishName = req.body.dishName;
 
-		const targetDish = await Bill.findOne(
-			{_id: billID},
-			{dishes: {$elemMatch: {_id: dishID}}}
-		);
-		targetDish.dishes[0].dishName = dishName;
-		await targetDish.save();
-
-		res.json({message: 'Dish has been updated,'});
+		try {
+			const targetDish = await Bill.findOne(
+				{_id: billID},
+				{dishes: {$elemMatch: {_id: dishID}}}
+			);
+			targetDish.dishes[0].dishName = dishName;
+			await targetDish.save();
+	
+			res.json({message: 'Dish has been updated,'});	
+		} catch (error) {
+			res.status(401).json({error});
+		}
 	}
 )
 
