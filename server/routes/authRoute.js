@@ -22,10 +22,9 @@ router.get('/', auth, async (req, res) => {
 	}
 });
 
-// @route   GET app/users
-// @desc    Authenticate user & get token
+// @route   POST app/auth
+// @desc    Login user & Return JWT token
 // @access  Public (no token needed)
-
 router.post(
 	'/',
 	[
@@ -45,7 +44,7 @@ router.post(
 			if (!user) {
 				return res
 					.status(400)
-					.json({ errors: [{ msg: 'Invalid Credentials' }] });
+					.json({ errors: 'Invalid Credentials'});
 			}
 			/* Check if the user matches the password */
 			const isMatch = await bcrypt.compare(password, user.password);
@@ -53,7 +52,7 @@ router.post(
 			if (!isMatch) {
 				return res
 					.status(400)
-					.json({ errors: [{ msg: 'Invalid Credentials' }] });
+					.json({ errors: 'Invalid Credentials'});
 			}
 
 			/* Return jsonwebtoken */

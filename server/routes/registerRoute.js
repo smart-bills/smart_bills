@@ -8,7 +8,7 @@ const jwtSecret = process.env.jwtSecret;
 
 const User = require('../models/user');
 
-// @route   POST app/users
+// @route   POST app/register
 // @desc    Register User
 // @access  Public (no token needed)
 router.post(

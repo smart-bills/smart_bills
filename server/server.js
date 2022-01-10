@@ -1,8 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const billRoute = require('./routes/billRoute');
-const parseImage = require('./visionAPI');
+// const parseImage = require('./visionAPI');
 require('dotenv').config({ path: '../.env' });
 const dbKey = process.env.dbKey;
 const PORT = process.env.PORT || 8000;
@@ -16,20 +15,20 @@ app.get('/', (req, res, next) => {
 	res.send('Hi');
 });
 
-app.post('/parseImage', async (req, res, next) => {
-	console.log('parseImage was run');
-	let imageInBase64 = req.body.file;
-	imageInBase64 = imageInBase64.split(',');
-	imageInBase64 = imageInBase64[1];
+// app.post('/parseImage', async (req, res, next) => {
+// 	console.log('parseImage was run');
+// 	let imageInBase64 = req.body.file;
+// 	imageInBase64 = imageInBase64.split(',');
+// 	imageInBase64 = imageInBase64[1];
 
-	await parseImage(imageInBase64);
-	res.json({ message: 'Upload was successful' });
-});
+// 	await parseImage(imageInBase64);
+// 	res.json({ message: 'Upload was successful' });
+// });
 
 app.use('/app/dashboard', require('./routes/dashboardRoute'));
-app.use('/app/users', require('./routes/userRoute'));
+app.use('/app/register', require('./routes/registerRoute'));
 app.use('/app/auth', require('./routes/authRoute'));
-app.use('/app/bill', billRoute);
+app.use('/app/bill', require('./routes/billRoute'));
 
 app.listen(PORT, () => {
 	mongoose.connect(dbKey);
