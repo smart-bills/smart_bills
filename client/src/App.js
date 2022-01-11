@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Users from './components/Users';
+import Alert from './components/Alert';
 
 //Redux
 import { Provider } from 'react-redux';
@@ -19,6 +20,7 @@ const App = () => {
 		<Provider store={store}>
 			<Router>
 				<Navbar />
+				<Alert />
 				<Routes>
 					<Route path='/' element={<Home />} />
 					<Route path='/login' element={<Login />} />
