@@ -1,20 +1,15 @@
 const express = require('express');
-//const cors = require('cors');
-
+const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
-
 const PORT = process.env.PORT || 8000;
 
 const app = express();
-//app.use(cors());
+app.use(cors());
 app.use(express.json({ limit: '50mb', extended: true }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-app.get('/', (req, res, next) => {
-	res.send('Hi');
-});
-
+// Set up all routes
 app.use('/app/dashboard', require('./routes/dashboardRoute'));
 app.use('/app/register', require('./routes/registerRoute'));
 app.use('/app/auth', require('./routes/authRoute'));
@@ -29,8 +24,3 @@ connection.once('open', () => {
 });
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-// app.listen(PORT, () => {
-// 	mongoose.connect(dbKey);
-// 	console.log(`Backend is now connected ${Date()}`);
-// 	console.log(`Database is now connected ${Date()}`);
-// });
