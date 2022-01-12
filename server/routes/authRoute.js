@@ -7,7 +7,7 @@ const jwtSecret = process.env.jwtSecret;
 const { check, validationResult } = require('express-validator');
 
 const User = require('../models/user');
-const auth = require('../../middleware/auth');
+const auth = require('../middleware/auth');
 
 // @route   GET app/auth
 // @desc    Get user by token
