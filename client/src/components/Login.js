@@ -42,30 +42,7 @@ function Login() {
 
 
   }
-
-	// async function loginUser(event) {
-	// 	event.preventDefault()
-  //   console.log('from login user')
-  //   // const response = await fetch('http://localhost:8000/app/auth', {
-	// 	// 	method: 'POST',
-	// 	// 	headers: {
-	// 	// 		'Content-Type': 'application/json'
-	// 	// 	},
-	// 	// 	body: JSON.stringify({
-	// 	// 		email,
-	// 	// 		password
-  //   //   }),
-	// 	// })
-
-	// 	// const data = await response.json()
-	// 	// if (data.user) {
-	// 	// 	localStorage.setItem('token', data.user);
-	// 	// 	alert('Login successful');
-	// 	// 	window.location.href = '/dashboard';
-	// 	// } else  
-  //   //     alert('Please check your username and password');
-	// }
-
+  
   return (
     <ThemeProvider theme={theme}>
     <Container component="main" maxWidth="xs">
