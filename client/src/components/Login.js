@@ -12,7 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react'
+import { useState } from 'react';
+import axios from 'axios';
 
 const theme = createTheme();
 
@@ -20,42 +21,53 @@ function Login() {
   const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
-  const handleSubmit = (event) => {
+  async function loginUser(event) {
     event.preventDefault();
-  
-    const data = new FormData(event.currentTarget);
-    const loginInfo = {
-      email: data.get('email'),
-      password: data.get('password')
+
+    const loginInfo = {email,password};
+    const response = await axios.post('http://localhost:8000/app/auth', loginInfo); 
+    const data = response.data;
+
+    if(data.token) {
+      localStorage.setItem('token', data.token);
+      alert('Logged in!');
+      window.location.href = '/dashboard';
+    } 
+
+    if(data.error) {
+      alert(data.error);
+      window.location.href = '/login';
     }
-    console.log(loginInfo) 
+
+
+
   }
 
-	async function loginUser(event) {
-		event.preventDefault()
+	// async function loginUser(event) {
+	// 	event.preventDefault()
+  //   console.log('from login user')
+  //   // const response = await fetch('http://localhost:8000/app/auth', {
+	// 	// 	method: 'POST',
+	// 	// 	headers: {
+	// 	// 		'Content-Type': 'application/json'
+	// 	// 	},
+	// 	// 	body: JSON.stringify({
+	// 	// 		email,
+	// 	// 		password
+  //   //   }),
+	// 	// })
 
-    const response = await fetch('http://localhost:8000/app/login', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				email,
-				password
-      }),
-		})
-
-		const data = await response.json()
-		if (data.user) {
-			localStorage.setItem('token', data.user);
-			alert('Login successful');
-			window.location.href = '/dashboard';
-		} else  
-        alert('Please check your username and password');
-	}
+	// 	// const data = await response.json()
+	// 	// if (data.user) {
+	// 	// 	localStorage.setItem('token', data.user);
+	// 	// 	alert('Login successful');
+	// 	// 	window.location.href = '/dashboard';
+	// 	// } else  
+  //   //     alert('Please check your username and password');
+	// }
 
   return (
-    <ThemeProvider theme={theme} onSubmit={loginUser}>
+    <ThemeProvider theme={theme}>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
@@ -72,7 +84,7 @@ function Login() {
         <Typography component="h1" variant="h5">
           Smart Bills
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={loginUser} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
