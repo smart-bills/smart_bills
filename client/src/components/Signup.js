@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setAlert } from '../actions/alert';
+import { signUp } from '../actions/auth';
 import PropTypes from 'prop-types';
 
 // Material-UI
@@ -18,7 +19,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-const Signup = ({ setAlert }) => {
+const Signup = ({ setAlert, signUp }) => {
 	const [formData, setFormData] = useState({
 		userName: '',
 		email: '',
@@ -26,7 +27,7 @@ const Signup = ({ setAlert }) => {
 		password_confirm: '',
 	});
 
-	const { name, email, password, password_confirm } = formData;
+	const { userName, email, password, password_confirm } = formData;
 
 	const onChange = event =>
 		setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -35,8 +36,9 @@ const Signup = ({ setAlert }) => {
 		event.preventDefault();
 		if (password !== password_confirm) {
 			setAlert('Password does not match');
+		} else {
+			signUp({ userName, email, password });
 		}
-		console.log('Sign up complete', 'danger');
 	};
 	return (
 		<ThemeProvider theme={theme}>
@@ -65,7 +67,7 @@ const Signup = ({ setAlert }) => {
 									id='userName'
 									label='User Name'
 									name='userName'
-									value={name}
+									value={userName}
 									onChange={onChange}
 								/>
 							</Grid>
@@ -129,6 +131,7 @@ const Signup = ({ setAlert }) => {
 
 Signup.propTypes = {
 	setAlert: PropTypes.func.isRequired,
+	signUp: PropTypes.func.isRequired,
 };
 
-export default connect(null, { setAlert })(Signup);
+export default connect(null, { setAlert, signUp })(Signup);
