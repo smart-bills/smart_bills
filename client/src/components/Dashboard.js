@@ -1,20 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
-// import {decode} from 'jsonwebtoken';
+import jwt_decode from 'jwt-decode';
 
 function Dashboard() {
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if(token) {
-    //         const user = decode(token);
-    //         if(!user) {
-    //             localStorage.removeItem('token');
-    //             navigate('/login');
-    //         }
-    //     }
-    // })
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if(token) {
+            const user = jwt_decode(token);
+            console.log(user);
+            if(!user) {
+                localStorage.removeItem('token');
+                navigate('/login');
+            }
+        }
+    })
 
     return (
         <div>
