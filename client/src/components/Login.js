@@ -18,8 +18,9 @@ import axios from 'axios';
 const theme = createTheme();
 
 function Login() {
-  const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+  const [isValid, setIsValid] = useState(false);
 
   async function loginUser(event) {
     event.preventDefault();
@@ -38,9 +39,6 @@ function Login() {
       alert(data.error);
       window.location.href = '/login';
     }
-
-
-
   }
   
   return (
