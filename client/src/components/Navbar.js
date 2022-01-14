@@ -7,20 +7,15 @@ function Nav() {
   return (
       <div>
         <Link to='/'>
-            <Button>
-              SmartBills
-            </Button>   
+            <Button> SmartBills </Button>   
         </Link>
+
         <Link to='/login'>
-            <Button>
-              Log In
-            </Button>
-            
+            <Button> Log In </Button>
         </Link>
+
         <Link to='/signup'>
-            <Button>
-              Signup
-            </Button>
+            <Button> Signup </Button>
         </Link>
       </div>
   )
