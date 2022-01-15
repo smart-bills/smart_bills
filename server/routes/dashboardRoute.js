@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 const Bill = require('../models/bill');
 
 // @route   GET app/dashboard/user
-// @desc    Get the all of the user's bill
+// @desc    Get all of the user's bill
 // @access  Private
 router.get('/user', auth, async (req, res) => {
 	try {
