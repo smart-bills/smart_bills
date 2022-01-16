@@ -102,4 +102,18 @@ router.post(
 	}
 )
 
+// @route   GET app/bill/:userid
+// @desc    Get all bills for under a user with userid.
+// @access  Private
+router.get('/', auth, async (req, res) => {
+	const userid = req.query.userid;
+	
+	try {
+		const bills = await Bill.find({hostID: userid});
+		res.json({bills});	
+	} catch (error) {
+		res.json({error});
+	}
+})
+
 module.exports = router;

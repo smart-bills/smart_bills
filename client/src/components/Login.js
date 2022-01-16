@@ -1,16 +1,9 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import {Avatar, Alert, Button, CssBaseline, 
+        Checkbox, Link, Grid, Box, 
+        TextField, Typography, Container} from '@mui/material';
+
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import axios from 'axios';
@@ -18,8 +11,11 @@ import axios from 'axios';
 const theme = createTheme();
 
 function Login() {
-  const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
+  
+  const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+  const [isInvalid, setIsInvalid] = useState(false);
+  const [invalidMessage, setInvalidMessage] = useState('');
 
   async function loginUser(event) {
     event.preventDefault();
@@ -28,63 +24,45 @@ function Login() {
     const response = await axios.post('http://localhost:8000/app/auth', loginInfo); 
     const data = response.data;
 
-    if(data.token) {
-      localStorage.setItem('token', data.token);
-      alert('Logged in!');
-      window.location.href = '/dashboard';
-    } 
-
-    if(data.error) {
-      alert(data.error);
-      window.location.href = '/login';
+    if(data.errors) {
+      setInvalidMessage(data.errors[0].msg);
+      setIsInvalid(true);
     }
 
-
-
+    if(data.error) {
+      setInvalidMessage(data.error);
+      setIsInvalid(true);
+    }
+    
+    if(data.token) {
+      localStorage.setItem('token', data.token);
+      window.location.href = '/dashboard';
+    } 
   }
-
-	// async function loginUser(event) {
-	// 	event.preventDefault()
-  //   console.log('from login user')
-  //   // const response = await fetch('http://localhost:8000/app/auth', {
-	// 	// 	method: 'POST',
-	// 	// 	headers: {
-	// 	// 		'Content-Type': 'application/json'
-	// 	// 	},
-	// 	// 	body: JSON.stringify({
-	// 	// 		email,
-	// 	// 		password
-  //   //   }),
-	// 	// })
-
-	// 	// const data = await response.json()
-	// 	// if (data.user) {
-	// 	// 	localStorage.setItem('token', data.user);
-	// 	// 	alert('Login successful');
-	// 	// 	window.location.href = '/dashboard';
-	// 	// } else  
-  //   //     alert('Please check your username and password');
-	// }
-
+  
   return (
     <ThemeProvider theme={theme}>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
+        sx={{ marginTop: 8, 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center'}}
       >
+
         <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
+
         <Typography component="h1" variant="h5">
           Smart Bills
         </Typography>
+
+        {isInvalid && <Alert severity="warning" onClose={() => {setIsInvalid(false)}}>{invalidMessage}</Alert>}
+        
         <Box component="form" onSubmit={loginUser} noValidate sx={{ mt: 1 }}>
+          
           <TextField
             margin="normal"
             required
@@ -99,6 +77,7 @@ function Login() {
             type="email"
             autoFocus
           />
+
           <TextField
             margin="normal"
             required
@@ -112,7 +91,8 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
           />
-          <Box 
+
+          {/* <Box 
             sx={{
               display: 'flex',
               alignItems: 'left',
@@ -122,23 +102,24 @@ function Login() {
               control={<Checkbox value="remember" color="primary"  />}
               label="Remember me"
             />
-          </Box>
+          </Box> */}
+
           <Button type="submit" value="Login" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} > 
-          {/* href="/user"   */}
               Sign In
           </Button>
+
           <Grid container>
+
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
+              <Link href="#" variant="body2"> Forgot password? </Link>
             </Grid>
+
             <Grid item>
-              <Link href="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+              <Link href="/signup" variant="body2"> Don't have an account? Sign Up </Link>
             </Grid>
+
           </Grid>
+
         </Box>
       </Box>
     </Container>

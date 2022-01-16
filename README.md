@@ -31,3 +31,7 @@
     git checkout <branch-name>  (stay in the branch or switch to the branch)
     git fetch
     git merge origin main       (merge everything in main into the current branch)
+
+## auto-generate react component
+    
+    rfce
