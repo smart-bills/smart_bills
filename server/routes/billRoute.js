@@ -105,19 +105,7 @@ router.post(
 // @route   GET app/bill/:userid
 // @desc    Get all bills for under a user with userid.
 // @access  Private
-// router.get('/:userid', [auth], async (req, res) => {
-// 	const { userid } = req.params;
-// 	console.log(userid);
-
-// 	try {
-// 		const user = await User.findOne({__id: userid});
-// 		res.json({user});	
-// 	} catch (error) {
-// 		res.json({error});
-// 	}
-// })
-
-router.get('/', [auth], async (req, res) => {
+router.get('/', auth, async (req, res) => {
 	const userid = req.query.userid;
 	
 	try {
