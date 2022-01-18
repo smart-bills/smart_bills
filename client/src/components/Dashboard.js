@@ -3,16 +3,24 @@ import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
+import { Container, Button, Typography,
+         Box, TextField, Dialog,
+         DialogActions, DialogContent, DialogContentText,
+         DialogTitle
+} from '@mui/material';
+
 
 function Dashboard() {
     const navigate = useNavigate();
-    const [bills, setBills] = useState();
-
+    const [bills, setBills] = useState(null);
+    const [hasBills, setHasBills] = useState(false);
+    const [error, setError] = useState();
+    const [open, setOpen] = useState(false);
+    
+    // Use useEffect hook to fetch the user's data once they log in.
     useEffect(() => {
         const token = localStorage.getItem('token');
         
-        // Check to see if there's a token.
-        // Then get all the bills for that user.
         if(token) {
             const {user} = jwt_decode(token);
             if(!user) {
@@ -28,43 +36,76 @@ function Dashboard() {
         // Query the backend and database to get all the bills.
         async function getBills(token, userid) {
             const url = `http://localhost:8000/app/bill/?userid=${userid}`;
-            const headers = { 'x-auth-token': token};
+            const headers = { 'x-auth-token': token };
             const res = await axios.get(url, { headers });
-
-            if(res.error) {
-                console.log(res.error);
-            } else {
-                console.log(res.data.bills);
-                setBills(res.data.bills);
-            }
-
-            // if(res.bills?.length === 0) {
-            //     console.log('You have no bills at the moment');
-            // } else {
-            //     setBills(...res.bills);
-            // }
+            const {bills, error} = res.data;
             
+            if(error)   setError(error);
+            
+            if(bills.length === 0) setHasBills(false);
+            else                   setBills(bills);
         };
-
     }, []);
 
+    async function addNewBill(e) {
+        console.log('Hi');
+    }
+
     return (
-        <div>
-        
-            {/* navigate is a function that can be used to redirect user. */}
-            {/* <button onClick={() => navigate('/login')}>
-                Click to go back to the log in page.
-            </button> */}
+        <Container >
+            <Typography variant='h4'>
+                Welcome back!
+            </Typography>
 
-            {/* Navigate can be used to check if the user is authed. If not, use it to redirect user back. */}
-            {/* <Navigate to='/login' /> */}
+            <Button variant='contained' onClick={() => setOpen(true)}>
+                Add a new bill
+            </Button>
 
-            Welcome back!
+            <Dialog open={open} onClose={() => setOpen(false)}>
+                <DialogTitle>Add a new bill</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Form
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Email Address"
+                        type="email"
+                        fullWidth
+                        variant="standard"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpen(false)}>Cancel</Button>
+                    <Button onClick={(e) => addNewBill()}>Add</Button>
+                </DialogActions>
+            </Dialog>
 
-            Here is all your bills.
-            <div>{bills && bills.map(bill => bill.storeName)}</div>
-        </div>
+            <Typography variant='h6' component='h6'>
+                Here is all your bills
+            </Typography>
+
+            <Container>
+                {bills && bills.map(bill => {
+                    return <Box key={bill._id}>
+                        {bill.storeName}    
+                    </Box>
+                })}
+            </Container>
+ 
+
+        </Container>            
     )
 }
 
 export default Dashboard
+
+            // {/* navigate is a function that can be used to redirect user. */}
+            // {/* <button onClick={() => navigate('/login')}>
+            //     Click to go back to the log in page.
+            // </button> */}
+
+            // {/* Navigate can be used to check if the user is authed. If not, use it to redirect user back. */}
+            // {/* <Navigate to='/login' /> */}
