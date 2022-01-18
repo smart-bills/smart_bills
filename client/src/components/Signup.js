@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setAlert } from '../actions/alert';
 import { signUp } from '../actions/auth';
@@ -19,7 +20,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-const Signup = ({ setAlert, signUp }) => {
+const Signup = ({ setAlert, signUp, isAuthenticated }) => {
 	const [formData, setFormData] = useState({
 		userName: '',
 		email: '',
@@ -40,6 +41,10 @@ const Signup = ({ setAlert, signUp }) => {
 			signUp({ userName, email, password });
 		}
 	};
+
+	if (isAuthenticated) {
+		return <Navigate to='/dashboard' />;
+	}
 	return (
 		<ThemeProvider theme={theme}>
 			<Container component='main' maxWidth='xs'>
@@ -132,6 +137,10 @@ const Signup = ({ setAlert, signUp }) => {
 Signup.propTypes = {
 	setAlert: PropTypes.func.isRequired,
 	signUp: PropTypes.func.isRequired,
+	isAuthenticated: PropTypes.bool,
 };
 
-export default connect(null, { setAlert, signUp })(Signup);
+const mapStateToProps = state => ({
+	isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps, { setAlert, signUp })(Signup);
