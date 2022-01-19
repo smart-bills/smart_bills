@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 // import { useNavigate, Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
@@ -9,8 +9,10 @@ import { Container, Button, Typography,
          DialogTitle
 } from '@mui/material';
 
+import { connect } from 'react-redux';
+import { loadUser } from '../actions/auth';
 
-function Dashboard() {
+function Dashboard( {loadUser} ) {
     const navigate = useNavigate();
     const [bills, setBills] = useState(null);
     const [hasBills, setHasBills] = useState(false);
@@ -22,6 +24,7 @@ function Dashboard() {
         const token = localStorage.getItem('token');
         
         if(token) {
+            loadUser(token);
             const {user} = jwt_decode(token);
             if(!user) {
                 localStorage.removeItem('token');
@@ -45,7 +48,7 @@ function Dashboard() {
             if(bills.length === 0) setHasBills(false);
             else                   setBills(bills);
         };
-    }, []);
+    }, [loadUser, navigate]);
 
     async function addNewBill(e) {
         console.log('Hi');
@@ -100,12 +103,4 @@ function Dashboard() {
     )
 }
 
-export default Dashboard
-
-            // {/* navigate is a function that can be used to redirect user. */}
-            // {/* <button onClick={() => navigate('/login')}>
-            //     Click to go back to the log in page.
-            // </button> */}
-
-            // {/* Navigate can be used to check if the user is authed. If not, use it to redirect user back. */}
-            // {/* <Navigate to='/login' /> */}
+export default connect(null, { loadUser })(Dashboard);
