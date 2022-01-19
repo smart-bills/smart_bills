@@ -25,16 +25,16 @@ router.post(
 		try {
 			const user = await User.findById(req.user.id);
 
-			await Bill.create({
+			const databaseRes = await Bill.create({
 				hostID: user._id,
 				storeName: req.body.storeName,
 				amount: req.body.amount,
-				// date: Date(),
+				dishes: req.body.dishes
 			});
 
-			res.json({ message: 'It goes through', body: req.body });
+			res.json({ databaseRes });
 		} catch (error) {
-			res.json({ error, body: req.body });
+			res.json({ error });
 		}
 	}
 );
