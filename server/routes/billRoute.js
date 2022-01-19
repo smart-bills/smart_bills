@@ -29,7 +29,7 @@ router.post(
 				hostID: user._id,
 				storeName: req.body.storeName,
 				amount: req.body.amount,
-				// date: new Date(req.body.date),
+				// date: Date(),
 			});
 
 			res.json({ message: 'It goes through', body: req.body });

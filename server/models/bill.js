@@ -11,8 +11,8 @@ const BillSchema = new Schema(
 		dishes: [
 			{
 				// Does user have to be required since we have the userEmail alraedy.
-				user: Schema.ObjectId,
 				// user: { type: Schema.ObjectId, required: true },
+				user: Schema.ObjectId,
 				dishName: { type: String, required: true },
 				amount: { type: String, required: true },
 				userEmail: { type: String, required: true },
