@@ -11,6 +11,7 @@ import { Container, Button, Typography,
 
 import { connect } from 'react-redux';
 import { loadUser } from '../actions/auth';
+import Bill from './Bill';
 
 function Dashboard( {loadUser} ) {
     const navigate = useNavigate();
@@ -18,6 +19,8 @@ function Dashboard( {loadUser} ) {
     const [hasBills, setHasBills] = useState(false);
     const [error, setError] = useState();
     const [open, setOpen] = useState(false);
+    const [newStoreName, setNewStoreName] = useState('');
+    const [newAmount, setNewAmount] = useState('');
     
     // Use useEffect hook to fetch the user's data once they log in.
     useEffect(() => {
@@ -48,10 +51,22 @@ function Dashboard( {loadUser} ) {
             if(bills.length === 0) setHasBills(false);
             else                   setBills(bills);
         };
-    }, [loadUser, navigate]);
-
+    });
+    // [loadUser, navigate]
+    
     async function addNewBill(e) {
-        console.log('Hi');
+        e.preventDefault();
+
+        const url = 'http://localhost:8000/app/bill';
+        const body = {
+            "storeName": newStoreName,
+            "amount": newAmount
+        };
+        const token = localStorage.getItem('token');
+        const headers = { 'x-auth-token': token};
+
+        await axios.post(url, body, {headers});
+        setOpen(false);
     }
 
     return (
@@ -68,21 +83,36 @@ function Dashboard( {loadUser} ) {
                 <DialogTitle>Add a new bill</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Form
+                        Please enter the details of your new bill.
                     </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                        variant="standard"
-                    />
+                    <form id='newBillForm' onSubmit={(e) => addNewBill(e)}>
+                        <TextField 
+                            autoFocus 
+                            margin="dense"
+                            id="storeName"
+                            label="Store Name"
+                            type="text"
+                            variant="outlined"
+                            value={newStoreName}
+                            onChange={(e) => setNewStoreName(e.target.value)}
+                            required
+                        />
+
+                        <TextField  
+                            margin="dense"
+                            id="amount"
+                            label="Amount"
+                            type="text"
+                            variant="outlined"
+                            value={newAmount}
+                            onChange={(e) => setNewAmount(e.target.value)}
+                            required
+                        />
+                    </form>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setOpen(false)}>Cancel</Button>
-                    <Button onClick={(e) => addNewBill()}>Add</Button>
+                    <Button type='submit' form='newBillForm'>Add</Button>
                 </DialogActions>
             </Dialog>
 
@@ -91,14 +121,9 @@ function Dashboard( {loadUser} ) {
             </Typography>
 
             <Container>
-                {bills && bills.map(bill => {
-                    return <Box key={bill._id}>
-                        {bill.storeName}    
-                    </Box>
-                })}
+                {bills && bills.map(bill => {return <Bill bill={bill} key={bill._id}/>})}
             </Container>
  
-
         </Container>            
     )
 }
