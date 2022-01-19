@@ -25,16 +25,16 @@ router.post(
 		try {
 			const user = await User.findById(req.user.id);
 
-			await Bill.create({
+			const databaseRes = await Bill.create({
 				hostID: user._id,
 				storeName: req.body.storeName,
 				amount: req.body.amount,
-				// date: Date(),
+				dishes: req.body.dishes
 			});
 
-			res.json({ message: 'It goes through', body: req.body });
+			res.json({ databaseRes });
 		} catch (error) {
-			res.json({ error, body: req.body });
+			res.json({ error });
 		}
 	}
 );
@@ -111,6 +111,20 @@ router.get('/', auth, async (req, res) => {
 	try {
 		const bills = await Bill.find({hostID: userid});
 		res.json({bills});	
+	} catch (error) {
+		res.json({error});
+	}
+})
+
+// @route   DELETE app/bill/:billid
+// @desc    Delete a bill with the billid
+// @access  Private
+router.delete('/', auth, async (req, res) => {
+	const billid = req.query.billid;
+
+	try {
+		const delRes = await Bill.deleteOne({_id: billid});
+		res.json({delRes});
 	} catch (error) {
 		res.json({error});
 	}
