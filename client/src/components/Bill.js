@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { Box, Button, Typography,
          Paper, Collapse
 } from '@mui/material';
+import axios from 'axios';
 
 function Bill({bill}) {
     const [expanded, setIsExpanded] = useState(false);
@@ -9,9 +10,20 @@ function Bill({bill}) {
     
     function showMoreDetails() {
         setIsExpanded(!expanded);
-
+        console.log(bill);
         if(viewOrCollapse === 'View More...') setViewOrCollapse('Collapse');
         else setViewOrCollapse('View More...');
+    }
+
+    async function deleteBill() {
+        const token = localStorage.getItem('token');
+        const headers = { 'x-auth-token': token};
+
+        const billid = bill._id;
+        const url = `http://localhost:8000/app/bill/?billid=${billid}`;
+
+        await axios.delete(url, {headers});
+        setIsExpanded(!expanded);
     }
 
     return (
@@ -40,6 +52,8 @@ function Bill({bill}) {
                             </Typography>
                         )
                     })}
+                    
+                    <Button onClick={deleteBill}>Delete this bill</Button>
 
                 </Collapse>
             </Paper>

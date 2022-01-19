@@ -116,4 +116,18 @@ router.get('/', auth, async (req, res) => {
 	}
 })
 
+// @route   DELETE app/bill/:billid
+// @desc    Delete a bill with the billid
+// @access  Private
+router.delete('/', auth, async (req, res) => {
+	const billid = req.query.billid;
+
+	try {
+		const delRes = await Bill.deleteOne({_id: billid});
+		res.json({delRes});
+	} catch (error) {
+		res.json({error});
+	}
+})
+
 module.exports = router;
