@@ -47,9 +47,14 @@ function Bill({bill}) {
 
                     {bill.dishes.map((dish, index) => {
                         return (
-                            <Typography key={index}>
-                                Dish name:{dish.dishName}
-                            </Typography>
+                            <Box key={index}>
+                                <Typography>
+                                    Dish name:{dish.dishName}
+                                </Typography>
+                                <Typography>
+                                    Dish amount: will be here.
+                                </Typography>
+                            </Box>
                         )
                     })}
                     
