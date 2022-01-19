@@ -3,11 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
-import { Container, Button, Typography,
-         Box, TextField, Dialog,
+import { Container, Button, Typography, TextField, Dialog,
          DialogActions, DialogContent, DialogContentText,
-         DialogTitle
-} from '@mui/material';
+         DialogTitle } 
+from '@mui/material';
 
 import { connect } from 'react-redux';
 import { loadUser } from '../actions/auth';
@@ -49,7 +48,10 @@ function Dashboard( {loadUser} ) {
             if(error)   setError(error);
             
             if(bills.length === 0) setHasBills(false);
-            else                   setBills(bills);
+            else {
+                setBills(bills);
+                setHasBills(true);
+            }
         };
     });
     // [loadUser, navigate]
@@ -82,9 +84,11 @@ function Dashboard( {loadUser} ) {
             <Dialog open={open} onClose={() => setOpen(false)}>
                 <DialogTitle>Add a new bill</DialogTitle>
                 <DialogContent>
+
                     <DialogContentText>
                         Please enter the details of your new bill.
                     </DialogContentText>
+
                     <form id='newBillForm' onSubmit={(e) => addNewBill(e)}>
                         <TextField 
                             autoFocus 
@@ -116,9 +120,17 @@ function Dashboard( {loadUser} ) {
                 </DialogActions>
             </Dialog>
 
-            <Typography variant='h6' component='h6'>
-                Here is all your bills
-            </Typography>
+            {error && <Typography variant='h6' component='h6'> {error} </Typography>}
+
+            {hasBills ? 
+                <Typography variant='h6' component='h6'>
+                    Here is all your bills:
+                </Typography>
+                :
+                <Typography variant='h6' component='h6'>
+                    You currently do not have any bills.
+                </Typography>
+            }
 
             <Container>
                 {bills && bills.map(bill => {return <Bill bill={bill} key={bill._id}/>})}
