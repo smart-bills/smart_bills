@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import { useNavigate, Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
@@ -12,22 +11,28 @@ import { connect } from 'react-redux';
 import { loadUser } from '../actions/auth';
 import Bill from './Bill';
 
-function Dashboard( {loadUser} ) {
+function Dashboard() {
     const navigate = useNavigate();
+    
+    /* State variables for database */
     const [bills, setBills] = useState(null);
     const [hasBills, setHasBills] = useState(false);
     const [error, setError] = useState();
+
+    /* State variables for form */
+    // const [step, setStep] = useState(1);
     const [open, setOpen] = useState(false);
-    const [newStoreName, setNewStoreName] = useState('');
-    const [newAmount, setNewAmount] = useState('');
-    
+    const [storeName, setStoreName] = useState('');
+    const [billAmount, setBillAmount] = useState('');
+    const [form, setNewForm] = useState([]);
+
     // Use useEffect hook to fetch the user's data once they log in.
     useEffect(() => {
         const token = localStorage.getItem('token');
         
         if(token) {
-            loadUser(token);
             const {user} = jwt_decode(token);
+
             if(!user) {
                 localStorage.removeItem('token');
                 navigate('/login');
@@ -54,21 +59,56 @@ function Dashboard( {loadUser} ) {
             }
         };
     });
-    // [loadUser, navigate]
     
     async function addNewBill(e) {
         e.preventDefault();
 
         const url = 'http://localhost:8000/app/bill';
         const body = {
-            "storeName": newStoreName,
-            "amount": newAmount
+            "storeName": storeName,
+            "amount": billAmount,
+            "dishes": form
         };
         const token = localStorage.getItem('token');
         const headers = { 'x-auth-token': token};
 
         await axios.post(url, body, {headers});
         setOpen(false);
+    }
+
+    function handleAddDish(e) {
+        e.preventDefault();
+
+        const inputState = {
+            userEmail: '',
+            dishName: '',
+            amount: ''
+        };
+
+        setNewForm(prevState => [...prevState, inputState]);
+    }
+
+    function onChange(e, index) {
+        e.preventDefault();
+        e.persist();
+
+        setNewForm(prevState => {
+            return prevState.map((item, i) => {
+                if(i !== index) return item;
+                
+                return {
+                    ...item,
+                    [e.target.name]: e.target.value
+                }
+            })
+        })
+    }
+
+    function handleRemoveField(e, index) {
+        e.preventDefault();
+        setNewForm(prevState => {
+            prevState.filter(item => item !== prevState[index]);
+        })
     }
 
     return (
@@ -90,34 +130,69 @@ function Dashboard( {loadUser} ) {
                     </DialogContentText>
 
                     <form id='newBillForm' onSubmit={(e) => addNewBill(e)}>
-                        <TextField 
-                            autoFocus 
+                        <TextField
+                            autoFocus
                             margin="dense"
-                            id="storeName"
                             label="Store Name"
                             type="text"
                             variant="outlined"
-                            value={newStoreName}
-                            onChange={(e) => setNewStoreName(e.target.value)}
-                            required
-                        />
-
-                        <TextField  
+                            value={storeName}
+                            onChange={e => setStoreName(e.target.value)}
+                            required />
+                            
+                        <TextField
                             margin="dense"
-                            id="amount"
-                            label="Amount"
+                            label="Bill Amount"
                             type="text"
                             variant="outlined"
-                            value={newAmount}
-                            onChange={(e) => setNewAmount(e.target.value)}
-                            required
-                        />
+                            value={billAmount}
+                            onChange={e => setBillAmount(e.target.value)}
+                            required />
+
+                        {form.map((item, index) => (
+							<div key={`item-${index}`}>
+								<div>
+									<input
+										type='text'
+										name='dishName'
+										placeholder='Dish'
+										value={item.dishName}
+										onChange={e => onChange(e, index)}
+									></input>
+								</div>
+								<div>
+									<input
+										type='text'
+										name='amount'
+										placeholder='Price'
+										value={item.amount}
+										onChange={e => onChange(e, index)}
+									></input>
+								</div>
+								<div>
+									<input
+										type='text'
+										name='userEmail'
+										placeholder='Email'
+										value={item.userEmail}
+										onChange={e => onChange(e, index)}
+									></input>
+								</div>
+								<button onClick={e => handleRemoveField(e, index)}>X</button>
+							</div>
+						))}
+					
+						<button onClick={handleAddDish}> Add a dish</button>
+                    
                     </form>
                 </DialogContent>
+
                 <DialogActions>
                     <Button onClick={() => setOpen(false)}>Cancel</Button>
                     <Button type='submit' form='newBillForm'>Add</Button>
+                    {/* <Button onClick={() => setStep(step+1)}>Next</Button> */}
                 </DialogActions>
+
             </Dialog>
 
             {error && <Typography variant='h6' component='h6'> {error} </Typography>}
