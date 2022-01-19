@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Box, Button, Typography,
+import { Container, Button, Typography,
          Paper, Collapse
 } from '@mui/material';
 import axios from 'axios';
@@ -27,7 +27,7 @@ function Bill({bill}) {
     }
 
     return (
-        <Box component='div' sx={{margin: '1.5em'}}>
+        <Container component='div' sx={{margin: '1.5em'}}>
             <Paper elevation={4}>
 
                 <Typography variant='h6' component='h2'>
@@ -47,14 +47,14 @@ function Bill({bill}) {
 
                     {bill.dishes.map((dish, index) => {
                         return (
-                            <Box key={index}>
+                            <Container key={index}>
                                 <Typography>
                                     Dish name:{dish.dishName}
                                 </Typography>
                                 <Typography>
                                     Dish amount: will be here.
                                 </Typography>
-                            </Box>
+                            </Container>
                         )
                     })}
                     
@@ -62,7 +62,7 @@ function Bill({bill}) {
 
                 </Collapse>
             </Paper>
-        </Box>
+        </Container>
     )
 }
 

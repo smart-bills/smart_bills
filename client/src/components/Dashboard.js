@@ -74,6 +74,7 @@ function Dashboard() {
 
         await axios.post(url, body, {headers});
         setOpen(false);
+        resetForm();
     }
 
     function handleAddDish(e) {
@@ -109,6 +110,12 @@ function Dashboard() {
         setNewForm(prevState => {
             prevState.filter(item => item !== prevState[index]);
         })
+    }
+
+    function resetForm() {
+        setStoreName('');
+        setBillAmount('');
+        setNewForm([]);
     }
 
     return (
@@ -198,18 +205,23 @@ function Dashboard() {
             {error && <Typography variant='h6' component='h6'> {error} </Typography>}
 
             {hasBills ? 
-                <Typography variant='h6' component='h6'>
-                    Here is all your bills:
-                </Typography>
-                :
-                <Typography variant='h6' component='h6'>
-                    You currently do not have any bills.
-                </Typography>
-            }
+                <Container>
+                    <Typography variant='h6' component='h6'>
+                        Here is all your bills:
+                    </Typography>
 
-            <Container>
-                {bills && bills.map(bill => {return <Bill bill={bill} key={bill._id}/>})}
-            </Container>
+                    <Container>
+                        {bills && bills.map(bill => {return <Bill bill={bill} key={bill._id}/>})}
+                    </Container>
+
+                </Container>
+                :
+                <Container>
+                    <Typography variant='h6' component='h6'>
+                        You currently do not have any bills.
+                    </Typography>
+                </Container>
+            }
  
         </Container>            
     )
