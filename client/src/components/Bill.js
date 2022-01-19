@@ -1,9 +1,18 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Box, Button, Typography,
-         Paper
+         Paper, Collapse
 } from '@mui/material';
 
 function Bill({bill}) {
+    const [expanded, setIsExpanded] = useState(false);
+    const [viewOrCollapse, setViewOrCollapse] = useState('View More...')
+    
+    function showMoreDetails() {
+        setIsExpanded(!expanded);
+
+        if(viewOrCollapse === 'View More...') setViewOrCollapse('Collapse');
+        else setViewOrCollapse('View More...');
+    }
 
     return (
         <Box component='div' sx={{margin: '1.5em'}}>
@@ -21,6 +30,18 @@ function Bill({bill}) {
                     Key: {bill._id}
                 </Typography>
 
+                <Button onClick={showMoreDetails}>{viewOrCollapse}</Button>
+                <Collapse component='div' in={expanded}>
+
+                    {bill.dishes.map((dish, index) => {
+                        return (
+                            <Typography key={index}>
+                                Dish name:{dish.dishName}
+                            </Typography>
+                        )
+                    })}
+
+                </Collapse>
             </Paper>
         </Box>
     )
