@@ -19,6 +19,7 @@ function Nav({ logout }) {
 			<Link to='/signup'>
 				<Button> Signup </Button>
 			</Link>
+			
 			<Link to='/' onClick={logout}>
 				<Button> Logout </Button>
 			</Link>
