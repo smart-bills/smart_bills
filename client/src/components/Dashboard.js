@@ -16,7 +16,7 @@ function Dashboard() {
     const navigate = useNavigate();
     
     /* State variables for database */
-    const [bills, setBills] = useState(null);
+    const [bills, setBills] = useState([]);
     const [hasBills, setHasBills] = useState(false);
     const [error, setError] = useState();
 
@@ -240,14 +240,14 @@ function Dashboard() {
                             </Box>
 
                             <TabPanel value="1">
-                                {bills && bills.map(bill => {
+                                {bills.map(bill => {
                                     if(!bill.paid) return <Bill billInfo={bill} key={bill._id}/>;
                                     return null;
                                 })}
                             </TabPanel>
 
                             <TabPanel value="2">
-                                {bills && bills.map(bill => {
+                                {bills.map(bill => {
                                     if(bill.paid) return <Bill billInfo={bill} key={bill._id}/>;
                                     return null;
                                 })}
