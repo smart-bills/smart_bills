@@ -4,7 +4,7 @@ import { Container, Button, Typography,
 } from '@mui/material';
 import axios from 'axios';
 
-function Bill({bill}) {
+function Bill({billInfo: bill}) {
     const [expanded, setIsExpanded] = useState(false);
     const [viewOrCollapse, setViewOrCollapse] = useState('View More...')
     

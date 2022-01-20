@@ -221,8 +221,8 @@ function Dashboard() {
                         Here is all your bills:
                     </Typography>
 
-                    <Container>
-                        {bills && bills.map(bill => {return <Bill bill={bill} key={bill._id}/>})}
+                    <Container> 
+                        {bills && bills.map(bill => <Bill billInfo={bill} key={bill._id}/>)}
                     </Container>
 
                 </Container>
