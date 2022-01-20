@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
-import { Box, Container, Button, Typography, TextField, Dialog,
-         DialogActions, DialogContent, DialogContentText,
-         DialogTitle } 
+import { Box, Container, Button, Typography, TextField, 
+         Dialog, DialogActions, DialogContent, DialogContentText,
+         DialogTitle, Tab } 
 from '@mui/material';
+import {TabContext, TabList, TabPanel} from '@mui/lab';
 
 import { connect } from 'react-redux';
 import { loadUser } from '../actions/auth';
@@ -25,6 +26,13 @@ function Dashboard() {
     const [storeName, setStoreName] = useState('');
     const [billAmount, setBillAmount] = useState('');
     const [newForm, setNewForm] = useState([]);
+
+    /* State variable for tabs */
+    const [tabValue, setTabValue] = useState('1');
+
+    function handleTabChange(e, newValue) {
+        setTabValue(newValue);
+    };
 
     // Use useEffect hook to fetch the user's data once they log in.
     useEffect(() => {
@@ -221,10 +229,30 @@ function Dashboard() {
                         Here is all your bills:
                     </Typography>
 
-                    <Container> 
-                        {bills && bills.map(bill => <Bill billInfo={bill} key={bill._id}/>)}
-                    </Container>
+                    <Box sx={{ width: '100%', typography: 'body1' }}>
+                        <TabContext value={tabValue}>
+                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                <TabList onChange={handleTabChange}>
+                                    <Tab label="Unpaid Bills" value="1" />
+                                    <Tab label="Paid Bills" value="2" />
+                                </TabList>
+                            </Box>
 
+                            <TabPanel value="1">
+                                {bills && bills.map(bill => {
+                                    if(!bill.paid) return <Bill billInfo={bill} key={bill._id}/>;
+                                    return null;
+                                })}
+                            </TabPanel>
+
+                            <TabPanel value="2">
+                                {bills && bills.map(bill => {
+                                    if(bill.paid) return <Bill billInfo={bill} key={bill._id}/>;
+                                    return null;
+                                })}
+                            </TabPanel>
+                        </TabContext>
+                    </Box>
                 </Container>
                 :
                 <Container>
