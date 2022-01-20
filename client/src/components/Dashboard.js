@@ -230,6 +230,7 @@ function Dashboard() {
                     </Typography>
 
                     <Box sx={{ width: '100%', typography: 'body1' }}>
+
                         <TabContext value={tabValue}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                 <TabList onChange={handleTabChange}>
@@ -252,6 +253,7 @@ function Dashboard() {
                                 })}
                             </TabPanel>
                         </TabContext>
+
                     </Box>
                 </Container>
                 :
