@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
-import { Container, Button, Typography, TextField, Dialog,
+import { Box, Container, Button, Typography, TextField, Dialog,
          DialogActions, DialogContent, DialogContentText,
          DialogTitle } 
 from '@mui/material';
@@ -24,7 +24,7 @@ function Dashboard() {
     const [open, setOpen] = useState(false);
     const [storeName, setStoreName] = useState('');
     const [billAmount, setBillAmount] = useState('');
-    const [form, setNewForm] = useState([]);
+    const [newForm, setNewForm] = useState([]);
 
     // Use useEffect hook to fetch the user's data once they log in.
     useEffect(() => {
@@ -67,7 +67,7 @@ function Dashboard() {
         const body = {
             "storeName": storeName,
             "amount": billAmount,
-            "dishes": form
+            "dishes": newForm
         };
         const token = localStorage.getItem('token');
         const headers = { 'x-auth-token': token};
@@ -75,6 +75,12 @@ function Dashboard() {
         await axios.post(url, body, {headers});
         setOpen(false);
         resetForm();
+    }
+
+    function resetForm() {
+        setStoreName('');
+        setBillAmount('');
+        setNewForm([]);
     }
 
     function handleAddDish(e) {
@@ -112,12 +118,6 @@ function Dashboard() {
         })
     }
 
-    function resetForm() {
-        setStoreName('');
-        setBillAmount('');
-        setNewForm([]);
-    }
-
     return (
         <Container >
             <Typography variant='h4'>
@@ -137,6 +137,7 @@ function Dashboard() {
                     </DialogContentText>
 
                     <form id='newBillForm' onSubmit={(e) => addNewBill(e)}>
+                        
                         <TextField
                             autoFocus
                             margin="dense"
@@ -145,7 +146,8 @@ function Dashboard() {
                             variant="outlined"
                             value={storeName}
                             onChange={e => setStoreName(e.target.value)}
-                            required />
+                            required
+                        />
                             
                         <TextField
                             margin="dense"
@@ -154,43 +156,56 @@ function Dashboard() {
                             variant="outlined"
                             value={billAmount}
                             onChange={e => setBillAmount(e.target.value)}
-                            required />
+                            required 
+                        />
 
-                        {form.map((item, index) => (
-							<div key={`item-${index}`}>
-								<div>
-									<input
-										type='text'
-										name='dishName'
-										placeholder='Dish'
-										value={item.dishName}
-										onChange={e => onChange(e, index)}
-									></input>
-								</div>
-								<div>
-									<input
-										type='text'
-										name='amount'
-										placeholder='Price'
-										value={item.amount}
-										onChange={e => onChange(e, index)}
-									></input>
-								</div>
-								<div>
-									<input
-										type='text'
-										name='userEmail'
-										placeholder='Email'
-										value={item.userEmail}
-										onChange={e => onChange(e, index)}
-									></input>
-								</div>
-								<button onClick={e => handleRemoveField(e, index)}>X</button>
-							</div>
+                        
+                            {newForm?.map((item, index) => (
+                                <Box key={index}>
+                                    
+                                    <Box>
+                                    <TextField
+                                            margin='dense'
+                                            label="Dish Name"
+                                            type='text'
+                                            variant="outlined"
+                                            value={item.dishName}
+                                            name='dishName'
+                                            onChange={e => onChange(e, index)}
+                                    />
+                                    </Box>
+                 
+                                    <Box>
+                                    <TextField
+                                            margin='dense'
+                                            label="Price"
+                                            type='text'
+                                            variant="outlined"
+                                            value={item.amount}
+                                            name='dishName'
+                                            onChange={e => onChange(e, index)}
+                                    />
+                                    </Box>
+                                
+                                    <Box>
+                                    <TextField
+                                            margin='dense'
+                                            label="Email"
+                                            type='text'
+                                            variant="outlined"
+                                            value={item.userEmail}
+                                            name='dishName'
+                                            onChange={e => onChange(e, index)}
+                                    />
+                                    </Box>
+                             
+                                    <Button onClick={e => handleRemoveField(e, index)}>Remove</Button>
+							</Box>
 						))}
+            
 					
-						<button onClick={handleAddDish}> Add a dish</button>
-                    
+						<Button onClick={handleAddDish}> Add a dish</Button>
+                
                     </form>
                 </DialogContent>
 
