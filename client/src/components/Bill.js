@@ -1,69 +1,71 @@
-import React, {useState} from 'react'
-import { Container, Button, Typography,
-         Paper, Collapse
-} from '@mui/material';
+import React, { useState } from 'react';
+import { Container, Button, Typography, Paper, Collapse } from '@mui/material';
 import axios from 'axios';
 
-function Bill({billInfo: bill}) {
-    const [expanded, setIsExpanded] = useState(false);
-    const [viewOrCollapse, setViewOrCollapse] = useState('View More...')
-    
-    function showMoreDetails() {
-        setIsExpanded(!expanded);
-        console.log(bill);
-        if(viewOrCollapse === 'View More...') setViewOrCollapse('Collapse');
-        else setViewOrCollapse('View More...');
-    }
+function Bill({ billInfo: bill }) {
+	const [expanded, setIsExpanded] = useState(false);
+	const [viewOrCollapse, setViewOrCollapse] = useState('View More...');
 
-    async function deleteBill() {
-        const token = localStorage.getItem('token');
-        const headers = { 'x-auth-token': token};
+	function showMoreDetails() {
+		setIsExpanded(!expanded);
+		console.log(bill);
+		if (viewOrCollapse === 'View More...') setViewOrCollapse('Collapse');
+		else setViewOrCollapse('View More...');
+	}
 
-        const billid = bill._id;
-        const url = `http://localhost:8000/app/bill/?billid=${billid}`;
+	async function deleteBill() {
+		const token = localStorage.getItem('token');
+		const headers = { 'x-auth-token': token };
 
-        await axios.delete(url, {headers});
-        setIsExpanded(!expanded);
-    }
+		const billid = bill._id;
+		const url = `http://localhost:8000/app/bill/?billid=${billid}`;
 
-    return (
-        <Container component='div' sx={{margin: '1.5em'}}>
-            <Paper elevation={4}>
+		await axios.delete(url, { headers });
+		setIsExpanded(!expanded);
+	}
 
-                <Typography variant='h6' component='h2'>
-                    {bill.storeName}
-                </Typography>
+	async function markPaid() {
+		const token = localStorage.getItem('token');
+		const headers = { 'x-auth-token': token };
 
-                <Typography variant='subtitle1' component='h4'>
-                    Amount: {bill.amount}
-                </Typography>
+		const billid = bill._id;
+		const url = `http://localhost:8000/app/dashboard/paid/${billid}`;
 
-                <Typography variant='subtitle1' component='h4'>
-                    Key: {bill._id}
-                </Typography>
+		await axios.put(url, { headers });
+	}
 
-                <Button onClick={showMoreDetails}>{viewOrCollapse}</Button>
-                <Collapse component='div' in={expanded}>
+	return (
+		<Container component='div' sx={{ margin: '1.5em' }}>
+			<Paper elevation={4}>
+				<Typography variant='h6' component='h2'>
+					{bill.storeName}
+				</Typography>
 
-                    {bill.dishes.map((dish, index) => {
-                        return (
-                            <Container key={index}>
-                                <Typography>
-                                    Dish name:{dish.dishName}
-                                </Typography>
-                                <Typography>
-                                    Dish amount: will be here.
-                                </Typography>
-                            </Container>
-                        )
-                    })}
-                    
-                    <Button onClick={deleteBill}>Delete this bill</Button>
+				<Typography variant='subtitle1' component='h4'>
+					Amount: {bill.amount}
+				</Typography>
 
-                </Collapse>
-            </Paper>
-        </Container>
-    )
+				<Typography variant='subtitle1' component='h4'>
+					Key: {bill._id}
+				</Typography>
+
+				<Button onClick={showMoreDetails}>{viewOrCollapse}</Button>
+				<Collapse component='div' in={expanded}>
+					{bill.dishes.map((dish, index) => {
+						return (
+							<Container key={index}>
+								<Typography>Dish name:{dish.dishName}</Typography>
+								<Typography>Dish amount: {dish.amount}</Typography>
+							</Container>
+						);
+					})}
+
+					<Button onClick={deleteBill}>Delete this bill</Button>
+					<Button onClick={markPaid}>Paid</Button>
+				</Collapse>
+			</Paper>
+		</Container>
+	);
 }
 
-export default Bill
+export default Bill;

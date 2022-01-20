@@ -24,7 +24,8 @@ router.get('/user', auth, async (req, res) => {
 // @access  Private
 router.put('/paid/:bill_id', auth, async (req, res) => {
 	try {
-		const bill = await Bill.findById(req.params.bill_id);
+		let billId = req.params.bill_id;
+		const bill = await Bill.findById(billId);
 		// Check if bill has already been marked as paid
 		if (bill.paid.toString() === true) {
 			return res.status(400).json({ msg: 'Bill has already been paid' });
