@@ -113,9 +113,7 @@ function Dashboard() {
 
     function handleRemoveField(e, index) {
         e.preventDefault();
-        setNewForm(prevState => {
-            prevState.filter(item => item !== prevState[index]);
-        })
+        setNewForm(prevState => prevState.filter(item => item !== prevState[index]))
     }
 
     return (
@@ -160,50 +158,48 @@ function Dashboard() {
                         />
 
                         
-                            {newForm?.map((item, index) => (
-                                <Box key={index}>
-                                    
-                                    <Box>
+                        {newForm?.map((item, index) => (
+                            <Box component='div' key={index}>
+                                
+                                <Box component='div'>
                                     <TextField
-                                            margin='dense'
-                                            label="Dish Name"
-                                            type='text'
-                                            variant="outlined"
-                                            value={item.dishName}
-                                            name='dishName'
-                                            onChange={e => onChange(e, index)}
+                                        margin='dense'
+                                        label="Dish Name"
+                                        type='text'
+                                        variant="outlined"
+                                        value={item.dishName}
+                                        name='dishName'
+                                        onChange={e => onChange(e, index)}
                                     />
-                                    </Box>
+                                </Box>
                  
-                                    <Box>
+                                <Box component='div'>
                                     <TextField
-                                            margin='dense'
+                                        margin='dense'
                                             label="Price"
                                             type='text'
                                             variant="outlined"
                                             value={item.amount}
-                                            name='dishName'
+                                            name='amount'
                                             onChange={e => onChange(e, index)}
                                     />
-                                    </Box>
+                                </Box>
                                 
-                                    <Box>
+                                <Box component='div'>
                                     <TextField
                                             margin='dense'
                                             label="Email"
                                             type='text'
                                             variant="outlined"
                                             value={item.userEmail}
-                                            name='dishName'
+                                            name='userEmail'
                                             onChange={e => onChange(e, index)}
                                     />
-                                    </Box>
+                                </Box>
                              
-                                    <Button onClick={e => handleRemoveField(e, index)}>Remove</Button>
-							</Box>
+                                <Button onClick={e => handleRemoveField(e, index)}>Remove</Button>
+						    </Box>
 						))}
-            
-					
 						<Button onClick={handleAddDish}> Add a dish</Button>
                 
                     </form>
