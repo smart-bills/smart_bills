@@ -10,7 +10,6 @@ function Bill({billInfo: bill}) {
     
     function showMoreDetails() {
         setIsExpanded(!expanded);
-        console.log(bill);
         if(viewOrCollapse === 'View More...') setViewOrCollapse('Collapse');
         else setViewOrCollapse('View More...');
     }
