@@ -12,18 +12,24 @@ import {TabContext, TabList, TabPanel} from '@mui/lab';
 import { connect } from 'react-redux';
 import { loadUser } from '../actions/auth';
 import Bill from './Bill';
-import Step1_bill from './FormSteps/Step1_bill';
-import Step2_dishes from './FormSteps/Step2_dishes';
-import Step3_confirm from './FormSteps/Step3_confirm';
-import Step4_success from './FormSteps/Step4_success';
-
+import Step1_Bill from './FormSteps/Step1_Bill';
+import Step2_Dishes from './FormSteps/Step2_Dishes';
+import Step3_Confirm from './FormSteps/Step3_Confirm';
+import Step4_Success from './FormSteps/Step4_Success';
 
 function Dashboard() {
     const navigate = useNavigate();
     
+    /* 
+       Very important!!! 
+       refresh state will keep track of
+       when the webpage needs to be refreshed.
+       It will be shared between dashboard and bill components.
+    */
+    const [refresh, setRefresh] = useState(true);
+
     /* State variables for database */
     const [bills, setBills] = useState([]);
-    const [refresh, setRefresh] = useState(true);
     const [hasBills, setHasBills] = useState(false);
     const [error, setError] = useState();
 
@@ -141,7 +147,7 @@ function Dashboard() {
                     <DialogContent>
 
                         <DialogContentText> Please enter the details of your new bill. </DialogContentText>
-                        <Step1_bill storeName={storeName} setStoreName={setStoreName} billAmount={billAmount} setBillAmount={setBillAmount} />
+                        <Step1_Bill storeName={storeName} setStoreName={setStoreName} billAmount={billAmount} setBillAmount={setBillAmount} />
                     
                     </DialogContent>
 
@@ -157,7 +163,7 @@ function Dashboard() {
                     <DialogContent>
 
                         <DialogContentText> Please enter the details of your new bill. </DialogContentText>
-                        <Step2_dishes dishes={dishes} onChange={onChange} handleRemoveField={handleRemoveField}/>
+                        <Step2_Dishes dishes={dishes} onChange={onChange} handleRemoveField={handleRemoveField}/>
                         <Button onClick={handleAddDish}>Add a dish</Button>
         
                     </DialogContent>
@@ -175,7 +181,7 @@ function Dashboard() {
                     <DialogContent>
 
                         <DialogContentText> Please enter the details of your new bill. </DialogContentText>
-                        <Step2_dishes dishes={dishes} onChange={onChange} handleRemoveField={handleRemoveField}/>
+                        <Step2_Dishes dishes={dishes} onChange={onChange} handleRemoveField={handleRemoveField}/>
                     
                     </DialogContent>
 
@@ -245,7 +251,7 @@ function Dashboard() {
 
                             <TabPanel value="2">
                                 {bills.map(bill => {
-                                    if(bill.paid) return <Bill billInfo={bill} key={bill._id}/>;
+                                    if(bill.paid) return <Bill billInfo={bill} key={bill._id} setRefresh={setRefresh}/>;
                                     return null;
                                 })}
                             </TabPanel>
