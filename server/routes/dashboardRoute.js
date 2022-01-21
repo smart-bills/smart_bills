@@ -22,11 +22,12 @@ router.get('/user', auth, async (req, res) => {
 // @route   PUT app/dashboard/paid/:bill_id
 // @desc    Mark bill as paid
 // @access  Private
-router.put('/paid/:bill_id', auth, async (req, res) => {
+router.put('/paid/', auth, async (req, res) => {
 	try {
-		const bill = await Bill.findById(req.params.bill_id);
+		let body = req.body.billid;
+		const bill = await Bill.findById(body);
 		// Check if bill has already been marked as paid
-		if (bill.paid.toString() === true) {
+		if (bill.paid === true) {
 			return res.status(400).json({ msg: 'Bill has already been paid' });
 		}
 		bill.paid = true;
@@ -40,11 +41,12 @@ router.put('/paid/:bill_id', auth, async (req, res) => {
 // @route   PUT app/dashboard/unpaid/:bill_id
 // @desc    Mark bill as unpaid
 // @access  Private
-router.put('/unpaid/:bill_id', auth, async (req, res) => {
+router.put('/unpaid/', auth, async (req, res) => {
 	try {
-		const bill = await Bill.findById(req.params.bill_id);
+		let body = req.body.billid;
+		const bill = await Bill.findById(body);
 		// Check if bill has already been marked as unpaid
-		if (bill.paid.toString() === false) {
+		if (bill.paid === false) {
 			return res.status(400).json({ msg: 'Bill is currently unpaid' });
 		}
 		bill.paid = false;
