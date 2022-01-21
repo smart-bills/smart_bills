@@ -21,10 +21,10 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { connect } from 'react-redux';
 import { loadUser } from '../actions/auth';
 import Bill from './Bill';
-import Step1_bill from './FormSteps/Step1_bill';
-import Step2_dishes from './FormSteps/Step2_dishes';
-import Step3_confirm from './FormSteps/Step3_confirm';
-import Step4_success from './FormSteps/Step4_success';
+import Step1_Bill from './FormSteps/Step1_Bill';
+import Step2_Dishes from './FormSteps/Step2_Dishes';
+import Step3_Confirm from './FormSteps/Step3_Confirm';
+import Step4_Success from './FormSteps/Step4_Success';
 
 function Dashboard() {
 	const navigate = useNavigate();
@@ -152,7 +152,7 @@ function Dashboard() {
 								{' '}
 								Please enter the details of your new bill.{' '}
 							</DialogContentText>
-							<Step1_bill
+							<Step1_Bill
 								storeName={storeName}
 								setStoreName={setStoreName}
 								billAmount={billAmount}
@@ -175,7 +175,7 @@ function Dashboard() {
 								{' '}
 								Please enter the details of your new bill.{' '}
 							</DialogContentText>
-							<Step2_dishes
+							<Step2_Dishes
 								dishes={dishes}
 								onChange={onChange}
 								handleRemoveField={handleRemoveField}
@@ -199,7 +199,7 @@ function Dashboard() {
 								{' '}
 								Please enter the details of your new bill.{' '}
 							</DialogContentText>
-							<Step2_dishes
+							<Step2_Dishes
 								dishes={dishes}
 								onChange={onChange}
 								handleRemoveField={handleRemoveField}
@@ -282,7 +282,14 @@ function Dashboard() {
 
 							<TabPanel value='2'>
 								{bills.map(bill => {
-									if (bill.paid) return <Bill billInfo={bill} key={bill._id} />;
+									if (bill.paid)
+										return (
+											<Bill
+												billInfo={bill}
+												key={bill._id}
+												setRefresh={setRefresh}
+											/>
+										);
 									return null;
 								})}
 							</TabPanel>

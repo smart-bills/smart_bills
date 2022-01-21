@@ -2,19 +2,12 @@ import React, { useState } from 'react';
 import { Container, Button, Typography, Paper, Collapse } from '@mui/material';
 import axios from 'axios';
 
-function Bill({billInfo: bill, setRefresh}) {
-    const [expanded, setIsExpanded] = useState(false);
-    const [viewOrCollapse, setViewOrCollapse] = useState('View More...')
-    
-    function showMoreDetails() {
-        setIsExpanded(!expanded);
-        if(viewOrCollapse === 'View More...') setViewOrCollapse('Collapse');
-        else setViewOrCollapse('View More...');
-    }
+function Bill({ billInfo: bill, setRefresh }) {
+	const [expanded, setIsExpanded] = useState(false);
+	const [viewOrCollapse, setViewOrCollapse] = useState('View More...');
 
 	function showMoreDetails() {
 		setIsExpanded(!expanded);
-		console.log(bill);
 		if (viewOrCollapse === 'View More...') setViewOrCollapse('Collapse');
 		else setViewOrCollapse('View More...');
 	}
@@ -23,13 +16,12 @@ function Bill({billInfo: bill, setRefresh}) {
 		const token = localStorage.getItem('token');
 		const headers = { 'x-auth-token': token };
 
-        await axios.delete(url, {headers});
-        setIsExpanded(!expanded);
-        setRefresh(true);
-    }
+		const billid = bill._id;
+		const url = `http://localhost:8000/app/bill/?billid=${billid}`;
 
 		await axios.delete(url, { headers });
 		setIsExpanded(!expanded);
+		setRefresh(true);
 	}
 
 	async function markPaid() {
@@ -37,8 +29,8 @@ function Bill({billInfo: bill, setRefresh}) {
 		const headers = { 'x-auth-token': token };
 		const body = { billid: bill._id };
 		const url = `http://localhost:8000/app/dashboard/paid/`;
-		setPaid(true);
 		await axios.put(url, body, { headers });
+		setRefresh(true);
 	}
 
 	async function markUnpaid() {
@@ -46,10 +38,9 @@ function Bill({billInfo: bill, setRefresh}) {
 		const headers = { 'x-auth-token': token };
 		const body = { billid: bill._id };
 		const url = `http://localhost:8000/app/dashboard/unpaid/`;
-		setPaid(false);
 		await axios.put(url, body, { headers });
+		setRefresh(true);
 	}
-
 	return (
 		<Container component='div' sx={{ margin: '1.5em' }}>
 			<Paper elevation={4}>
@@ -77,7 +68,11 @@ function Bill({billInfo: bill, setRefresh}) {
 					})}
 
 					<Button onClick={deleteBill}>Delete this bill</Button>
-					<Button onClick={markUnpaid}>Unpay</Button>
+					{bill.paid ? (
+						<Button onClick={markUnpaid}>Unpay</Button>
+					) : (
+						<Button onClick={markPaid}>Paid</Button>
+					)}
 				</Collapse>
 			</Paper>
 		</Container>
