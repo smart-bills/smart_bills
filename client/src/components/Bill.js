@@ -59,7 +59,6 @@ function Bill({billInfo: bill, setRefresh}) {
                     })}
                     
                     <Button onClick={deleteBill}>Delete this bill</Button>
-
                 </Collapse>
             </Paper>
         </Container>
