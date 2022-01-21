@@ -56,23 +56,23 @@ function Dashboard() {
         } else  {
             navigate('/login');
         }
-
-        // Query the backend and database to get all the bills.
-        async function getBills(token, userid) {
-            const url = `http://localhost:8000/app/bill/?userid=${userid}`;
-            const headers = { 'x-auth-token': token };
-            const res = await axios.get(url, { headers });
-            const {bills, error} = res.data;
-            
-            if(error)   setError(error);
-            
-            if(bills.length === 0) setHasBills(false);
-            else {
-                setBills(bills);
-                setHasBills(true);
-            }
-        };
     });
+
+    // Query the backend and database to get all the bills.
+    async function getBills(token, userid) {
+        const url = `http://localhost:8000/app/bill/?userid=${userid}`;
+        const headers = { 'x-auth-token': token };
+        const res = await axios.get(url, { headers });
+        const {bills, error} = res.data;
+            
+        if(error)   setError(error);
+            
+        if(bills.length === 0) setHasBills(false);
+        else {
+            setBills(bills);
+            setHasBills(true);
+        }
+    }
     
     async function addNewBill(e) {
         e.preventDefault();
