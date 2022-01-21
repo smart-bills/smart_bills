@@ -4,13 +4,12 @@ import { Container, Button, Typography,
 } from '@mui/material';
 import axios from 'axios';
 
-function Bill({bill}) {
+function Bill({billInfo: bill, setRefresh}) {
     const [expanded, setIsExpanded] = useState(false);
     const [viewOrCollapse, setViewOrCollapse] = useState('View More...')
     
     function showMoreDetails() {
         setIsExpanded(!expanded);
-        console.log(bill);
         if(viewOrCollapse === 'View More...') setViewOrCollapse('Collapse');
         else setViewOrCollapse('View More...');
     }
@@ -24,6 +23,7 @@ function Bill({bill}) {
 
         await axios.delete(url, {headers});
         setIsExpanded(!expanded);
+        setRefresh(true);
     }
 
     return (
