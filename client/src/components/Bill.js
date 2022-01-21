@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import { Container, Button, Typography, Paper, Collapse } from '@mui/material';
 import axios from 'axios';
 
-function Bill({ billInfo: bill }) {
-	const [expanded, setIsExpanded] = useState(false);
-	const [viewOrCollapse, setViewOrCollapse] = useState('View More...');
-	const [paid, setPaid] = useState();
+function Bill({billInfo: bill, setRefresh}) {
+    const [expanded, setIsExpanded] = useState(false);
+    const [viewOrCollapse, setViewOrCollapse] = useState('View More...')
+    
+    function showMoreDetails() {
+        setIsExpanded(!expanded);
+        if(viewOrCollapse === 'View More...') setViewOrCollapse('Collapse');
+        else setViewOrCollapse('View More...');
+    }
 
 	function showMoreDetails() {
 		setIsExpanded(!expanded);
@@ -18,8 +23,10 @@ function Bill({ billInfo: bill }) {
 		const token = localStorage.getItem('token');
 		const headers = { 'x-auth-token': token };
 
-		const billid = bill._id;
-		const url = `http://localhost:8000/app/bill/?billid=${billid}`;
+        await axios.delete(url, {headers});
+        setIsExpanded(!expanded);
+        setRefresh(true);
+    }
 
 		await axios.delete(url, { headers });
 		setIsExpanded(!expanded);

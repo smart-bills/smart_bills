@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
@@ -20,21 +21,26 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { connect } from 'react-redux';
 import { loadUser } from '../actions/auth';
 import Bill from './Bill';
+import Step1_bill from './FormSteps/Step1_bill';
+import Step2_dishes from './FormSteps/Step2_dishes';
+import Step3_confirm from './FormSteps/Step3_confirm';
+import Step4_success from './FormSteps/Step4_success';
 
 function Dashboard() {
 	const navigate = useNavigate();
 
 	/* State variables for database */
-	const [bills, setBills] = useState(null);
+	const [bills, setBills] = useState([]);
+	const [refresh, setRefresh] = useState(true);
 	const [hasBills, setHasBills] = useState(false);
 	const [error, setError] = useState();
 
 	/* State variables for form */
-	// const [step, setStep] = useState(1);
+	const [step, setStep] = useState(1);
 	const [open, setOpen] = useState(false);
 	const [storeName, setStoreName] = useState('');
 	const [billAmount, setBillAmount] = useState('');
-	const [newForm, setNewForm] = useState([]);
+	const [dishes, setDishes] = useState([]);
 
 	/* State variable for tabs */
 	const [tabValue, setTabValue] = useState('1');
@@ -55,26 +61,28 @@ function Dashboard() {
 				navigate('/login');
 			}
 
-			getBills(token, user.id);
+			if (refresh) getBills(token, user.id);
 		} else {
 			navigate('/login');
 		}
-
-		// Query the backend and database to get all the bills.
-		async function getBills(token, userid) {
-			const url = `http://localhost:8000/app/bill/?userid=${userid}`;
-			const headers = { 'x-auth-token': token };
-			const res = await axios.get(url, { headers });
-			const { bills, error } = res.data;
-			if (error) setError(error);
-
-			if (bills.length === 0) setHasBills(false);
-			else {
-				setBills(bills);
-				setHasBills(true);
-			}
-		}
 	});
+
+	// Query the backend and database to get all the bills.
+	async function getBills(token, userid) {
+		const url = `http://localhost:8000/app/bill/?userid=${userid}`;
+		const headers = { 'x-auth-token': token };
+		const res = await axios.get(url, { headers });
+		const { bills, error } = res.data;
+
+		if (error) setError(error);
+
+		if (bills.length === 0) setHasBills(false);
+		else {
+			setBills(bills);
+			setHasBills(true);
+			setRefresh(false);
+		}
+	}
 
 	async function addNewBill(e) {
 		e.preventDefault();
@@ -83,7 +91,7 @@ function Dashboard() {
 		const body = {
 			storeName: storeName,
 			amount: billAmount,
-			dishes: newForm,
+			dishes: dishes,
 		};
 		const token = localStorage.getItem('token');
 		const headers = { 'x-auth-token': token };
@@ -94,9 +102,11 @@ function Dashboard() {
 	}
 
 	function resetForm() {
+		setStep(1);
 		setStoreName('');
 		setBillAmount('');
-		setNewForm([]);
+		setDishes([]);
+		setRefresh(true);
 	}
 
 	function handleAddDish(e) {
@@ -108,14 +118,14 @@ function Dashboard() {
 			amount: '',
 		};
 
-		setNewForm(prevState => [...prevState, inputState]);
+		setDishes(prevState => [...prevState, inputState]);
 	}
 
 	function onChange(e, index) {
 		e.preventDefault();
 		e.persist();
 
-		setNewForm(prevState => {
+		setDishes(prevState => {
 			return prevState.map((item, i) => {
 				if (i !== index) return item;
 
@@ -129,9 +139,93 @@ function Dashboard() {
 
 	function handleRemoveField(e, index) {
 		e.preventDefault();
-		setNewForm(prevState =>
-			prevState.filter(item => item !== prevState[index])
-		);
+		setDishes(prevState => prevState.filter(item => item !== prevState[index]));
+	}
+
+	function renderFormContent() {
+		switch (step) {
+			case 1:
+				return (
+					<>
+						<DialogContent>
+							<DialogContentText>
+								{' '}
+								Please enter the details of your new bill.{' '}
+							</DialogContentText>
+							<Step1_bill
+								storeName={storeName}
+								setStoreName={setStoreName}
+								billAmount={billAmount}
+								setBillAmount={setBillAmount}
+							/>
+						</DialogContent>
+
+						<DialogActions>
+							<Button onClick={() => setOpen(false)}>Cancel</Button>
+							<Button onClick={e => gotoNext(e)}>Next</Button>
+						</DialogActions>
+					</>
+				);
+
+			case 2:
+				return (
+					<>
+						<DialogContent>
+							<DialogContentText>
+								{' '}
+								Please enter the details of your new bill.{' '}
+							</DialogContentText>
+							<Step2_dishes
+								dishes={dishes}
+								onChange={onChange}
+								handleRemoveField={handleRemoveField}
+							/>
+							<Button onClick={handleAddDish}>Add a dish</Button>
+						</DialogContent>
+
+						<DialogActions>
+							<Button onClick={() => setOpen(false)}>Cancel</Button>
+							<Button onClick={e => gotoPrevious(e)}>Previous</Button>
+							<Button onClick={e => gotoNext(e)}>Next</Button>
+						</DialogActions>
+					</>
+				);
+
+			default:
+				return (
+					<>
+						<DialogContent>
+							<DialogContentText>
+								{' '}
+								Please enter the details of your new bill.{' '}
+							</DialogContentText>
+							<Step2_dishes
+								dishes={dishes}
+								onChange={onChange}
+								handleRemoveField={handleRemoveField}
+							/>
+						</DialogContent>
+
+						<DialogActions>
+							<Button onClick={() => setOpen(false)}>Cancel</Button>
+							<Button onClick={e => gotoPrevious(e)}>Previous</Button>
+							<Button type='submit' form='newBillForm'>
+								Add
+							</Button>
+						</DialogActions>
+					</>
+				);
+		}
+	}
+
+	function gotoNext(e) {
+		e.preventDefault();
+		setStep(step + 1);
+	}
+
+	function gotoPrevious(e) {
+		e.preventDefault();
+		setStep(step - 1);
 	}
 
 	return (
@@ -142,90 +236,13 @@ function Dashboard() {
 				Add a new bill
 			</Button>
 
-			<Dialog open={open} onClose={() => setOpen(false)}>
-				<DialogTitle>Add a new bill</DialogTitle>
-				<DialogContent>
-					<DialogContentText>
-						Please enter the details of your new bill.
-					</DialogContentText>
+			<form id='newBillForm' onSubmit={e => addNewBill(e)}>
+				<Dialog open={open} onClose={() => setOpen(false)}>
+					<DialogTitle>Add a new bill</DialogTitle>
 
-					<form id='newBillForm' onSubmit={e => addNewBill(e)}>
-						<TextField
-							autoFocus
-							margin='dense'
-							label='Store Name'
-							type='text'
-							variant='outlined'
-							value={storeName}
-							onChange={e => setStoreName(e.target.value)}
-							required
-						/>
-
-						<TextField
-							margin='dense'
-							label='Bill Amount'
-							type='text'
-							variant='outlined'
-							value={billAmount}
-							onChange={e => setBillAmount(e.target.value)}
-							required
-						/>
-
-						{newForm?.map((item, index) => (
-							<Box component='div' key={index}>
-								<Box component='div'>
-									<TextField
-										margin='dense'
-										label='Dish Name'
-										type='text'
-										variant='outlined'
-										value={item.dishName}
-										name='dishName'
-										onChange={e => onChange(e, index)}
-									/>
-								</Box>
-
-								<Box component='div'>
-									<TextField
-										margin='dense'
-										label='Price'
-										type='text'
-										variant='outlined'
-										value={item.amount}
-										name='amount'
-										onChange={e => onChange(e, index)}
-									/>
-								</Box>
-
-								<Box component='div'>
-									<TextField
-										margin='dense'
-										label='Email'
-										type='text'
-										variant='outlined'
-										value={item.userEmail}
-										name='userEmail'
-										onChange={e => onChange(e, index)}
-									/>
-								</Box>
-
-								<Button onClick={e => handleRemoveField(e, index)}>
-									Remove
-								</Button>
-							</Box>
-						))}
-						<Button onClick={handleAddDish}> Add a dish</Button>
-					</form>
-				</DialogContent>
-
-				<DialogActions>
-					<Button onClick={() => setOpen(false)}>Cancel</Button>
-					<Button type='submit' form='newBillForm'>
-						Add
-					</Button>
-					{/* <Button onClick={() => setStep(step+1)}>Next</Button> */}
-				</DialogActions>
-			</Dialog>
+					{renderFormContent()}
+				</Dialog>
+			</form>
 
 			{error && (
 				<Typography variant='h6' component='h6'>
@@ -250,21 +267,24 @@ function Dashboard() {
 							</Box>
 
 							<TabPanel value='1'>
-								{bills &&
-									bills.map(bill => {
-										if (!bill.paid)
-											return <Bill billInfo={bill} key={bill._id} />;
-										return null;
-									})}
+								{bills.map(bill => {
+									if (!bill.paid)
+										return (
+											<Bill
+												billInfo={bill}
+												key={bill._id}
+												setRefresh={setRefresh}
+											/>
+										);
+									return null;
+								})}
 							</TabPanel>
 
 							<TabPanel value='2'>
-								{bills &&
-									bills.map(bill => {
-										if (bill.paid)
-											return <Bill billInfo={bill} key={bill._id} />;
-										return null;
-									})}
+								{bills.map(bill => {
+									if (bill.paid) return <Bill billInfo={bill} key={bill._id} />;
+									return null;
+								})}
 							</TabPanel>
 						</TabContext>
 					</Box>
