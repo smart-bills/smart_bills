@@ -5,6 +5,7 @@ import axios from 'axios';
 function Bill({ billInfo: bill }) {
 	const [expanded, setIsExpanded] = useState(false);
 	const [viewOrCollapse, setViewOrCollapse] = useState('View More...');
+	const [paid, setPaid] = useState();
 
 	function showMoreDetails() {
 		setIsExpanded(!expanded);
@@ -27,11 +28,19 @@ function Bill({ billInfo: bill }) {
 	async function markPaid() {
 		const token = localStorage.getItem('token');
 		const headers = { 'x-auth-token': token };
+		const body = { billid: bill._id };
+		const url = `http://localhost:8000/app/dashboard/paid/`;
+		setPaid(true);
+		await axios.put(url, body, { headers });
+	}
 
-		const billid = bill._id;
-		const url = `http://localhost:8000/app/dashboard/paid/${billid}`;
-
-		await axios.put(url, { headers });
+	async function markUnpaid() {
+		const token = localStorage.getItem('token');
+		const headers = { 'x-auth-token': token };
+		const body = { billid: bill._id };
+		const url = `http://localhost:8000/app/dashboard/unpaid/`;
+		setPaid(false);
+		await axios.put(url, body, { headers });
 	}
 
 	return (
@@ -40,15 +49,15 @@ function Bill({ billInfo: bill }) {
 				<Typography variant='h6' component='h2'>
 					{bill.storeName}
 				</Typography>
-
 				<Typography variant='subtitle1' component='h4'>
 					Amount: {bill.amount}
 				</Typography>
-
 				<Typography variant='subtitle1' component='h4'>
 					Key: {bill._id}
 				</Typography>
-
+				<Typography variant='subtitle1' component='h4'>
+					Paid: {bill.paid.toString()}
+				</Typography>
 				<Button onClick={showMoreDetails}>{viewOrCollapse}</Button>
 				<Collapse component='div' in={expanded}>
 					{bill.dishes.map((dish, index) => {
@@ -61,7 +70,7 @@ function Bill({ billInfo: bill }) {
 					})}
 
 					<Button onClick={deleteBill}>Delete this bill</Button>
-					<Button onClick={markPaid}>Paid</Button>
+					<Button onClick={markUnpaid}>Unpay</Button>
 				</Collapse>
 			</Paper>
 		</Container>
