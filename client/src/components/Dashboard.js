@@ -27,13 +27,20 @@ import Step3_Confirm from './FormSteps/Step3_Confirm';
 import Step4_Success from './FormSteps/Step4_Success';
 
 function Dashboard() {
-	const navigate = useNavigate();
+    const navigate = useNavigate();
+    
+    /* 
+       Very important!!! 
+       refresh state will keep track of
+       when the webpage needs to be refreshed.
+       It will be shared between dashboard and bill components.
+    */
+    const [refresh, setRefresh] = useState(true);
 
-	/* State variables for database */
-	const [bills, setBills] = useState([]);
-	const [refresh, setRefresh] = useState(true);
-	const [hasBills, setHasBills] = useState(false);
-	const [error, setError] = useState();
+    /* State variables for database */
+    const [bills, setBills] = useState([]);
+    const [hasBills, setHasBills] = useState(false);
+    const [error, setError] = useState();
 
 	/* State variables for form */
 	const [step, setStep] = useState(1);
