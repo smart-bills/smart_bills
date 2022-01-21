@@ -4,7 +4,7 @@ import { Container, Button, Typography,
 } from '@mui/material';
 import axios from 'axios';
 
-function Bill({billInfo: bill}) {
+function Bill({billInfo: bill, setRefresh}) {
     const [expanded, setIsExpanded] = useState(false);
     const [viewOrCollapse, setViewOrCollapse] = useState('View More...')
     
@@ -23,6 +23,7 @@ function Bill({billInfo: bill}) {
 
         await axios.delete(url, {headers});
         setIsExpanded(!expanded);
+        setRefresh(true);
     }
 
     return (

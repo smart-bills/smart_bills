@@ -23,6 +23,7 @@ function Dashboard() {
     
     /* State variables for database */
     const [bills, setBills] = useState([]);
+    const [refresh, setRefresh] = useState(true);
     const [hasBills, setHasBills] = useState(false);
     const [error, setError] = useState();
 
@@ -52,7 +53,7 @@ function Dashboard() {
                 navigate('/login');
             }
             
-            getBills(token, user.id);
+            if(refresh) getBills(token, user.id);               
         } else  {
             navigate('/login');
         }
@@ -71,6 +72,7 @@ function Dashboard() {
         else {
             setBills(bills);
             setHasBills(true);
+            setRefresh(false); 
         }
     }
     
@@ -96,6 +98,7 @@ function Dashboard() {
         setStoreName('');
         setBillAmount('');
         setDishes([]);
+        setRefresh(true); 
     }
 
     function handleAddDish(e) {
@@ -235,7 +238,7 @@ function Dashboard() {
 
                             <TabPanel value="1">
                                 {bills.map(bill => {
-                                    if(!bill.paid) return <Bill billInfo={bill} key={bill._id}/>;
+                                    if(!bill.paid) return <Bill billInfo={bill} key={bill._id} setRefresh={setRefresh}/>;
                                     return null;
                                 })}
                             </TabPanel>
