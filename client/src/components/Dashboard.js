@@ -19,6 +19,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 
 import { connect } from 'react-redux';
 import { loadUser } from '../actions/auth';
+
 import Bill from './Bill';
 import Step1_Bill from './FormSteps/Step1_Bill';
 import Step2_Dishes from './FormSteps/Step2_Dishes';
@@ -50,11 +51,12 @@ function Dashboard() {
 
 	/* State variable for tabs */
 	const [tabValue, setTabValue] = useState('1');
+	const handleTabChange = (e, newValue) => setTabValue(newValue);
 
-	function handleTabChange(e, newValue) {
-		setTabValue(newValue);
-	}
-
+	/* State variable for split by dish or people*/
+	const [splitBy, setSplitBy] = useState('Split by People');
+	const handleSplitChange = (e, newValue) => setSplitBy(newValue);
+	
 	// Use useEffect hook to fetch the user's data once they log in.
 	useEffect(() => {
 		const token = localStorage.getItem('token');
@@ -68,9 +70,8 @@ function Dashboard() {
 			}
 
 			if (refresh) getBills(token, user.id);
-		} else {
-			navigate('/login');
-		}
+		} 
+		else navigate('/login');
 	});
 
 	// Query the backend and database to get all the bills.
@@ -107,7 +108,7 @@ function Dashboard() {
 		resetForm();
 	}
 
-	function resetForm() {
+	const resetForm = () => {
 		setStep(1);
 		setStoreName('');
 		setBillAmount('');
@@ -115,7 +116,7 @@ function Dashboard() {
 		setRefresh(true);
 	}
 
-	function handleAddDish(e) {
+	const handleAddDish = (e) => {
 		e.preventDefault();
 
 		const inputState = {
@@ -127,7 +128,7 @@ function Dashboard() {
 		setDishes(prevState => [...prevState, inputState]);
 	}
 
-	function onChange(e, index) {
+	const onChange = (e, index) => {
 		e.preventDefault();
 		e.persist();
 
@@ -143,12 +144,12 @@ function Dashboard() {
 		});
 	}
 
-	function handleRemoveField(e, index) {
+	const handleRemoveField = (e, index) => {
 		e.preventDefault();
 		setDishes(prevState => prevState.filter(item => item !== prevState[index]));
 	}
 
-	function renderFormContent() {
+	const renderFormContent = () => {
 		switch (step) {
 			case 1:
 				return (
@@ -163,6 +164,8 @@ function Dashboard() {
 								setStoreName={setStoreName}
 								billAmount={billAmount}
 								setBillAmount={setBillAmount}
+								splitBy={splitBy}
+								handleSplitChange={handleSplitChange}
 							/>
 						</DialogContent>
 
@@ -178,8 +181,7 @@ function Dashboard() {
 					<>
 						<DialogContent>
 							<DialogContentText>
-								{' '}
-								Please enter the details of your new bill.{' '}
+								{' '}Please enter the details of the dishes in this bill.{' '}
 							</DialogContentText>
 							<Step2_Dishes
 								dishes={dishes}
@@ -202,8 +204,7 @@ function Dashboard() {
 					<>
 						<DialogContent>
 							<DialogContentText>
-								{' '}
-								Please enter the details of your new bill.{' '}
+								{' '}Click previous to make changes.{' '}
 							</DialogContentText>
 							<Step2_Dishes
 								dishes={dishes}
@@ -224,12 +225,12 @@ function Dashboard() {
 		}
 	}
 
-	function gotoNext(e) {
+	const gotoNext = (e) => {
 		e.preventDefault();
 		setStep(step + 1);
 	}
 
-	function gotoPrevious(e) {
+	const gotoPrevious = (e) => {
 		e.preventDefault();
 		setStep(step - 1);
 	}
