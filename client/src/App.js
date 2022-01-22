@@ -7,7 +7,6 @@ import Home from './components/Home';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import Users from './components/Users';
 import Alert from './components/Alert';
 import Dashboard from './components/Dashboard';
 
@@ -29,7 +28,6 @@ const App = () => {
 					<Route path='/login' element={<Login />} />
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/dashboard' element={<Dashboard/>} />
-					<Route path='/user' element={<Users />} />
 					{/* <Route path='*' element={<Error />} /> */}
 				</Routes>
 			</Router>
