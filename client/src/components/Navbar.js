@@ -4,14 +4,19 @@ import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { logout } from '../actions/auth';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+function Nav({ auth: { isAuthenticated, loading }, logout }) {
+	const token = localStorage.getItem('token');
 
-function Nav({ logout }) {
-	return (
+	const loggedIn = (
 		<div>
-			<Link to='/'>
-				<Button> SmartBills </Button>
+			<Link to='/' onClick={logout}>
+				<Button> Logout </Button>
 			</Link>
-
+		</div>
+	);
+	const guest = (
+		<div>
 			<Link to='/login'>
 				<Button> Log In </Button>
 			</Link>
@@ -19,18 +24,28 @@ function Nav({ logout }) {
 			<Link to='/signup'>
 				<Button> Signup </Button>
 			</Link>
-			
-			<Link to='/' onClick={logout}>
-				<Button> Logout </Button>
+		</div>
+	);
+	return (
+		<div>
+			<Link to='/'>
+				<Button> SmartBills </Button>
 			</Link>
+			{token ? loggedIn : guest}
 		</div>
 	);
 }
+Nav.prototype = {
+	logout: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
+};
+const mapStateToProps = state => ({
+	auth: state.auth,
+});
+export default connect(mapStateToProps, { logout })(Nav);
 
-export default connect(null, { logout })(Nav);
-
-// import {AppBar, Box, Toolbar, IconButton, 
-//         Typography, Menu, Container, Avatar, 
+// import {AppBar, Box, Toolbar, IconButton,
+//         Typography, Menu, Container, Avatar,
 //         Button, Tooltip, MenuItem}
 // from '@mui/material/';
 
