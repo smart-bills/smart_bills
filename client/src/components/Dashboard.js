@@ -8,7 +8,6 @@ import {
 	Container,
 	Button,
 	Typography,
-	TextField,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -23,8 +22,8 @@ import { loadUser } from '../actions/auth';
 import Bill from './Bill';
 import Step1_Bill from './FormSteps/Step1_Bill';
 import Step2_Dishes from './FormSteps/Step2_Dishes';
-import Step3_Confirm from './FormSteps/Step3_Confirm';
-import Step4_Success from './FormSteps/Step4_Success';
+// import Step3_Confirm from './FormSteps/Step3_Confirm';
+// import Step4_Success from './FormSteps/Step4_Success';
 
 function Dashboard() {
     const navigate = useNavigate();
@@ -253,8 +252,7 @@ function Dashboard() {
 
 			{error && (
 				<Typography variant='h6' component='h6'>
-					{' '}
-					{error}{' '}
+					{error}
 				</Typography>
 			)}
 
