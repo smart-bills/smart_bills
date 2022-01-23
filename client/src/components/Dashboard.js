@@ -110,6 +110,12 @@ function Dashboard() {
 		await axios.post(url, body, { headers });
 		setOpen(false);
 		setRefresh(true);
+		sendBill(e);
+	}
+
+	const sendBill = (e) => {
+		e.preventDefault();
+		console.log('bills sent!');
 	}
 
 	const resetForm = () => {
@@ -189,14 +195,6 @@ function Dashboard() {
 		setStep(step - 1);
 	}
 
-	const sendBill = (e) => {
-		e.preventDefault();
-
-		setOpen(false);
-		setRefresh(true);
-		console.log('bills sent!');
-	}
-
 	const renderFormContent = () => {
 		switch (step) {
 			case 1:
@@ -266,7 +264,7 @@ function Dashboard() {
 							<DialogActions>
 								<Button onClick={() => setOpen(false)}>Cancel</Button>
 								<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-								<Button onClick={e => sendBill(e)}>Send and Add Bill</Button>
+								<Button type='submit' form='newBillForm'>Send and Add Bill</Button>
 							</DialogActions>
 						</>
 					);
