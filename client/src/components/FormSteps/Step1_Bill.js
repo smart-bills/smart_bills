@@ -15,23 +15,21 @@ function Step1_Bill({storeName, setStoreName, billAmount, setBillAmount, splitBy
       >
         <ToggleButton value="Split by People">Split by People</ToggleButton>
         <ToggleButton value="Split by Dishes">Split by Dishes</ToggleButton>
-        <ToggleButton value="None">None</ToggleButton>
+        {/* <ToggleButton value="None">None</ToggleButton> */}
       </ToggleButtonGroup>
   
       <TextField
         autoFocus
         margin="dense"
-        label="Store Name"
+        label="Store name"
         type="text"
         variant="outlined"
         value={storeName}
         onChange={e => setStoreName(e.target.value)}
         required
-        InputLabelProps={{
-            shrink: true,
-        }}
+        InputLabelProps={{shrink: true}}
       />
-                            
+                      
       <TextField
         margin="dense"
         label="How much was the bill?"
