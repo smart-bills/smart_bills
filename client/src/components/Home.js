@@ -1,5 +1,6 @@
 import * as React from 'react';
-
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 // MUI
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
@@ -8,6 +9,15 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
 function Home() {
+	const navigate = useNavigate();
+	const token = localStorage.getItem('token');
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+
+		if (token) {
+			navigate('/dashboard');
+		}
+	});
 	const Img = styled('img')({
 		margin: 'auto',
 		display: 'block',

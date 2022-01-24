@@ -39,9 +39,6 @@ function Nav({ auth: { isAuthenticated, loading }, logout }) {
 				sx={{ mr: 2 }}
 			></IconButton>
 			<Stack direction='row' spacing={1}>
-				<Button href='/' Button color='inherit' variant='text'>
-					Home
-				</Button>
 				<Button href='/login' Button color='inherit' variant='text'>
 					Login
 				</Button>
