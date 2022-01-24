@@ -47,16 +47,17 @@ function Bill({ billInfo: bill, setRefresh }) {
 				<Typography variant='h6' component='h2'>
 					{bill.storeName}
 				</Typography>
+
 				<Typography variant='subtitle1' component='h4'>
 					Amount: {bill.amount}
 				</Typography>
-				<Typography variant='subtitle1' component='h4'>
-					Key: {bill._id}
-				</Typography>
+				
 				<Typography variant='subtitle1' component='h4'>
 					Paid: {bill.paid.toString()}
 				</Typography>
+				
 				<Button onClick={showMoreDetails}>{viewOrCollapse}</Button>
+				
 				<Collapse component='div' in={expanded}>
 					{bill.dishes.map((dish, index) => {
 						return (

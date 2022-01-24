@@ -10,13 +10,11 @@ const BillSchema = new Schema(
 		date: Date,
 		dishes: [
 			{
-				userEmail: { type: String, required: true },
+				userEmail: String,
 				dishName: { type: String, required: true },
 				amount: { type: String, required: true },
 				paid: { type: Boolean, default: false },
-				date: Date,
 				storeName: String,
-				description: String,
 			},
 		],
 		description: String,

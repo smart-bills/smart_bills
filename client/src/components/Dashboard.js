@@ -8,7 +8,6 @@ import {
 	Container,
 	Button,
 	Typography,
-	TextField,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -20,11 +19,12 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 
 import { connect } from 'react-redux';
 import { loadUser } from '../actions/auth';
+
 import Bill from './Bill';
 import Step1_Bill from './FormSteps/Step1_Bill';
 import Step2_Dishes from './FormSteps/Step2_Dishes';
-import Step3_Confirm from './FormSteps/Step3_Confirm';
-import Step4_Success from './FormSteps/Step4_Success';
+import Step3_Invitees from './FormSteps/Step3_Invitees';
+// import Step4_Success from './FormSteps/Step4_Success';
 
 function Dashboard() {
     const navigate = useNavigate();
@@ -47,16 +47,21 @@ function Dashboard() {
 	const [open, setOpen] = useState(false);
 	const [storeName, setStoreName] = useState('');
 	const [billAmount, setBillAmount] = useState('');
+	const [invitees, setInvitees] = useState([]);
 	const [dishes, setDishes] = useState([]);
 
 	/* State variable for tabs */
 	const [tabValue, setTabValue] = useState('1');
+	const handleTabChange = (e, newValue) => setTabValue(newValue);
 
-	function handleTabChange(e, newValue) {
-		setTabValue(newValue);
+	/* State variable for split by dish or people */
+	const [splitBy, setSplitBy] = useState('Split by People');
+	const handleSplitChange = (e, newValue) => {
+		resetForm();
+		setSplitBy(newValue);
 	}
 
-	// Use useEffect hook to fetch the user's data once they log in.
+	/* Use useEffect hook to fetch the user's data once they log in */
 	useEffect(() => {
 		const token = localStorage.getItem('token');
 
@@ -69,9 +74,8 @@ function Dashboard() {
 			}
 
 			if (refresh) getBills(token, user.id);
-		} else {
-			navigate('/login');
-		}
+		} 
+		else navigate('/login');
 	});
 
 	// Query the backend and database to get all the bills.
@@ -105,18 +109,50 @@ function Dashboard() {
 
 		await axios.post(url, body, { headers });
 		setOpen(false);
-		resetForm();
+		setRefresh(true);
+		sendBill(e);
 	}
 
-	function resetForm() {
+	const sendBill = (e) => {
+		e.preventDefault();
+		invitees.forEach(invitee => console.log(invitee));
+	}
+
+	const resetForm = () => {
 		setStep(1);
 		setStoreName('');
 		setBillAmount('');
 		setDishes([]);
-		setRefresh(true);
+		setInvitees([]);
 	}
 
-	function handleAddDish(e) {
+	const handleAddInvitees = (e) => {
+		e.preventDefault();
+		setInvitees(prevState => [...prevState, '']);
+	}
+
+	const changeInviteeInfo = (e, index) => {
+		e.preventDefault();
+		e.persist();
+
+		setInvitees(prevState => {
+			return prevState.map((invitee, i) => {
+				if(i !== index) return invitee;
+				return e.target.value;
+			})
+		})
+	}
+
+	const removeInvitee = (e, index) => {
+		e.preventDefault();
+		setInvitees(prevState => prevState.filter((invitee, i) => i !== index));
+	}
+
+	/* 
+		The reason of having handleAddDish is to create an empty dish and append it to the array.
+		So when you map it out, you'll have an empty input fields for the new dish at the end.
+	*/
+	const handleAddDish = (e) => {
 		e.preventDefault();
 
 		const inputState = {
@@ -128,7 +164,7 @@ function Dashboard() {
 		setDishes(prevState => [...prevState, inputState]);
 	}
 
-	function onChange(e, index) {
+	const changeDishInfo = (e, index) => {
 		e.preventDefault();
 		e.persist();
 
@@ -144,26 +180,37 @@ function Dashboard() {
 		});
 	}
 
-	function handleRemoveField(e, index) {
+	const removeDish = (e, index) => {
 		e.preventDefault();
 		setDishes(prevState => prevState.filter(item => item !== prevState[index]));
 	}
 
-	function renderFormContent() {
+	const gotoNext = (e) => {
+		e.preventDefault();
+		setStep(step + 1);
+	}
+
+	const gotoPrevious = (e) => {
+		e.preventDefault();
+		setStep(step - 1);
+	}
+
+	const renderFormContent = () => {
 		switch (step) {
 			case 1:
 				return (
 					<>
 						<DialogContent>
 							<DialogContentText>
-								{' '}
-								Please enter the details of your new bill.{' '}
+								{' '}Please enter the details of your new bill.{' '}
 							</DialogContentText>
 							<Step1_Bill
 								storeName={storeName}
 								setStoreName={setStoreName}
 								billAmount={billAmount}
 								setBillAmount={setBillAmount}
+								splitBy={splitBy}
+								handleSplitChange={handleSplitChange}
 							/>
 						</DialogContent>
 
@@ -179,13 +226,13 @@ function Dashboard() {
 					<>
 						<DialogContent>
 							<DialogContentText>
-								{' '}
-								Please enter the details of your new bill.{' '}
+								{' '}Please enter the details of the dishes in this bill.{' '}
 							</DialogContentText>
 							<Step2_Dishes
 								dishes={dishes}
-								onChange={onChange}
-								handleRemoveField={handleRemoveField}
+								changeDishInfo={changeDishInfo}
+								removeDish={removeDish}
+								splitBy={splitBy}
 							/>
 							<Button onClick={handleAddDish}>Add a dish</Button>
 						</DialogContent>
@@ -198,63 +245,101 @@ function Dashboard() {
 					</>
 				);
 
+			case 3:
+				if(splitBy === 'Split by People') {
+					return(
+						<>
+							<DialogContent>
+								<DialogContentText>
+									{' '}Please enter the email address for each invitee.{' '}
+								</DialogContentText>
+								<Step3_Invitees
+									invitees={invitees}
+									changeInviteeInfo={changeInviteeInfo}
+									removeInvitee={removeInvitee}
+								/>
+								<Button onClick={handleAddInvitees}>Add an invitee</Button>
+							</DialogContent>
+		
+							<DialogActions>
+								<Button onClick={() => setOpen(false)}>Cancel</Button>
+								<Button onClick={e => gotoPrevious(e)}>Previous</Button>
+								<Button onClick={e => gotoNext(e)}>Next</Button>
+							</DialogActions>
+						</>
+					);
+				}
+				else {
+					return(
+						<>
+							<DialogContent>
+								<DialogContentText>
+									{' '}Please confirm the details of the dishes in this bill.{' '}
+								</DialogContentText>
+								<Step2_Dishes
+									dishes={dishes}
+									changeDishInfo={changeDishInfo}
+									removeDish={removeDish}
+									splitBy={splitBy}
+								/>
+							</DialogContent>
+		
+							<DialogActions>
+								<Button onClick={() => setOpen(false)}> Cancel </Button>
+								<Button onClick={e => gotoPrevious(e)}>Previous</Button>
+								<Button type='submit' form='newBillForm'>Send and Add Bill</Button>
+							</DialogActions>
+						</>
+					);
+				}
+
 			default:
-				return (
+				return(
 					<>
 						<DialogContent>
 							<DialogContentText>
-								{' '}
-								Please enter the details of your new bill.{' '}
+								{' '}Please confirm the details of the dishes in this bill.{' '}
 							</DialogContentText>
-							<Step2_Dishes
-								dishes={dishes}
-								onChange={onChange}
-								handleRemoveField={handleRemoveField}
+							<Step3_Invitees
+								invitees={invitees}
+								changeInviteeInfo={changeInviteeInfo}
+								removeInvitee={removeInvitee}
 							/>
 						</DialogContent>
-
+	
 						<DialogActions>
 							<Button onClick={() => setOpen(false)}>Cancel</Button>
 							<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-							<Button type='submit' form='newBillForm'>
-								Add
-							</Button>
+							<Button type='submit' form='newBillForm'>Send and Add Bill</Button>
 						</DialogActions>
 					</>
-				);
+				);	
 		}
-	}
-
-	function gotoNext(e) {
-		e.preventDefault();
-		setStep(step + 1);
-	}
-
-	function gotoPrevious(e) {
-		e.preventDefault();
-		setStep(step - 1);
 	}
 
 	return (
 		<Container>
 			<Typography variant='h4'>Welcome back!</Typography>
 
-			<Button variant='contained' onClick={() => setOpen(true)}>
+			<Button variant='contained' onClick={() => {
+				resetForm();
+				setOpen(true)
+			}}>
 				Add a new bill
 			</Button>
 
 			<form id='newBillForm' onSubmit={e => addNewBill(e)}>
 				<Dialog open={open} onClose={() => setOpen(false)}>
 					<DialogTitle>Add a new bill</DialogTitle>
-
+					
 					{renderFormContent()}
+
 				</Dialog>
 			</form>
 
 			{error && (
 				<Typography variant='h6' component='h6'>
-					{' '}
-					{error}{' '}
+					{error}
 				</Typography>
 			)}
 
