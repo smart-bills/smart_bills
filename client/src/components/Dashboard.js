@@ -264,7 +264,7 @@ function Dashboard() {
 							<DialogActions>
 								<Button onClick={() => setOpen(false)}>Cancel</Button>
 								<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-								<Button type='submit' form='newBillForm'>Send and Add Bill</Button>
+								<Button onClick={e => gotoNext(e)}>Next</Button>
 							</DialogActions>
 						</>
 					);
@@ -294,6 +294,26 @@ function Dashboard() {
 				}
 
 			default:
+				return(
+					<>
+						<DialogContent>
+							<DialogContentText>
+								{' '}Please confirm the details of the dishes in this bill.{' '}
+							</DialogContentText>
+							<Step3_Invitees
+								invitees={invitees}
+								changeInviteeInfo={changeInviteeInfo}
+								removeInvitee={removeInvitee}
+							/>
+						</DialogContent>
+	
+						<DialogActions>
+							<Button onClick={() => setOpen(false)}>Cancel</Button>
+							<Button onClick={e => gotoPrevious(e)}>Previous</Button>
+							<Button type='submit' form='newBillForm'>Send and Add Bill</Button>
+						</DialogActions>
+					</>
+				);	
 		}
 	}
 
