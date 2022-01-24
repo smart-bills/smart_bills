@@ -30,9 +30,6 @@ yarn-error.log*
 
 node_modules
 
-*.png
-*.jpg
-
 VisionAPI.json
 testing.js
 testing.json
