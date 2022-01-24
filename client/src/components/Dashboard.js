@@ -115,7 +115,7 @@ function Dashboard() {
 
 	const sendBill = (e) => {
 		e.preventDefault();
-		console.log('bills sent!');
+		invitees.forEach(invitee => console.log(invitee));
 	}
 
 	const resetForm = () => {
@@ -274,51 +274,26 @@ function Dashboard() {
 						<>
 							<DialogContent>
 								<DialogContentText>
-									{' '}Please enter the details of the dishes in this bill.{' '}
+									{' '}Please confirm the details of the dishes in this bill.{' '}
 								</DialogContentText>
 								<Step2_Dishes
 									dishes={dishes}
 									changeDishInfo={changeDishInfo}
 									removeDish={removeDish}
+									splitBy={splitBy}
 								/>
-								<Button onClick={handleAddDish}>Add a dish</Button>
 							</DialogContent>
 		
 							<DialogActions>
-							<Button onClick={() => {
-								setOpen(false);
-								resetForm();
-							}}>
-								Cancel
-							</Button>
+								<Button onClick={() => setOpen(false)}> Cancel </Button>
 								<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-								<Button onClick={e => gotoNext(e)}>Next</Button>
+								<Button type='submit' form='newBillForm'>Send and Add Bill</Button>
 							</DialogActions>
 						</>
 					);
 				}
 
 			default:
-				return (
-					<>
-						<DialogContent>
-							<DialogContentText>
-								{' '}Click previous to make changes.{' '}
-							</DialogContentText>
-							<Step2_Dishes
-								dishes={dishes}
-								changeDishInfo={changeDishInfo}
-								removeDish={removeDish}
-							/>
-						</DialogContent>
-
-						<DialogActions>
-							<Button onClick={() => setOpen(false)}>Cancel</Button>
-							<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-							<Button type='submit' form='newBillForm'> Add </Button>
-						</DialogActions>
-					</>
-				);
 		}
 	}
 
