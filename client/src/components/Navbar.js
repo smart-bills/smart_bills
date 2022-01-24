@@ -1,41 +1,83 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-//import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Button from '@mui/material/Button';
 import { logout } from '../actions/auth';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+// MUI
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
 
 function Nav({ auth: { isAuthenticated, loading }, logout }) {
 	const token = localStorage.getItem('token');
 
 	const loggedIn = (
-		<div>
-			<Link to='/' onClick={logout}>
-				<Button> Logout </Button>
-			</Link>
-		</div>
+		<Toolbar>
+			<IconButton
+				size='large'
+				edge='start'
+				color='inherit'
+				aria-label='menu'
+				sx={{ mr: 2 }}
+			></IconButton>
+			<Button href='/' onClick={logout} color='inherit' variant='text'>
+				Logout
+			</Button>
+		</Toolbar>
 	);
 	const guest = (
-		<div>
-			<Link to='/login'>
-				<Button> Log In </Button>
-			</Link>
-
-			<Link to='/signup'>
-				<Button> Signup </Button>
-			</Link>
-		</div>
+		<Toolbar>
+			<IconButton
+				size='large'
+				edge='start'
+				color='inherit'
+				aria-label='menu'
+				sx={{ mr: 2 }}
+			></IconButton>
+			<Stack direction='row' spacing={1}>
+				<Button href='/' Button color='inherit' variant='text'>
+					Home
+				</Button>
+				<Button href='/login' Button color='inherit' variant='text'>
+					Login
+				</Button>
+				<Button href='/signup' Button color='inherit' variant='text'>
+					Sign up
+				</Button>
+			</Stack>
+		</Toolbar>
 	);
 	return (
-		<div>
-			<Link to='/'>
-				<Button> SmartBills </Button>
-			</Link>
-			{token ? loggedIn : guest}
-		</div>
+		<Box sx={{ flexGrow: 1 }}>
+			<AppBar position='static'>
+				<Toolbar>
+					<IconButton
+						size='large'
+						edge='start'
+						color='inherit'
+						aria-label='menu'
+						sx={{ mr: 2 }}
+					></IconButton>
+					<Typography
+						href='/'
+						variant='h6'
+						component='div'
+						sx={{ flexGrow: 1 }}
+					>
+						SmartBills
+					</Typography>
+
+					{token ? loggedIn : guest}
+				</Toolbar>
+			</AppBar>
+		</Box>
 	);
 }
+
 Nav.prototype = {
 	logout: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
