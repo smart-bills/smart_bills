@@ -143,7 +143,7 @@ function Home() {
 						<Box
 							component="img"
 							src="../../easeofuse.png"
-							alt="easeofuse"
+							alt="ease of use"
 							sx={{ height: 55 }}
 						/>
 						<Typography variant="h6" sx={{ my: 5 }}>
@@ -161,7 +161,7 @@ function Home() {
 						<Box
 							component="img"
 							src="../../split.png"
-							alt="split"
+							alt="split bills"
 							sx={{ height: 55 }}
 						/>
 						<Typography variant="h6" sx={{ my: 5 }}>
@@ -179,11 +179,11 @@ function Home() {
 						<Box
 							component="img"
 							src="../../email.png"
-							alt="clock"
+							alt="email icon"
 							sx={{ height: 55 }}
 						/>
 						<Typography variant="h6" sx={{ my: 5 }}>
-							Email Reminder
+							Email Remainder
 						</Typography>
 						<Typography variant="h5">
 							{
