@@ -151,7 +151,7 @@ function Home() {
 						</Typography>
 						<Typography variant="h5">
 							{
-								'Using SmartBills is easy. You just need to add a bill and fill out the info of the bill.'
+								'Using SmartBills is easy. Just add a bill and fill out the info of the bill.'
 							}
 						</Typography>
 						</Box>
@@ -169,7 +169,7 @@ function Home() {
 						</Typography>
 						<Typography variant="h5">
 							{
-								'You can decide if you want to go dutch or pay equally with your friends.'
+								'You can decide if you want to go dutch or split equally with your friends.'
 							}
 						</Typography>
 						</Box>
