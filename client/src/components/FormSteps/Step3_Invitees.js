@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Box, TextField, Button} from '@mui/material'
+import {Container, TextField, Button} from '@mui/material'
 
 function Step3_Invitees({invitees, changeInviteeInfo, removeInvitee}) {
     
