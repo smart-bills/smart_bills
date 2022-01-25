@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, TextField, Button} from '@mui/material'
+import {Container, Box, TextField, Button} from '@mui/material'
 
 function Step3_Invitees({invitees, changeInviteeInfo, removeInvitee}) {
     
@@ -7,23 +7,19 @@ function Step3_Invitees({invitees, changeInviteeInfo, removeInvitee}) {
     <React.Fragment>
 
         {invitees.map((invitee, index) => (
-            <Box component='div' key={index}>
+            <Container component='div' key={index} sx={{display: 'flex', justifyContent: 'flex-start', p:0}}>
+                <TextField
+                    margin='dense'
+                    label="Invitee email"
+                    type='text'
+                    variant="outlined"
+                    value={invitee}
+                    name='inviteeEmail'
+                    onChange={e => changeInviteeInfo(e, index)}
+                />
 
-                <Box component='div'>
-                    <TextField
-                        margin='dense'
-                        label="Invitee email"
-                        type='text'
-                        variant="outlined"
-                        value={invitee}
-                        name='inviteeEmail'
-                        onChange={e => changeInviteeInfo(e, index)}
-                    />
-                </Box>
-
-                <Button onClick={e => removeInvitee(e, index)}>Remove</Button>
-
-            </Box>
+                <Button onClick={e => removeInvitee(e, index)} sx={{ml: 3}}>Remove</Button>
+            </Container>
         ))}
         
     </React.Fragment>

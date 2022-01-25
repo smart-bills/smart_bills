@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, ToggleButtonGroup, ToggleButton, InputAdornment } from '@mui/material';
+import { TextField, ToggleButtonGroup, ToggleButton, InputAdornment, Container } from '@mui/material';
 
 function Step1_Bill({storeName, setStoreName, billAmount, setBillAmount, splitBy, handleSplitChange}) {
 
@@ -17,29 +17,31 @@ function Step1_Bill({storeName, setStoreName, billAmount, setBillAmount, splitBy
         <ToggleButton value="Split by Dishes">Split by Dishes</ToggleButton>
         {/* <ToggleButton value="None">None</ToggleButton> */}
       </ToggleButtonGroup>
-  
-      <TextField
-        autoFocus
-        margin="dense"
-        label="Store name"
-        type="text"
-        variant="outlined"
-        value={storeName}
-        onChange={e => setStoreName(e.target.value)}
-        required
-        InputLabelProps={{shrink: true}}
-      />
-                      
-      <TextField
-        margin="dense"
-        label="How much was the bill?"
-        type="text"
-        variant="outlined"
-        value={billAmount}
-        onChange={e => setBillAmount(e.target.value)}
-        required 
-        InputProps={{startAdornment:(<InputAdornment position="start">$</InputAdornment>)}}
-      />
+
+      <Container component='div' sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+        <TextField
+          autoFocus
+          margin="normal"
+          label="Store name"
+          type="text"
+          variant="outlined"
+          value={storeName}
+          onChange={e => setStoreName(e.target.value)}
+          required
+          InputLabelProps={{shrink: true}}
+        />
+              
+        <TextField
+          margin="normal"
+          label="How much was the bill?"
+          type="text"
+          variant="outlined"
+          value={billAmount}
+          onChange={e => setBillAmount(e.target.value)}
+          required 
+          InputProps={{startAdornment:(<InputAdornment position="start">$</InputAdornment>)}}
+        />
+      </Container>
 
     </React.Fragment>
   )
