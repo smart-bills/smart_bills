@@ -14,11 +14,8 @@ import {
 } from '@mui/material';
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import axios from 'axios';
-
-const theme = createTheme();
 
 function Login() {
 	const [email, setEmail] = useState('');
@@ -53,7 +50,6 @@ function Login() {
 	}
 
 	return (
-		<ThemeProvider theme={theme}>
 			<Container component='main' maxWidth='xs'>
 				<CssBaseline />
 				<Box
@@ -113,18 +109,6 @@ function Login() {
 							placeholder='Password'
 						/>
 
-						{/* <Box 
-            sx={{
-              display: 'flex',
-              alignItems: 'left',
-            }}
-          >
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary"  />}
-              label="Remember me"
-            />
-          </Box> */}
-
 						<Button
 							type='submit'
 							value='Login'
@@ -137,23 +121,18 @@ function Login() {
 
 						<Grid container>
 							<Grid item xs>
-								<Link href='#' variant='body2'>
-									{' '}
-									Forgot password?{' '}
-								</Link>
+								<Link href='#' variant='body2' />
 							</Grid>
 
 							<Grid item>
 								<Link href='/signup' variant='body2'>
-									{' '}
-									Don't have an account? Sign Up{' '}
+									{' '} Don't have an account? Sign Up {' '}
 								</Link>
 							</Grid>
 						</Grid>
 					</Box>
 				</Box>
 			</Container>
-		</ThemeProvider>
 	);
 }
 

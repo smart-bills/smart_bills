@@ -201,7 +201,7 @@ function Dashboard() {
 				return (
 					<>
 						<DialogContent>
-							<DialogContentText>
+							<DialogContentText sx={{mb: 2}}>
 								{' '}Please enter the details of your new bill.{' '}
 							</DialogContentText>
 							<Step1_Bill
@@ -234,7 +234,10 @@ function Dashboard() {
 								removeDish={removeDish}
 								splitBy={splitBy}
 							/>
-							<Button onClick={handleAddDish}>Add a dish</Button>
+
+							<Container>
+								<Button onClick={handleAddDish}>Add a dish</Button>
+							</Container>
 						</DialogContent>
 
 						<DialogActions>
@@ -258,7 +261,10 @@ function Dashboard() {
 									changeInviteeInfo={changeInviteeInfo}
 									removeInvitee={removeInvitee}
 								/>
+
+							<Container>
 								<Button onClick={handleAddInvitees}>Add an invitee</Button>
+							</Container>
 							</DialogContent>
 		
 							<DialogActions>
@@ -318,18 +324,22 @@ function Dashboard() {
 	}
 
 	return (
-		<Container>
-			<Typography variant='h4'>Welcome back!</Typography>
+		<Container component='div' sx={{ mt: 10 }}>
 
-			<Button variant='contained' onClick={() => {
-				resetForm();
-				setOpen(true)
-			}}>
-				Add a new bill
-			</Button>
+			<Container component='div' sx={{ display: 'flex' ,justifyContent: "space-between"}}>
+				<Typography variant='h4'>Welcome back!</Typography>
+
+				<Button variant='contained' onClick={() => {
+					resetForm();
+					setOpen(true)
+				}}>
+					Add a new bill
+				</Button>
+			</Container>
+
 
 			<form id='newBillForm' onSubmit={e => addNewBill(e)}>
-				<Dialog open={open} onClose={() => setOpen(false)}>
+				<Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth='sm'>
 					<DialogTitle>Add a new bill</DialogTitle>
 					
 					{renderFormContent()}
@@ -344,17 +354,17 @@ function Dashboard() {
 			)}
 
 			{hasBills ? (
-				<Container>
+				<Container sx={{ mt: 3}}>
 					<Typography variant='h6' component='h6'>
 						Here is all your bills:
 					</Typography>
 
 					<Box sx={{ width: '100%', typography: 'body1' }}>
-						<TabContext value={tabValue}>
-							<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-								<TabList onChange={handleTabChange}>
-									<Tab label='Unpaid Bills' value='1' />
-									<Tab label='Paid Bills' value='2' />
+						<TabContext value={tabValue} >
+							<Box sx={{borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'space-around'}}>
+								<TabList onChange={handleTabChange} className='tabs'>
+									<Tab label='Unpaid Bills' value='1' sx={{mr: 20}}/>
+									<Tab label='Paid Bills' value='2' sx={{ml: 20}}/>
 								</TabList>
 							</Box>
 

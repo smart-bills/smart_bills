@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, TextField, Button} from '@mui/material'
+import {TextField, Button, Container} from '@mui/material'
 
 function Step2_dishes({dishes, changeDishInfo, removeDish, splitBy}) {
     
@@ -8,48 +8,43 @@ function Step2_dishes({dishes, changeDishInfo, removeDish, splitBy}) {
     return (
     <React.Fragment>
         {dishes.map((item, index) => (
-            <Box component='div' key={index}>
+            <Container component='div' key={index} sx={{display: 'flex', justifyContent: 'space-evenly', p:0}}>
                                 
-                <Box component='div'>
-                    <TextField
-                        margin='dense'
-                        label="Dish Name"
-                        type='text'
-                        variant="outlined"
-                        value={item.dishName}
-                        name='dishName'
-                        onChange={e => changeDishInfo(e, index)}
-                    />
-                </Box>
+                <TextField
+                    margin='normal'
+                    label="Dish Name"
+                    type='text'
+                    variant="outlined"
+                    value={item.dishName}
+                    name='dishName'
+                    onChange={e => changeDishInfo(e, index)}
+                />
                  
-                <Box component='div'>
-                    <TextField
-                        margin='dense'
-                        label="Price"
-                        type='text'
-                        variant="outlined"
-                        value={item.amount}
-                        name='amount'
-                        onChange={e => changeDishInfo(e, index)}
-                    />
-                </Box>
+                <TextField
+                    margin='normal'
+                    label="Price"
+                    type='text'
+                    variant="outlined"
+                    value={item.amount}
+                    name='amount'
+                    onChange={e => changeDishInfo(e, index)}
+                />
 
                 {showEmailField && 
-                    <Box component='div'>
-                        <TextField
-                            margin='dense'
-                            label="Email"
-                            type='text'
-                            variant="outlined"
-                            value={item.userEmail}
-                            name='userEmail'
-                            onChange={e => changeDishInfo(e, index)}
-                        />
-                    </Box>
+                    <TextField
+                        margin='normal'
+                        label="Email"
+                        type='text'
+                        variant="outlined"
+                        value={item.userEmail}
+                        name='userEmail'
+                        onChange={e => changeDishInfo(e, index)}
+                    />
                 }            
-  
+
                 <Button onClick={e => removeDish(e, index)}>Remove</Button>
-		    </Box>
+                
+		    </Container>
 	    ))}
     </React.Fragment>
   )

@@ -7,10 +7,10 @@ import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
+import Link from '@mui/material/Link';
 
 function Nav({ auth: { isAuthenticated, loading }, logout }) {
 	const token = localStorage.getItem('token');
@@ -40,35 +40,35 @@ function Nav({ auth: { isAuthenticated, loading }, logout }) {
 			></IconButton>
 			<Stack direction='row' spacing={1}>
 				<Button href='/login' Button color='inherit' variant='text'>
-					Login
+					Sign In
 				</Button>
 				<Button href='/signup' Button color='inherit' variant='text'>
-					Sign up
+					Sign Up
 				</Button>
 			</Stack>
 		</Toolbar>
 	);
+	
 	return (
 		<Box sx={{ flexGrow: 1 }}>
-			<AppBar position='static'>
-				<Toolbar>
-					<IconButton
-						size='large'
-						edge='start'
-						color='inherit'
-						aria-label='menu'
-						sx={{ mr: 2 }}
-					></IconButton>
-					<Typography
-						href='/'
-						variant='h6'
-						component='div'
-						sx={{ flexGrow: 1 }}
-					>
-						SmartBills
-					</Typography>
+			<AppBar position='fixed' >
+				<Toolbar sx={{ justifyContent: 'space-between' }}>
 
-					{token ? loggedIn : guest}
+				<Link
+					variant="h6"
+					underline="none"
+					color="inherit"
+					href="/"
+					sx={{ fontSize: 24,  textAlign: 'center'}}
+				>
+            			{'SmartBills'}
+          		</Link>
+
+				<Box sx={{ flex: 1 }} />
+
+
+				{token ? loggedIn : guest}
+
 				</Toolbar>
 			</AppBar>
 		</Box>
