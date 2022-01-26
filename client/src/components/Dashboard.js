@@ -99,18 +99,29 @@ function Dashboard() {
 		e.preventDefault();
 
 		const url = 'http://localhost:8000/app/bill';
+
 		const body = {
 			storeName: storeName,
 			amount: billAmount,
 			dishes: dishes,
 		};
+
+		if(splitBy === 'Split by People') {
+			body.invitees = invitees;
+		}
+
 		const token = localStorage.getItem('token');
 		const headers = { 'x-auth-token': token };
 
-		await axios.post(url, body, { headers });
+		const {data} = await axios.post(url, body, { headers });
+		if(data.databaseRes) {
+			sendBill(e);
+		} else {
+			console.log(data.error);
+		}
+
 		setOpen(false);
 		setRefresh(true);
-		sendBill(e);
 	}
 
 	const sendBill = (e) => {

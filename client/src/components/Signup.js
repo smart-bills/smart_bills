@@ -47,7 +47,7 @@ const Signup = ({ setAlert, signUp, isAuthenticated }) => {
 	}
 	return (
 		<ThemeProvider theme={theme}>
-			<Container component='main' maxWidth='xs'>
+			<Container component='main' maxWidth='xs' sx={{mt: 15}}>
 				<CssBaseline />
 				<Box
 					sx={{
