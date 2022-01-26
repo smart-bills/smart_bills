@@ -99,18 +99,6 @@ function Dashboard() {
 		e.preventDefault();
 
 		const url = 'http://localhost:8000/app/bill';
-		// let body = {};
-
-		// if(splitBy === 'Split by People') {
-		// 	body.storeName = storeName;
-		// 	body.amount = billAmount;
-		// 	body.dishes = dishes;
-		// 	body.invitees = invitees;
-		// } else {
-		// 	body.storeName = storeName;
-		// 	body.amount = billAmount;
-		// 	body.dishes = dishes;
-		// }
 
 		const body = {
 			storeName: storeName,
