@@ -24,12 +24,13 @@ router.post(
 
 		try {
 			const user = await User.findById(req.user.id);
-
+			
 			const databaseRes = await Bill.create({
 				hostID: user._id,
 				storeName: req.body.storeName,
 				amount: req.body.amount,
-				dishes: req.body.dishes
+				invitees: req.body?.invitees,
+				dishes: req.body?.dishes
 			});
 
 			res.json({ databaseRes });

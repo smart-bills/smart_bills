@@ -7,15 +7,14 @@ const BillSchema = new Schema(
 		storeName: { type: String, required: true },
 		amount: { type: String, required: true },
 		paid: { type: Boolean, default: false },
+		invitees: [String],
 		date: Date,
 		dishes: [
 			{
 				userEmail: String,
 				dishName: { type: String, required: true },
-				amount: { type: String, required: true },
-				paid: { type: Boolean, default: false },
-				storeName: String,
-			},
+				amount: { type: String, required: true }
+			}
 		],
 		description: String,
 	},
@@ -24,5 +23,3 @@ const BillSchema = new Schema(
 
 const Bill = mongoose.model('Bill', BillSchema);
 module.exports = Bill;
-
-// dishes: [{type: Schema.ObjectId, ref: 'Dish'}],
