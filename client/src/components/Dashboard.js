@@ -16,6 +16,7 @@ import {
 	Tab,
 } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 import { connect } from 'react-redux';
 import { loadUser } from '../actions/auth';
@@ -38,21 +39,19 @@ function Dashboard() {
     const [refresh, setRefresh] = useState(true);
 
     /* State variables for database */
-    const [bills, setBills] = useState([]);
+	const [error, setError] = useState();
     const [hasBills, setHasBills] = useState(false);
-    const [error, setError] = useState();
+    const [bills, setBills] = useState([]);
 
 	/* State variables for form */
-	const [step, setStep] = useState(1);
 	const [open, setOpen] = useState(false);
+	const [step, setStep] = useState(1);
 	const [storeName, setStoreName] = useState('');
 	const [billAmount, setBillAmount] = useState('');
+	const [description, setDescription] = useState('');
 	const [invitees, setInvitees] = useState([]);
 	const [dishes, setDishes] = useState([]);
-
-	/* State variable for tabs */
-	const [tabValue, setTabValue] = useState('1');
-	const handleTabChange = (e, newValue) => setTabValue(newValue);
+	const [addBillError, setAddBillError] = useState(false);
 
 	/* State variable for split by dish or people */
 	const [splitBy, setSplitBy] = useState('Split by People');
@@ -60,6 +59,10 @@ function Dashboard() {
 		resetForm();
 		setSplitBy(newValue);
 	}
+
+	/* State variable for tabs */
+	const [tabValue, setTabValue] = useState('1');
+	const handleTabChange = (e, newValue) => setTabValue(newValue);
 
 	/* Use useEffect hook to fetch the user's data once they log in */
 	useEffect(() => {
@@ -99,13 +102,13 @@ function Dashboard() {
 		e.preventDefault();
 
 		const url = 'http://localhost:8000/app/bill';
-
 		const body = {
 			storeName: storeName,
 			amount: billAmount,
 			dishes: dishes,
+			description: description
 		};
-
+		
 		if(splitBy === 'Split by People') {
 			body.invitees = invitees;
 		}
@@ -113,15 +116,23 @@ function Dashboard() {
 		const token = localStorage.getItem('token');
 		const headers = { 'x-auth-token': token };
 
+		/* 
+			Add a new bill to the database.
+			If the response data has a field or databaseRes, 
+			that means the bill was added successfully.
+				After the bill has been added, send the bill to the invitess.
+
+			Otherwise, some error will be returned instead.
+				Display the error in the popped up window.
+		*/
 		const {data} = await axios.post(url, body, { headers });
 		if(data.databaseRes) {
+			setOpen(false);
+			setRefresh(true);
 			sendBill(e);
 		} else {
-			console.log(data.error);
+			addBillError(true);
 		}
-
-		setOpen(false);
-		setRefresh(true);
 	}
 
 	const sendBill = (e) => {
@@ -133,8 +144,10 @@ function Dashboard() {
 		setStep(1);
 		setStoreName('');
 		setBillAmount('');
+		setDescription('');
 		setDishes([]);
 		setInvitees([]);
+		setAddBillError(false);
 	}
 
 	const handleAddInvitees = (e) => {
@@ -220,6 +233,8 @@ function Dashboard() {
 								setStoreName={setStoreName}
 								billAmount={billAmount}
 								setBillAmount={setBillAmount}
+								description={description}
+								setDescription={setDescription}
 								splitBy={splitBy}
 								handleSplitChange={handleSplitChange}
 							/>
@@ -246,7 +261,7 @@ function Dashboard() {
 								splitBy={splitBy}
 							/>
 
-							<Container>
+							<Container sx={{pt: 1}}>
 								<Button onClick={handleAddDish}>Add a dish</Button>
 							</Container>
 						</DialogContent>
@@ -273,7 +288,7 @@ function Dashboard() {
 									removeInvitee={removeInvitee}
 								/>
 
-							<Container>
+							<Container sx={{pt: 1}}>
 								<Button onClick={handleAddInvitees}>Add an invitee</Button>
 							</Container>
 							</DialogContent>
@@ -291,7 +306,11 @@ function Dashboard() {
 						<>
 							<DialogContent>
 								<DialogContentText>
-									{' '}Please confirm the details of the dishes in this bill.{' '}
+									{addBillError ? 
+										'Something went wrong adding this bill.' 
+										: 
+										'Please confirm the details of the dishes in this bill.'
+									}
 								</DialogContentText>
 								<Step2_Dishes
 									dishes={dishes}
@@ -304,7 +323,7 @@ function Dashboard() {
 							<DialogActions>
 								<Button onClick={() => setOpen(false)}> Cancel </Button>
 								<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-								<Button type='submit' form='newBillForm'>Send and Add Bill</Button>
+								<Button type='submit' form='newBillForm' variant="contained">Send and Add Bill</Button>
 							</DialogActions>
 						</>
 					);
@@ -315,7 +334,11 @@ function Dashboard() {
 					<>
 						<DialogContent>
 							<DialogContentText>
-								{' '}Please confirm the details of the dishes in this bill.{' '}
+								{addBillError ? 
+									'Something went wrong adding this bill.' 
+									: 
+									'Please confirm the details of the dishes in this bill.'
+								}
 							</DialogContentText>
 							<Step3_Invitees
 								invitees={invitees}
@@ -327,7 +350,7 @@ function Dashboard() {
 						<DialogActions>
 							<Button onClick={() => setOpen(false)}>Cancel</Button>
 							<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-							<Button type='submit' form='newBillForm'>Send and Add Bill</Button>
+							<Button type='submit' form='newBillForm' variant="contained">Send and Add Bill</Button>
 						</DialogActions>
 					</>
 				);	
@@ -335,12 +358,12 @@ function Dashboard() {
 	}
 
 	return (
-		<Container component='div' sx={{ mt: 10 }}>
+		<Container component='div' sx={{ mt: 15 }}>
 
 			<Container component='div' sx={{ display: 'flex' ,justifyContent: "space-between"}}>
 				<Typography variant='h4'>Welcome back!</Typography>
 
-				<Button variant='contained' onClick={() => {
+				<Button variant='contained' startIcon={<AddCircleOutlineOutlinedIcon />} onClick={() => {
 					resetForm();
 					setOpen(true)
 				}}>
@@ -366,9 +389,6 @@ function Dashboard() {
 
 			{hasBills ? (
 				<Container sx={{ mt: 3}}>
-					<Typography variant='h6' component='h6'>
-						Here is all your bills:
-					</Typography>
 
 					<Box sx={{ width: '100%', typography: 'body1' }}>
 						<TabContext value={tabValue} >
