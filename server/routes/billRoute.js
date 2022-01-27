@@ -14,6 +14,8 @@ router.post(
 		auth,
 		check('storeName', 'Store name is required').not().isEmpty(),
 		check('amount', 'Please include a valid amount').not().isEmpty(),
+		check('tax', 'Please include a valid tax amount').not().isEmpty(),
+		check('tips', 'Please include valid tips').not().isEmpty(),
 	],
 	async (req, res) => {
 		const errors = validationResult(req);
@@ -28,6 +30,8 @@ router.post(
 				hostID: user._id,
 				storeName: req.body.storeName,
 				amount: req.body.amount,
+				tax: req.body.tax,
+				tips: req.body.tips,
 				description: req.body.description,
 				invitees: req.body?.invitees,
 				dishes: req.body?.dishes,

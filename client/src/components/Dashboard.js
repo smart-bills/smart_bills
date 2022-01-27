@@ -48,6 +48,8 @@ function Dashboard() {
 	const [step, setStep] = useState(1);
 	const [storeName, setStoreName] = useState('');
 	const [billAmount, setBillAmount] = useState('');
+	const [tips, setTips] = useState('');
+	const [tax, setTax] = useState('');
 	const [description, setDescription] = useState('');
 	const [invitees, setInvitees] = useState([]);
 	const [dishes, setDishes] = useState([]);
@@ -104,6 +106,8 @@ function Dashboard() {
 		const body = {
 			storeName: storeName,
 			amount: billAmount,
+			tax: tax,
+			tips: tips,
 			dishes: dishes,
 			description: description
 		};
@@ -155,12 +159,13 @@ function Dashboard() {
 		setStep(1);
 		setStoreName('');
 		setBillAmount('');
+		setTips('');
+		setTax('');
 		setDescription('');
 		setDishes([]);
 		setInvitees([]);
 		setAddBillError(false);
 	}
-
 
 	const handleAddInvitees = e => {
 		e.preventDefault();
@@ -246,6 +251,10 @@ function Dashboard() {
 								setStoreName={setStoreName}
 								billAmount={billAmount}
 								setBillAmount={setBillAmount}
+								tips={tips} 
+								setTips={setTips}
+								tax={tax}
+								setTax={setTax}
 								description={description}
 								setDescription={setDescription}
 								splitBy={splitBy}
