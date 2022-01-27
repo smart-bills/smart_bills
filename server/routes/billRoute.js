@@ -23,14 +23,14 @@ router.post(
 
 		try {
 			const user = await User.findById(req.user.id);
-			
+
 			const databaseRes = await Bill.create({
 				hostID: user._id,
 				storeName: req.body.storeName,
 				amount: req.body.amount,
 				description: req.body.description,
 				invitees: req.body?.invitees,
-				dishes: req.body?.dishes
+				dishes: req.body?.dishes,
 			});
 
 			res.json({ databaseRes });
@@ -53,22 +53,26 @@ router.post(
 		check('userEmail', 'User email is required').isEmail(),
 	],
 	async (req, res) => {
-
 		const bill = await Bill.findById(req.body.billID);
 		console.log(bill);
-		
+
 		// Create the new dish to append
 		let newDish = {
-		  dishName: req.body.dishName,
-		  amount: req.body.amount,
-		  userEmail: req.body.userEmail,
-		}
-	
-		await Bill.updateOne({_id: bill._id}, { $push: {
-			dishes: newDish
-		}}); 
+			dishName: req.body.dishName,
+			amount: req.body.amount,
+			userEmail: req.body.userEmail,
+		};
 
-		res.json({ message: 'Append successfully'});
+		await Bill.updateOne(
+			{ _id: bill._id },
+			{
+				$push: {
+					dishes: newDish,
+				},
+			}
+		);
+
+		res.json({ message: 'Append successfully' });
 	}
 );
 
@@ -76,7 +80,7 @@ router.post(
 // @desc    Update an existing dish
 // @access  Private
 router.post(
-	'/update_dish', 
+	'/update_dish',
 	[
 		auth,
 		check('billID', 'Bill ID is required').not().isEmpty(),
@@ -90,32 +94,32 @@ router.post(
 
 		try {
 			const targetDish = await Bill.findOne(
-				{_id: billID},
-				{dishes: {$elemMatch: {_id: dishID}}}
+				{ _id: billID },
+				{ dishes: { $elemMatch: { _id: dishID } } }
 			);
 			targetDish.dishes[0].dishName = dishName;
 			await targetDish.save();
-	
-			res.json({message: 'Dish has been updated,'});	
+
+			res.json({ message: 'Dish has been updated,' });
 		} catch (error) {
-			res.status(401).json({error});
+			res.status(401).json({ error });
 		}
 	}
-)
+);
 
 // @route   GET app/bill/:userid
 // @desc    Get all bills for under a user with userid.
 // @access  Private
 router.get('/', auth, async (req, res) => {
 	const userid = req.query.userid;
-	
+
 	try {
-		const bills = await Bill.find({hostID: userid});
-		res.json({bills});	
+		const bills = await Bill.find({ hostID: userid });
+		res.json({ bills });
 	} catch (error) {
-		res.json({error});
+		res.json({ error });
 	}
-})
+});
 
 // @route   DELETE app/bill/:billid
 // @desc    Delete a bill with the billid
@@ -124,11 +128,11 @@ router.delete('/', auth, async (req, res) => {
 	const billid = req.query.billid;
 
 	try {
-		const delRes = await Bill.deleteOne({_id: billid});
-		res.json({delRes});
+		const delRes = await Bill.deleteOne({ _id: billid });
+		res.json({ delRes });
 	} catch (error) {
-		res.json({error});
+		res.json({ error });
 	}
-})
+});
 
 module.exports = router;

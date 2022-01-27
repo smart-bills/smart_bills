@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const Bill = require('../models/bill');
+const sender = process.env.email;
+const pw = process.env.password;
+const nodemailer = require('nodemailer');
+require('dotenv').config({ path: '../../../.env' });
 
 // @route   GET app/dashboard/user
 // @desc    Get all of the user's bill
@@ -58,4 +62,71 @@ router.put('/unpaid/', auth, async (req, res) => {
 	}
 });
 
+// @route   POST app/dashboard/email
+// @desc    Send email to the invitees
+// @access  Private
+router.post('/email', auth, async (req, res) => {
+	try {
+		const transporter = nodemailer.createTransport({
+			pool: true,
+			maxConnections: 1,
+			maxMessage: 1,
+			service: 'hotmail',
+			auth: {
+				user: sender,
+				pass: pw,
+			},
+		});
+		
+		const Emails = req.body.email;
+		const Store = req.body.storeName;
+		const Dishes = req.body.dishes
+		const Amount = req.body.amount;
+		const Split = req.body.split;
+
+		
+		if(Split == 'Split by People'){
+			Emails.forEach(toEmail => {
+				const options = {
+					from: sender,
+					to: toEmail,
+					subject: 'Smart-Bills',
+					text: `Split bill at ${Store} for ${Amount}`,
+				};
+	
+				transporter.sendMail(options, function (err, info) {
+					if (err) {
+						return console.log(err);
+					} else {
+						console.log('Sent:' + info.response);
+					}
+				});
+			});
+		}
+		else{
+			Dishes.forEach(dish => {
+				const options = {
+					from: sender,
+					to: dish.userEmail,
+					subject: 'Smart-Bills',
+					text: `Split dish for ${dish.dishName} at ${Store} for ${dish.amount}`,
+				};
+	
+				transporter.sendMail(options, function (err, info) {
+					if (err) {
+						return console.log(err);
+					} else {
+						console.log('Sent:' + info.response);
+					}
+				});
+			});
+		}
+		
+	
+		res.send(`Email sented`);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
 module.exports = router;
