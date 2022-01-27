@@ -1,7 +1,12 @@
 import React from 'react';
 import { TextField, ToggleButtonGroup, ToggleButton, InputAdornment, Container } from '@mui/material';
 
-function Step1_Bill({storeName, setStoreName, billAmount, setBillAmount, description, setDescription, splitBy, handleSplitChange}) {
+function Step1_Bill(props) {
+
+  const { storeName, setStoreName, 
+          billAmount, setBillAmount, 
+          description, setDescription, 
+          splitBy, handleSplitChange } = props;
 
   return (
     <React.Fragment>

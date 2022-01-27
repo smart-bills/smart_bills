@@ -60,6 +60,12 @@ function Bill({ billInfo: bill, setRefresh }) {
 					<Typography variant='subtitle1' component='h4' sx={{pl: 3, pt: 1  }}>
 						Paid: {bill.paid.toString()}
 					</Typography>
+
+					{bill.description &&
+						<Typography variant='subtitle1' component='h4' sx={{pl: 3, pt: 1}}>
+							Description: {bill.description}
+						</Typography>
+					}
 					
 					<Button onClick={showMoreDetails} sx={{pl: 3}}> {viewOrCollapse} </Button>
 
@@ -67,8 +73,8 @@ function Bill({ billInfo: bill, setRefresh }) {
 						{bill.dishes.map((dish, index) => {
 							return (
 								<Container key={index} sx={{display: 'flex', pb:2}}>
-									<Typography sx={{pr: 2}}>Dish name:{dish.dishName}</Typography>
-									<Typography sx={{pl: 2}}>Dish amount:{dish.amount}</Typography>
+									<Typography sx={{pr: 2}}>Item:{dish.dishName}</Typography>
+									<Typography sx={{pl: 2}}>${dish.amount}</Typography>
 								</Container>
 							);
 						})}
