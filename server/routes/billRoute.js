@@ -4,7 +4,6 @@ const Bill = require('../models/bill');
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
-// const Dish = require('../models/dish');
 
 // @route   POST app/bill/
 // @desc    Create a bill
