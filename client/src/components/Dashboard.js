@@ -260,7 +260,7 @@ function Dashboard() {
 								splitBy={splitBy}
 							/>
 
-							<Container>
+							<Container sx={{pt: 1}}>
 								<Button onClick={handleAddDish}>Add a dish</Button>
 							</Container>
 						</DialogContent>
@@ -287,7 +287,7 @@ function Dashboard() {
 									removeInvitee={removeInvitee}
 								/>
 
-							<Container>
+							<Container sx={{pt: 1}}>
 								<Button onClick={handleAddInvitees}>Add an invitee</Button>
 							</Container>
 							</DialogContent>
