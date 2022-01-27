@@ -27,20 +27,20 @@ import Step3_Invitees from './FormSteps/Step3_Invitees';
 // import Step4_Success from './FormSteps/Step4_Success';
 
 function Dashboard() {
-    const navigate = useNavigate();
-    
-    /* 
+	const navigate = useNavigate();
+
+	/* 
        Very important!!! 
        refresh state will keep track of
        when the webpage needs to be refreshed.
        It will be shared between dashboard and bill components.
     */
-    const [refresh, setRefresh] = useState(true);
+	const [refresh, setRefresh] = useState(true);
 
-    /* State variables for database */
-    const [bills, setBills] = useState([]);
-    const [hasBills, setHasBills] = useState(false);
-    const [error, setError] = useState();
+	/* State variables for database */
+	const [bills, setBills] = useState([]);
+	const [hasBills, setHasBills] = useState(false);
+	const [error, setError] = useState();
 
 	/* State variables for form */
 	const [step, setStep] = useState(1);
@@ -59,7 +59,7 @@ function Dashboard() {
 	const handleSplitChange = (e, newValue) => {
 		resetForm();
 		setSplitBy(newValue);
-	}
+	};
 
 	/* Use useEffect hook to fetch the user's data once they log in */
 	useEffect(() => {
@@ -74,8 +74,7 @@ function Dashboard() {
 			}
 
 			if (refresh) getBills(token, user.id);
-		} 
-		else navigate('/login');
+		} else navigate('/login');
 	});
 
 	// Query the backend and database to get all the bills.
@@ -106,15 +105,15 @@ function Dashboard() {
 			dishes: dishes,
 		};
 
-		if(splitBy === 'Split by People') {
+		if (splitBy === 'Split by People') {
 			body.invitees = invitees;
 		}
 
 		const token = localStorage.getItem('token');
 		const headers = { 'x-auth-token': token };
 
-		const {data} = await axios.post(url, body, { headers });
-		if(data.databaseRes) {
+		const { data } = await axios.post(url, body, { headers });
+		if (data.databaseRes) {
 			sendBill(e);
 		} else {
 			console.log(data.error);
@@ -124,9 +123,21 @@ function Dashboard() {
 		setRefresh(true);
 	}
 
-	const sendBill = (e) => {
+	async function sendBill(e) {
 		e.preventDefault();
-		invitees.forEach(invitee => console.log(invitee));
+		const url = 'http://localhost:8000/app/dashboard/email';
+
+		const body = {
+			storeName: storeName,
+			amount: billAmount,
+			dishes: dishes,
+			email: invitees,
+			split: splitBy,
+		};
+		const token = localStorage.getItem('token');
+		const headers = { 'x-auth-token': token };
+
+		await axios.post(url, body, { headers });
 	}
 
 	const resetForm = () => {
@@ -135,12 +146,12 @@ function Dashboard() {
 		setBillAmount('');
 		setDishes([]);
 		setInvitees([]);
-	}
+	};
 
-	const handleAddInvitees = (e) => {
+	const handleAddInvitees = e => {
 		e.preventDefault();
 		setInvitees(prevState => [...prevState, '']);
-	}
+	};
 
 	const changeInviteeInfo = (e, index) => {
 		e.preventDefault();
@@ -148,22 +159,22 @@ function Dashboard() {
 
 		setInvitees(prevState => {
 			return prevState.map((invitee, i) => {
-				if(i !== index) return invitee;
+				if (i !== index) return invitee;
 				return e.target.value;
-			})
-		})
-	}
+			});
+		});
+	};
 
 	const removeInvitee = (e, index) => {
 		e.preventDefault();
 		setInvitees(prevState => prevState.filter((invitee, i) => i !== index));
-	}
+	};
 
 	/* 
 		The reason of having handleAddDish is to create an empty dish and append it to the array.
 		So when you map it out, you'll have an empty input fields for the new dish at the end.
 	*/
-	const handleAddDish = (e) => {
+	const handleAddDish = e => {
 		e.preventDefault();
 
 		const inputState = {
@@ -173,7 +184,7 @@ function Dashboard() {
 		};
 
 		setDishes(prevState => [...prevState, inputState]);
-	}
+	};
 
 	const changeDishInfo = (e, index) => {
 		e.preventDefault();
@@ -189,22 +200,22 @@ function Dashboard() {
 				};
 			});
 		});
-	}
+	};
 
 	const removeDish = (e, index) => {
 		e.preventDefault();
 		setDishes(prevState => prevState.filter(item => item !== prevState[index]));
-	}
+	};
 
-	const gotoNext = (e) => {
+	const gotoNext = e => {
 		e.preventDefault();
 		setStep(step + 1);
-	}
+	};
 
-	const gotoPrevious = (e) => {
+	const gotoPrevious = e => {
 		e.preventDefault();
 		setStep(step - 1);
-	}
+	};
 
 	const renderFormContent = () => {
 		switch (step) {
@@ -212,8 +223,9 @@ function Dashboard() {
 				return (
 					<>
 						<DialogContent>
-							<DialogContentText sx={{mb: 2}}>
-								{' '}Please enter the details of your new bill.{' '}
+							<DialogContentText sx={{ mb: 2 }}>
+								{' '}
+								Please enter the details of your new bill.{' '}
 							</DialogContentText>
 							<Step1_Bill
 								storeName={storeName}
@@ -237,7 +249,8 @@ function Dashboard() {
 					<>
 						<DialogContent>
 							<DialogContentText>
-								{' '}Please enter the details of the dishes in this bill.{' '}
+								{' '}
+								Please enter the details of the dishes in this bill.{' '}
 							</DialogContentText>
 							<Step2_Dishes
 								dishes={dishes}
@@ -260,12 +273,13 @@ function Dashboard() {
 				);
 
 			case 3:
-				if(splitBy === 'Split by People') {
-					return(
+				if (splitBy === 'Split by People') {
+					return (
 						<>
 							<DialogContent>
 								<DialogContentText>
-									{' '}Please enter the email address for each invitee.{' '}
+									{' '}
+									Please enter the email address for each invitee.{' '}
 								</DialogContentText>
 								<Step3_Invitees
 									invitees={invitees}
@@ -273,11 +287,11 @@ function Dashboard() {
 									removeInvitee={removeInvitee}
 								/>
 
-							<Container>
-								<Button onClick={handleAddInvitees}>Add an invitee</Button>
-							</Container>
+								<Container>
+									<Button onClick={handleAddInvitees}>Add an invitee</Button>
+								</Container>
 							</DialogContent>
-		
+
 							<DialogActions>
 								<Button onClick={() => setOpen(false)}>Cancel</Button>
 								<Button onClick={e => gotoPrevious(e)}>Previous</Button>
@@ -285,13 +299,13 @@ function Dashboard() {
 							</DialogActions>
 						</>
 					);
-				}
-				else {
-					return(
+				} else {
+					return (
 						<>
 							<DialogContent>
 								<DialogContentText>
-									{' '}Please confirm the details of the dishes in this bill.{' '}
+									{' '}
+									Please confirm the details of the dishes in this bill.{' '}
 								</DialogContentText>
 								<Step2_Dishes
 									dishes={dishes}
@@ -300,22 +314,25 @@ function Dashboard() {
 									splitBy={splitBy}
 								/>
 							</DialogContent>
-		
+
 							<DialogActions>
 								<Button onClick={() => setOpen(false)}> Cancel </Button>
 								<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-								<Button type='submit' form='newBillForm'>Send and Add Bill</Button>
+								<Button type='submit' form='newBillForm'>
+									Send and Add Bill
+								</Button>
 							</DialogActions>
 						</>
 					);
 				}
 
 			default:
-				return(
+				return (
 					<>
 						<DialogContent>
 							<DialogContentText>
-								{' '}Please confirm the details of the dishes in this bill.{' '}
+								{' '}
+								Please confirm the details of the dishes in this bill.{' '}
 							</DialogContentText>
 							<Step3_Invitees
 								invitees={invitees}
@@ -323,38 +340,48 @@ function Dashboard() {
 								removeInvitee={removeInvitee}
 							/>
 						</DialogContent>
-	
+
 						<DialogActions>
 							<Button onClick={() => setOpen(false)}>Cancel</Button>
 							<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-							<Button type='submit' form='newBillForm'>Send and Add Bill</Button>
+							<Button type='submit' form='newBillForm'>
+								Send and Add Bill
+							</Button>
 						</DialogActions>
 					</>
-				);	
+				);
 		}
-	}
+	};
 
 	return (
 		<Container component='div' sx={{ mt: 10 }}>
-
-			<Container component='div' sx={{ display: 'flex' ,justifyContent: "space-between"}}>
+			<Container
+				component='div'
+				sx={{ display: 'flex', justifyContent: 'space-between' }}
+			>
 				<Typography variant='h4'>Welcome back!</Typography>
 
-				<Button variant='contained' onClick={() => {
-					resetForm();
-					setOpen(true)
-				}}>
+				<Button
+					variant='contained'
+					onClick={() => {
+						resetForm();
+						setOpen(true);
+					}}
+				>
 					Add a new bill
 				</Button>
 			</Container>
 
-
 			<form id='newBillForm' onSubmit={e => addNewBill(e)}>
-				<Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth='sm'>
+				<Dialog
+					open={open}
+					onClose={() => setOpen(false)}
+					fullWidth
+					maxWidth='sm'
+				>
 					<DialogTitle>Add a new bill</DialogTitle>
-					
-					{renderFormContent()}
 
+					{renderFormContent()}
 				</Dialog>
 			</form>
 
@@ -365,17 +392,24 @@ function Dashboard() {
 			)}
 
 			{hasBills ? (
-				<Container sx={{ mt: 3}}>
+				<Container sx={{ mt: 3 }}>
 					<Typography variant='h6' component='h6'>
 						Here is all your bills:
 					</Typography>
 
 					<Box sx={{ width: '100%', typography: 'body1' }}>
-						<TabContext value={tabValue} >
-							<Box sx={{borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'space-around'}}>
+						<TabContext value={tabValue}>
+							<Box
+								sx={{
+									borderBottom: 1,
+									borderColor: 'divider',
+									display: 'flex',
+									justifyContent: 'space-around',
+								}}
+							>
 								<TabList onChange={handleTabChange} className='tabs'>
-									<Tab label='Unpaid Bills' value='1' sx={{mr: 20}}/>
-									<Tab label='Paid Bills' value='2' sx={{ml: 20}}/>
+									<Tab label='Unpaid Bills' value='1' sx={{ mr: 20 }} />
+									<Tab label='Paid Bills' value='2' sx={{ ml: 20 }} />
 								</TabList>
 							</Box>
 
