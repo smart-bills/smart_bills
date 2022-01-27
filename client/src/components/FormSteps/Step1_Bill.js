@@ -1,10 +1,12 @@
 import React from 'react';
-import { TextField, ToggleButtonGroup, ToggleButton, InputAdornment, Container } from '@mui/material';
+import { TextField, ToggleButtonGroup, ToggleButton, InputAdornment, Container} from '@mui/material';
 
 function Step1_Bill(props) {
 
   const { storeName, setStoreName, 
-          billAmount, setBillAmount, 
+          billAmount, setBillAmount,
+          tips, setTips,
+          tax, setTax, 
           description, setDescription, 
           splitBy, handleSplitChange } = props;
 
@@ -20,14 +22,13 @@ function Step1_Bill(props) {
       >
         <ToggleButton value="Split by People">Split by People</ToggleButton>
         <ToggleButton value="Split by Dishes">Split by Dishes</ToggleButton>
-        {/* <ToggleButton value="None">None</ToggleButton> */}
       </ToggleButtonGroup>
 
       <Container component='div' sx={{display: 'flex', justifyContent: 'space-evenly', pt: 1, pb: 1}}>
         <TextField
           autoFocus
           margin="normal"
-          label="Store name"
+          label="Restaurant name"
           type="text"
           variant="outlined"
           value={storeName}
@@ -38,11 +39,36 @@ function Step1_Bill(props) {
               
         <TextField
           margin="normal"
-          label="How much was the bill?"
+          label="Subtotal (Without tips and tax)"
           type="text"
           variant="outlined"
           value={billAmount}
           onChange={e => setBillAmount(e.target.value)}
+          required 
+          InputProps={{startAdornment:(<InputAdornment position="start">$</InputAdornment>)}}
+        />
+      </Container>
+
+      <Container component='div' sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+        <TextField
+          margin="normal"
+          label="Tips"
+          type="text"
+          variant="outlined"
+          value={tips}
+          onChange={e => setTips(e.target.value)}
+          required
+          InputProps={{startAdornment:(<InputAdornment position="start">$</InputAdornment>)}}
+          sx={{width: '42%'}}
+        />
+              
+        <TextField
+          margin="normal"
+          label="Tax in dollars"
+          type="text"
+          variant="outlined"
+          value={tax}
+          onChange={e => setTax(e.target.value)}
           required 
           InputProps={{startAdornment:(<InputAdornment position="start">$</InputAdornment>)}}
         />
