@@ -4,7 +4,6 @@ const Bill = require('../models/bill');
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
-// const Dish = require('../models/dish');
 
 // @route   POST app/bill/
 // @desc    Create a bill
@@ -29,6 +28,7 @@ router.post(
 				hostID: user._id,
 				storeName: req.body.storeName,
 				amount: req.body.amount,
+				description: req.body.description,
 				invitees: req.body?.invitees,
 				dishes: req.body?.dishes,
 			});

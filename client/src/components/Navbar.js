@@ -11,6 +11,9 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
+import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
+import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 function Nav({ auth: { isAuthenticated, loading }, logout }) {
 	const token = localStorage.getItem('token');
@@ -24,7 +27,7 @@ function Nav({ auth: { isAuthenticated, loading }, logout }) {
 				aria-label='menu'
 				sx={{ mr: 2 }}
 			></IconButton>
-			<Button href='/' onClick={logout} color='inherit' variant='text'>
+			<Button href='/' onClick={logout} color='inherit' variant='text' startIcon={<LogoutOutlinedIcon />}>
 				Logout
 			</Button>
 		</Toolbar>
@@ -39,10 +42,10 @@ function Nav({ auth: { isAuthenticated, loading }, logout }) {
 				sx={{ mr: 2 }}
 			></IconButton>
 			<Stack direction='row' spacing={1}>
-				<Button href='/login' Button color='inherit' variant='text'>
+				<Button href='/login' Button color='inherit' variant='text' startIcon={<LoginOutlinedIcon />}>
 					Sign In
 				</Button>
-				<Button href='/signup' Button color='inherit' variant='text'>
+				<Button href='/signup' Button color='inherit' variant='text' startIcon={<HowToRegOutlinedIcon />}>
 					Sign Up
 				</Button>
 			</Stack>
