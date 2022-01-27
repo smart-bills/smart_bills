@@ -52,7 +52,7 @@ function Bill({ billInfo: bill, setRefresh }) {
 
 			<Grid item xs={6}>
 				<Paper elevation={5} sx={{maxWidth: 450}}>
-					<Typography variant='h6' component='h2' sx={{pl: 2, pt: 2, textDecoration: 'underline'}}>
+					<Typography variant='h5' component='h3' sx={{pl: 2, pt: 2, textDecoration: 'underline'}}>
 						{bill.storeName.toUpperCase()}
 					</Typography>
 
