@@ -47,6 +47,7 @@ function Dashboard() {
 	const [step, setStep] = useState(1);
 	const [storeName, setStoreName] = useState('');
 	const [billAmount, setBillAmount] = useState('');
+	const [description, setDescription] = useState('');
 	const [invitees, setInvitees] = useState([]);
 	const [dishes, setDishes] = useState([]);
 	const [addBillError, setAddBillError] = useState(false);
@@ -104,6 +105,7 @@ function Dashboard() {
 			storeName: storeName,
 			amount: billAmount,
 			dishes: dishes,
+			description: description
 		};
 		
 		if(splitBy === 'Split by People') {
@@ -141,6 +143,7 @@ function Dashboard() {
 		setStep(1);
 		setStoreName('');
 		setBillAmount('');
+		setDescription('');
 		setDishes([]);
 		setInvitees([]);
 		setAddBillError(false);
@@ -229,6 +232,8 @@ function Dashboard() {
 								setStoreName={setStoreName}
 								billAmount={billAmount}
 								setBillAmount={setBillAmount}
+								description={description}
+								setDescription={setDescription}
 								splitBy={splitBy}
 								handleSplitChange={handleSplitChange}
 							/>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextField, ToggleButtonGroup, ToggleButton, InputAdornment, Container } from '@mui/material';
 
-function Step1_Bill({storeName, setStoreName, billAmount, setBillAmount, splitBy, handleSplitChange}) {
+function Step1_Bill({storeName, setStoreName, billAmount, setBillAmount, description, setDescription, splitBy, handleSplitChange}) {
 
   return (
     <React.Fragment>
@@ -18,7 +18,7 @@ function Step1_Bill({storeName, setStoreName, billAmount, setBillAmount, splitBy
         {/* <ToggleButton value="None">None</ToggleButton> */}
       </ToggleButtonGroup>
 
-      <Container component='div' sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+      <Container component='div' sx={{display: 'flex', justifyContent: 'space-evenly', pt: 1, pb: 1}}>
         <TextField
           autoFocus
           margin="normal"
@@ -42,6 +42,18 @@ function Step1_Bill({storeName, setStoreName, billAmount, setBillAmount, splitBy
           InputProps={{startAdornment:(<InputAdornment position="start">$</InputAdornment>)}}
         />
       </Container>
+
+      <TextField 
+        margin='normal' 
+        label='Description box' 
+        type='text'
+        value={description}
+        onChangeCapture={e => setDescription(e.target.value)}
+        multiline 
+        rows={4} 
+        fullWidth 
+        InputLabelProps={{shrink: true}}  
+      />
 
     </React.Fragment>
   )
