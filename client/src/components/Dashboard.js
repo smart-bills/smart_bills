@@ -16,6 +16,7 @@ import {
 	Tab,
 } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 import { connect } from 'react-redux';
 import { loadUser } from '../actions/auth';
@@ -322,7 +323,7 @@ function Dashboard() {
 							<DialogActions>
 								<Button onClick={() => setOpen(false)}> Cancel </Button>
 								<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-								<Button type='submit' form='newBillForm'>Send and Add Bill</Button>
+								<Button type='submit' form='newBillForm' variant="contained">Send and Add Bill</Button>
 							</DialogActions>
 						</>
 					);
@@ -349,7 +350,7 @@ function Dashboard() {
 						<DialogActions>
 							<Button onClick={() => setOpen(false)}>Cancel</Button>
 							<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-							<Button type='submit' form='newBillForm'>Send and Add Bill</Button>
+							<Button type='submit' form='newBillForm' variant="contained">Send and Add Bill</Button>
 						</DialogActions>
 					</>
 				);	
@@ -362,7 +363,7 @@ function Dashboard() {
 			<Container component='div' sx={{ display: 'flex' ,justifyContent: "space-between"}}>
 				<Typography variant='h4'>Welcome back!</Typography>
 
-				<Button variant='contained' onClick={() => {
+				<Button variant='contained' startIcon={<AddCircleOutlineOutlinedIcon />} onClick={() => {
 					resetForm();
 					setOpen(true)
 				}}>
@@ -388,9 +389,6 @@ function Dashboard() {
 
 			{hasBills ? (
 				<Container sx={{ mt: 3}}>
-					<Typography variant='h6' component='h6'>
-						Here is all your bills:
-					</Typography>
 
 					<Box sx={{ width: '100%', typography: 'body1' }}>
 						<TabContext value={tabValue} >

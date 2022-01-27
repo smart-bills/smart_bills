@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Button, Typography, Paper, Collapse, Grid } from '@mui/material';
 import axios from 'axios';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 function Bill({ billInfo: bill, setRefresh }) {
 	const [expanded, setIsExpanded] = useState(false);
@@ -49,25 +52,37 @@ function Bill({ billInfo: bill, setRefresh }) {
 
 			<Grid item xs={6}>
 				<Paper elevation={5} sx={{maxWidth: 450}}>
-					<Typography variant='h6' component='h2' sx={{pl: 2, pt: 2}}>
+					<Typography variant='h6' component='h2' sx={{pl: 2, pt: 2, textDecoration: 'underline'}}>
 						{bill.storeName.toUpperCase()}
 					</Typography>
 
-					<Typography variant='subtitle1' component='h4' sx={{pl: 3, pt: 1}}>
-						Cost: {`$${bill.amount}`}
-					</Typography>
-					
-					<Typography variant='subtitle1' component='h4' sx={{pl: 3, pt: 1  }}>
-						Paid: {bill.paid.toString()}
-					</Typography>
+					<Grid container sx={{pb: 1}}>
+						<Grid item xs={4}>
+							<Typography variant='subtitle1' component='h4' sx={{pl: 3, pt: 1}}>
+								Total: {`$${bill.amount}`}
+							</Typography>
+						</Grid>
 
-					{bill.description &&
+						<Grid item xs={4}>
+							<Typography variant='subtitle1' component='h4' sx={{pl: 3, pt: 1  }}>
+								Paid: {bill.paid.toString()}
+							</Typography>
+						</Grid>
+					</Grid>
+
+					{
+						bill.description &&
 						<Typography variant='subtitle1' component='h4' sx={{pl: 3, pt: 1}}>
 							Description: {bill.description}
 						</Typography>
 					}
 					
-					<Button onClick={showMoreDetails} sx={{pl: 3}}> {viewOrCollapse} </Button>
+					{
+						viewOrCollapse === "View More..." ?
+							<Button onClick={showMoreDetails} sx={{pl: 3}} startIcon={<ExpandMoreIcon />}> {viewOrCollapse} </Button>
+							:
+							<Button onClick={showMoreDetails} sx={{pl: 3}} startIcon={<ExpandLessIcon />}> {viewOrCollapse} </Button>
+					}
 
 					<Collapse component='div' in={expanded}>
 						{bill.dishes.map((dish, index) => {
@@ -79,7 +94,7 @@ function Bill({ billInfo: bill, setRefresh }) {
 							);
 						})}
 
-						<Button onClick={deleteBill}>Delete this bill</Button>
+						<Button onClick={deleteBill} startIcon={<DeleteIcon />}>Delete this bill</Button>
 						{bill.paid ? (
 							<Button onClick={markUnpaid}>Unpay</Button>
 						) : (
