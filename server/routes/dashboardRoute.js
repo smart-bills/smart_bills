@@ -123,7 +123,7 @@ router.post('/email', auth, async (req, res) => {
 			});
 		}
 
-		res.send(`Email sented`);
+		res.send(`Email sent`);
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server Error');

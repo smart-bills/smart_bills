@@ -25,7 +25,7 @@ import Bill from './Bill';
 import Step1_Bill from './FormSteps/Step1_Bill';
 import Step2_Dishes from './FormSteps/Step2_Dishes';
 import Step3_Invitees from './FormSteps/Step3_Invitees';
-// import Step4_Success from './FormSteps/Step4_Success';
+import Step4_Confirm from './FormSteps/Step4_Confirm';
 
 function Dashboard() {
 	const navigate = useNavigate();
@@ -48,6 +48,8 @@ function Dashboard() {
 	const [step, setStep] = useState(1);
 	const [storeName, setStoreName] = useState('');
 	const [billAmount, setBillAmount] = useState('');
+	const [tips, setTips] = useState('');
+	const [tax, setTax] = useState('');
 	const [description, setDescription] = useState('');
 	const [invitees, setInvitees] = useState([]);
 	const [dishes, setDishes] = useState([]);
@@ -104,6 +106,8 @@ function Dashboard() {
 		const body = {
 			storeName: storeName,
 			amount: billAmount,
+			tax: tax,
+			tips: tips,
 			dishes: dishes,
 			description: description
 		};
@@ -155,12 +159,13 @@ function Dashboard() {
 		setStep(1);
 		setStoreName('');
 		setBillAmount('');
+		setTips('');
+		setTax('');
 		setDescription('');
 		setDishes([]);
 		setInvitees([]);
 		setAddBillError(false);
 	}
-
 
 	const handleAddInvitees = e => {
 		e.preventDefault();
@@ -246,6 +251,10 @@ function Dashboard() {
 								setStoreName={setStoreName}
 								billAmount={billAmount}
 								setBillAmount={setBillAmount}
+								tips={tips} 
+								setTips={setTips}
+								tax={tax}
+								setTax={setTax}
 								description={description}
 								setDescription={setDescription}
 								splitBy={splitBy}
@@ -321,20 +330,23 @@ function Dashboard() {
 						<>
 							<DialogContent>
 								<DialogContentText>
-
 									{addBillError ? 
 										'Something went wrong adding this bill.' 
 										: 
-										'Please confirm the details of the dishes in this bill.'
+										'Please confirm the details.'
 									}
-
 								</DialogContentText>
-								<Step2_Dishes
-									dishes={dishes}
-									changeDishInfo={changeDishInfo}
-									removeDish={removeDish}
+
+								<Step4_Confirm 
+									storeName={storeName}								
+									billAmount={billAmount}
+									tips={tips} 
+									tax={tax}
 									splitBy={splitBy}
+									dishes={dishes}
+									invitees={invitees}
 								/>
+
 							</DialogContent>
 
 							<DialogActions>
@@ -351,19 +363,23 @@ function Dashboard() {
 					<>
 						<DialogContent>
 							<DialogContentText>
-
 								{addBillError ? 
 									'Something went wrong adding this bill.' 
 									: 
-									'Please confirm the details of the dishes in this bill.'
+									'Please confirm the details.'
 								}
-
 							</DialogContentText>
-							<Step3_Invitees
+
+							<Step4_Confirm 
+								storeName={storeName}								
+								billAmount={billAmount}
+								tips={tips} 
+								tax={tax}
+								splitBy={splitBy}
+								dishes={dishes}
 								invitees={invitees}
-								changeInviteeInfo={changeInviteeInfo}
-								removeInvitee={removeInvitee}
 							/>
+							
 						</DialogContent>
 
 						<DialogActions>
