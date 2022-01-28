@@ -27,7 +27,13 @@ function Nav({ auth: { isAuthenticated, loading }, logout }) {
 				aria-label='menu'
 				sx={{ mr: 2 }}
 			></IconButton>
-			<Button href='/' onClick={logout} color='inherit' variant='text' startIcon={<LogoutOutlinedIcon />}>
+			<Button
+				href='/'
+				onClick={logout}
+				color='inherit'
+				variant='text'
+				startIcon={<LogoutOutlinedIcon />}
+			>
 				Logout
 			</Button>
 		</Toolbar>
@@ -42,36 +48,43 @@ function Nav({ auth: { isAuthenticated, loading }, logout }) {
 				sx={{ mr: 2 }}
 			></IconButton>
 			<Stack direction='row' spacing={1}>
-				<Button href='/login' Button color='inherit' variant='text' startIcon={<LoginOutlinedIcon />}>
+				<Button
+					href='/login'
+					color='inherit'
+					variant='text'
+					startIcon={<LoginOutlinedIcon />}
+				>
 					Sign In
 				</Button>
-				<Button href='/signup' Button color='inherit' variant='text' startIcon={<HowToRegOutlinedIcon />}>
+				<Button
+					href='/signup'
+					color='inherit'
+					variant='text'
+					startIcon={<HowToRegOutlinedIcon />}
+				>
 					Sign Up
 				</Button>
 			</Stack>
 		</Toolbar>
 	);
-	
+
 	return (
 		<Box sx={{ flexGrow: 1 }}>
-			<AppBar position='fixed' >
+			<AppBar position='fixed'>
 				<Toolbar sx={{ justifyContent: 'space-between' }}>
+					<Link
+						variant='h6'
+						underline='none'
+						color='inherit'
+						href='/'
+						sx={{ fontSize: 24, textAlign: 'center' }}
+					>
+						{'SmartBills'}
+					</Link>
 
-				<Link
-					variant="h6"
-					underline="none"
-					color="inherit"
-					href="/"
-					sx={{ fontSize: 24,  textAlign: 'center'}}
-				>
-            			{'SmartBills'}
-          		</Link>
+					<Box sx={{ flex: 1 }} />
 
-				<Box sx={{ flex: 1 }} />
-
-
-				{token ? loggedIn : guest}
-
+					{token ? loggedIn : guest}
 				</Toolbar>
 			</AppBar>
 		</Box>
