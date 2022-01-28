@@ -25,7 +25,7 @@ import Bill from './Bill';
 import Step1_Bill from './FormSteps/Step1_Bill';
 import Step2_Dishes from './FormSteps/Step2_Dishes';
 import Step3_Invitees from './FormSteps/Step3_Invitees';
-// import Step4_Success from './FormSteps/Step4_Success';
+import Step4_Confirm from './FormSteps/Step4_Confirm';
 
 function Dashboard() {
 	const navigate = useNavigate();
@@ -330,20 +330,23 @@ function Dashboard() {
 						<>
 							<DialogContent>
 								<DialogContentText>
-
 									{addBillError ? 
 										'Something went wrong adding this bill.' 
 										: 
-										'Please confirm the details of the dishes in this bill.'
+										'Please confirm the details.'
 									}
-
 								</DialogContentText>
-								<Step2_Dishes
-									dishes={dishes}
-									changeDishInfo={changeDishInfo}
-									removeDish={removeDish}
+
+								<Step4_Confirm 
+									storeName={storeName}								
+									billAmount={billAmount}
+									tips={tips} 
+									tax={tax}
 									splitBy={splitBy}
+									dishes={dishes}
+									invitees={invitees}
 								/>
+
 							</DialogContent>
 
 							<DialogActions>
@@ -360,19 +363,23 @@ function Dashboard() {
 					<>
 						<DialogContent>
 							<DialogContentText>
-
 								{addBillError ? 
 									'Something went wrong adding this bill.' 
 									: 
-									'Please confirm the details of the dishes in this bill.'
+									'Please confirm the details.'
 								}
-
 							</DialogContentText>
-							<Step3_Invitees
+
+							<Step4_Confirm 
+								storeName={storeName}								
+								billAmount={billAmount}
+								tips={tips} 
+								tax={tax}
+								splitBy={splitBy}
+								dishes={dishes}
 								invitees={invitees}
-								changeInviteeInfo={changeInviteeInfo}
-								removeInvitee={removeInvitee}
 							/>
+							
 						</DialogContent>
 
 						<DialogActions>
