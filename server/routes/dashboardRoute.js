@@ -6,6 +6,7 @@ const sender = process.env.email;
 const pw = process.env.password;
 const nodemailer = require('nodemailer');
 const mail = require('../mail/template');
+const { calc_bill, calc_dish } = require('../calculator');
 require('dotenv').config({ path: '../../../.env' });
 
 // @route   GET app/dashboard/user
@@ -70,7 +71,9 @@ router.post('/email', auth, async (req, res) => {
 	const Emails = req.body.email;
 	const Store = req.body.storeName;
 	const Dishes = req.body.dishes;
-	const Amount = req.body.amount;
+	const Tax = parseFloat(req.body.tax);
+	const Tips = parseFloat(req.body.tips);
+	const Amount = parseFloat(req.body.amount);
 	const Split = req.body.split;
 
 	try {
@@ -86,38 +89,37 @@ router.post('/email', auth, async (req, res) => {
 		});
 
 		if (Split == 'Split by People') {
+			let headcount = Emails.length + 1;
+			const Bill = calc_bill(Amount, Tax, Tips, headcount);
 			Emails.forEach(toEmail => {
 				const options = {
 					from: sender,
 					to: toEmail,
 					subject: 'Smart-Bills',
-					html: mail.bill_message(Store, Amount),
-					// html: `Split bill at ${Store} for ${Amount}`,
+					html: mail.bill_message(Store, Bill),
 				};
 
 				transporter.sendMail(options, function (err, info) {
 					if (err) {
 						return console.log(err);
-					} else {
-						console.log('Sent:' + info.response);
 					}
 				});
 			});
 		} else {
+			const headcount = Dishes.length + 1;
 			Dishes.forEach(dish => {
+				let price = parseFloat(dish.amount);
+				let bill = calc_dish(Amount, price, Tips, Tax, headcount);
 				const options = {
 					from: sender,
 					to: dish.userEmail,
 					subject: 'Smart-Bills',
-					html: mail.dish_message(Store, dish.dishName, dish.amount),
-					// html: `Split dish for ${dish.dishName} at ${Store} for ${dish.amount}`,
+					html: mail.dish_message(Store, dish.dishName, bill),
 				};
 
 				transporter.sendMail(options, function (err, info) {
 					if (err) {
 						return console.log(err);
-					} else {
-						console.log('Sent:' + info.response);
 					}
 				});
 			});
