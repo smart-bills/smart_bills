@@ -93,13 +93,21 @@ function Bill({ billInfo: bill, setRefresh }) {
 								</Container>
 							);
 						})}
+						
+						<Grid container column={12} spacing={1}>
+							<Grid item xs={5}>
+								<Button onClick={deleteBill} startIcon={<DeleteIcon />}>Delete this bill</Button>	
+							</Grid>
 
-						<Button onClick={deleteBill} startIcon={<DeleteIcon />}>Delete this bill</Button>
-						{bill.paid ? (
-							<Button onClick={markUnpaid}>Unpay</Button>
-						) : (
-							<Button onClick={markPaid}>Paid</Button>
-						)}
+							<Grid item xs={3}>
+								{bill.paid ? (
+									<Button onClick={markUnpaid}>Unpay</Button>
+								) : (
+									<Button onClick={markPaid}>Paid</Button>
+								)}
+							</Grid>
+							<Grid item xs={4} />
+						</Grid>
 					</Collapse>
 				</Paper>
 			</Grid>
