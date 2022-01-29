@@ -33,9 +33,7 @@ router.post(
 			// See if user exists
 			let user = await User.findOne({ email });
 			if (user) {
-				return res
-					.status(400)
-					.json({ errors: [{ msg: 'User already exists' }] });
+				return res.json({ existed: true });
 			}
 			user = new User({
 				userName,
@@ -52,12 +50,12 @@ router.post(
 			const payload = {
 				user: {
 					id: user.id,
-				},
+				}
 			};
 
 			jwt.sign(payload, `${jwtSecret}`, { expiresIn: 360000 }, (err, token) => {
 				if (err) throw err;
-				res.json({ token });
+				res.json({ token, successful: true });
 			});
 		} catch (err) {
 			console.error(err.message);

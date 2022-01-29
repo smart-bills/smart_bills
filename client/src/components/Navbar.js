@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { logout } from '../actions/auth';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 // MUI
 import AppBar from '@mui/material/AppBar';
@@ -15,7 +14,7 @@ import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { Typography } from '@mui/material';
 
-function Nav({ auth: { isAuthenticated, loading }, logout }) {
+function Nav({ logout }) {
 	const token = localStorage.getItem('token');
 
 	const loggedIn = (
@@ -82,7 +81,17 @@ function Nav({ auth: { isAuthenticated, loading }, logout }) {
 						{'SmartBills'}
 					</Typography>
 
-					<Box sx={{ flex: 1 }} />
+				<Link
+					variant="h6"
+					underline="none"
+					color="inherit"
+					href="/"
+					sx={{ fontSize: 24,  textAlign: 'center'}}
+				>
+            			{'SmartBills'}
+          		</Link>
+
+				<Box sx={{ flex: 1 }} />
 
 					{token ? loggedIn : guest}
 				</Toolbar>
@@ -91,10 +100,6 @@ function Nav({ auth: { isAuthenticated, loading }, logout }) {
 	);
 }
 
-Nav.prototype = {
-	logout: PropTypes.func.isRequired,
-	auth: PropTypes.object.isRequired,
-};
 const mapStateToProps = state => ({
 	auth: state.auth,
 });
