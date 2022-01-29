@@ -81,16 +81,6 @@ function Nav({ logout }) {
 						{'SmartBills'}
 					</Typography>
 
-				<Link
-					variant="h6"
-					underline="none"
-					color="inherit"
-					href="/"
-					sx={{ fontSize: 24,  textAlign: 'center'}}
-				>
-            			{'SmartBills'}
-          		</Link>
-
 				<Box sx={{ flex: 1 }} />
 
 					{token ? loggedIn : guest}
