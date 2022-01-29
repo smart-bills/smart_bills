@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Container, Button, Typography, Paper, Collapse, Grid } from '@mui/material';
+import { Container, Button, Typography, Paper, Collapse, Grid, Box } from '@mui/material';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
-function Bill({ billInfo: bill, setRefresh }) {
+function Bill({ billInfo: bill, setRefresh, createAt }) {
 	const [expanded, setIsExpanded] = useState(false);
 	const [viewOrCollapse, setViewOrCollapse] = useState('View More...');
+
+	const date = new Date(createAt);
 
 	function showMoreDetails() {
 		setIsExpanded(!expanded);
@@ -52,9 +54,16 @@ function Bill({ billInfo: bill, setRefresh }) {
 
 			<Grid item xs={6}>
 				<Paper elevation={5} sx={{maxWidth: 450}}>
-					<Typography variant='h5' component='h3' sx={{pl: 2, pt: 2, textDecoration: 'underline'}}>
-						{bill.storeName.toUpperCase()}
-					</Typography>
+					
+					<Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end'}}>
+						<Typography variant='h5' component='h3' sx={{pl: 2, pt: 2, textDecoration: 'underline'}}>
+							{bill.storeName.toUpperCase()}
+						</Typography>
+
+						<Typography variant='subtitle1' sx={{pr: 3}}>
+							{date.toLocaleDateString()}
+						</Typography>
+					</Box>
 
 					<Grid container sx={{pb: 1}}>
 						<Grid item xs={4}>

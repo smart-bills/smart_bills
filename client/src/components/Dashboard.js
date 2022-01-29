@@ -451,9 +451,10 @@ function Dashboard() {
 									if (!bill.paid)
 										return (
 											<Bill
-												billInfo={bill}
 												key={bill._id}
+												billInfo={bill}
 												setRefresh={setRefresh}
+												createAt={bill.createdAt}
 											/>
 										);
 									return null;
@@ -465,9 +466,10 @@ function Dashboard() {
 									if (bill.paid)
 										return (
 											<Bill
-												billInfo={bill}
 												key={bill._id}
+												billInfo={bill}
 												setRefresh={setRefresh}
+												createAt={bill.createdAt}
 											/>
 										);
 									return null;
