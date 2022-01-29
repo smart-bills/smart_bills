@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { logout } from '../actions/auth';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 // MUI
 import AppBar from '@mui/material/AppBar';
@@ -15,7 +14,7 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
-function Nav({ auth: { isAuthenticated, loading }, logout }) {
+function Nav({ logout }) {
 	const token = localStorage.getItem('token');
 
 	const loggedIn = (
@@ -42,10 +41,10 @@ function Nav({ auth: { isAuthenticated, loading }, logout }) {
 				sx={{ mr: 2 }}
 			></IconButton>
 			<Stack direction='row' spacing={1}>
-				<Button href='/login' Button color='inherit' variant='text' startIcon={<LoginOutlinedIcon />}>
+				<Button href='/login' color='inherit' variant='text' startIcon={<LoginOutlinedIcon />}>
 					Sign In
 				</Button>
-				<Button href='/signup' Button color='inherit' variant='text' startIcon={<HowToRegOutlinedIcon />}>
+				<Button href='/signup' color='inherit' variant='text' startIcon={<HowToRegOutlinedIcon />}>
 					Sign Up
 				</Button>
 			</Stack>
@@ -68,20 +67,13 @@ function Nav({ auth: { isAuthenticated, loading }, logout }) {
           		</Link>
 
 				<Box sx={{ flex: 1 }} />
-
-
-				{token ? loggedIn : guest}
-
+					{token ? loggedIn : guest}
 				</Toolbar>
 			</AppBar>
 		</Box>
 	);
 }
 
-Nav.prototype = {
-	logout: PropTypes.func.isRequired,
-	auth: PropTypes.object.isRequired,
-};
 const mapStateToProps = state => ({
 	auth: state.auth,
 });
