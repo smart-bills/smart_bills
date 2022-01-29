@@ -10,10 +10,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import Link from '@mui/material/Link';
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import { Typography } from '@mui/material';
 
 function Nav({ auth: { isAuthenticated, loading }, logout }) {
 	const token = localStorage.getItem('token');
@@ -72,7 +72,7 @@ function Nav({ auth: { isAuthenticated, loading }, logout }) {
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position='fixed'>
 				<Toolbar sx={{ justifyContent: 'space-between' }}>
-					<Link
+					<Typography
 						variant='h6'
 						underline='none'
 						color='inherit'
@@ -80,7 +80,7 @@ function Nav({ auth: { isAuthenticated, loading }, logout }) {
 						sx={{ fontSize: 24, textAlign: 'center' }}
 					>
 						{'SmartBills'}
-					</Link>
+					</Typography>
 
 					<Box sx={{ flex: 1 }} />
 
