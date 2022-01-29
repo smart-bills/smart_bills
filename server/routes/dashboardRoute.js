@@ -102,6 +102,8 @@ router.post('/email', auth, async (req, res) => {
 				transporter.sendMail(options, function (err, info) {
 					if (err) {
 						return console.log(err);
+					} else {
+						console.log('Email sent:' + info.response);
 					}
 				});
 			});
@@ -120,6 +122,8 @@ router.post('/email', auth, async (req, res) => {
 				transporter.sendMail(options, function (err, info) {
 					if (err) {
 						return console.log(err);
+					} else {
+						console.log('Email sent:' + info.response);
 					}
 				});
 			});
