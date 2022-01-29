@@ -29,7 +29,7 @@ import Step4_Confirm from './FormSteps/Step4_Confirm';
 
 function Dashboard() {
 	const navigate = useNavigate();
-
+	const [userName, setUserName] = useState('');
 	/* 
        Very important!!! 
        refresh state will keep track of
@@ -71,15 +71,16 @@ function Dashboard() {
 
 		if (token) {
 			const { user } = jwt_decode(token);
-
+			
 			if (!user) {
 				localStorage.removeItem('token');
 				navigate('/login');
 			}
 
+			setUserName(user.userName);
 			if (refresh) getBills(token, user.id);
 		} else navigate('/login');
-	});
+	}, [refresh, navigate]);
 
 	// Query the backend and database to get all the bills.
 	async function getBills(token, userid) {
@@ -392,11 +393,9 @@ function Dashboard() {
 
 	return (
 		<Container component='div' sx={{ mt: 15 }}>
-			<Container
-				component='div'
-				sx={{ display: 'flex', justifyContent: 'space-between' }}
-			>
-				<Typography variant='h4'>Welcome back!</Typography>
+
+			<Container component='div' sx={{ display: 'flex' ,justifyContent: "space-between"}}>
+				<Typography variant='h4'>Welcome back, {userName}!</Typography>
 
 				<Button
 					variant='contained'
