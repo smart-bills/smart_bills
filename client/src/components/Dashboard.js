@@ -61,7 +61,6 @@ function Dashboard() {
 		resetForm();
 		setSplitBy(newValue);
 	};
-
 	/* State variable for tabs */
 	const [tabValue, setTabValue] = useState('1');
 	const handleTabChange = (e, newValue) => setTabValue(newValue);
@@ -110,10 +109,9 @@ function Dashboard() {
 			tax: tax,
 			tips: tips,
 			dishes: dishes,
-			description: description
+			description: description,
 		};
-
-		if(splitBy === 'Split by People') {
+		if (splitBy === 'Split by People') {
 			body.invitees = invitees;
 		}
 
@@ -129,8 +127,8 @@ function Dashboard() {
 			Otherwise, some error will be returned instead.
 				Display the error in the popped up window.
 		*/
-		const {data} = await axios.post(url, body, { headers });
-		if(data.databaseRes) {
+		const { data } = await axios.post(url, body, { headers });
+		if (data.databaseRes) {
 			setOpen(false);
 			setRefresh(true);
 			sendBill(e);
@@ -147,9 +145,12 @@ function Dashboard() {
 			storeName: storeName,
 			amount: billAmount,
 			dishes: dishes,
+			tax: tax,
+			tips: tips,
 			email: invitees,
 			split: splitBy,
 		};
+
 		const token = localStorage.getItem('token');
 		const headers = { 'x-auth-token': token };
 
@@ -166,7 +167,7 @@ function Dashboard() {
 		setDishes([]);
 		setInvitees([]);
 		setAddBillError(false);
-	}
+	};
 
 	const handleAddInvitees = e => {
 		e.preventDefault();
@@ -252,7 +253,7 @@ function Dashboard() {
 								setStoreName={setStoreName}
 								billAmount={billAmount}
 								setBillAmount={setBillAmount}
-								tips={tips} 
+								tips={tips}
 								setTips={setTips}
 								tax={tax}
 								setTax={setTax}
@@ -285,7 +286,7 @@ function Dashboard() {
 								splitBy={splitBy}
 							/>
 
-							<Container sx={{pt: 1}}>
+							<Container sx={{ pt: 1 }}>
 								<Button onClick={handleAddDish}>Add a dish</Button>
 							</Container>
 						</DialogContent>
@@ -313,10 +314,9 @@ function Dashboard() {
 									removeInvitee={removeInvitee}
 								/>
 
-							<Container sx={{pt: 1}}>
-								<Button onClick={handleAddInvitees}>Add an invitee</Button>
-							</Container>
-
+								<Container sx={{ pt: 1 }}>
+									<Button onClick={handleAddInvitees}>Add an invitee</Button>
+								</Container>
 							</DialogContent>
 
 							<DialogActions>
@@ -331,29 +331,28 @@ function Dashboard() {
 						<>
 							<DialogContent>
 								<DialogContentText>
-									{addBillError ? 
-										'Something went wrong adding this bill.' 
-										: 
-										'Please confirm the details.'
-									}
+									{addBillError
+										? 'Something went wrong adding this bill.'
+										: 'Please confirm the details.'}
 								</DialogContentText>
 
-								<Step4_Confirm 
-									storeName={storeName}								
+								<Step4_Confirm
+									storeName={storeName}
 									billAmount={billAmount}
-									tips={tips} 
+									tips={tips}
 									tax={tax}
 									splitBy={splitBy}
 									dishes={dishes}
 									invitees={invitees}
 								/>
-
 							</DialogContent>
 
 							<DialogActions>
 								<Button onClick={() => setOpen(false)}> Cancel </Button>
 								<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-								<Button type='submit' form='newBillForm' variant="contained">Send and Add Bill</Button>
+								<Button type='submit' form='newBillForm' variant='contained'>
+									Send and Add Bill
+								</Button>
 							</DialogActions>
 						</>
 					);
@@ -364,29 +363,28 @@ function Dashboard() {
 					<>
 						<DialogContent>
 							<DialogContentText>
-								{addBillError ? 
-									'Something went wrong adding this bill.' 
-									: 
-									'Please confirm the details.'
-								}
+								{addBillError
+									? 'Something went wrong adding this bill.'
+									: 'Please confirm the details.'}
 							</DialogContentText>
 
-							<Step4_Confirm 
-								storeName={storeName}								
+							<Step4_Confirm
+								storeName={storeName}
 								billAmount={billAmount}
-								tips={tips} 
+								tips={tips}
 								tax={tax}
 								splitBy={splitBy}
 								dishes={dishes}
 								invitees={invitees}
 							/>
-							
 						</DialogContent>
 
 						<DialogActions>
 							<Button onClick={() => setOpen(false)}>Cancel</Button>
 							<Button onClick={e => gotoPrevious(e)}>Previous</Button>
-							<Button type='submit' form='newBillForm' variant="contained">Send and Add Bill</Button>
+							<Button type='submit' form='newBillForm' variant='contained'>
+								Send and Add Bill
+							</Button>
 						</DialogActions>
 					</>
 				);
@@ -399,10 +397,14 @@ function Dashboard() {
 			<Container component='div' sx={{ display: 'flex' ,justifyContent: "space-between"}}>
 				<Typography variant='h4'>Welcome back, {userName}!</Typography>
 
-				<Button variant='contained' startIcon={<AddCircleOutlineOutlinedIcon />} onClick={() => {
-					resetForm();
-					setOpen(true)
-				}}>
+				<Button
+					variant='contained'
+					startIcon={<AddCircleOutlineOutlinedIcon />}
+					onClick={() => {
+						resetForm();
+						setOpen(true);
+					}}
+				>
 					Add a new bill
 				</Button>
 			</Container>
@@ -427,7 +429,7 @@ function Dashboard() {
 			)}
 
 			{hasBills ? (
-				<Container sx={{ mt: 3}}>
+				<Container sx={{ mt: 3 }}>
 					<Box sx={{ width: '100%', typography: 'body1' }}>
 						<TabContext value={tabValue}>
 							<Box
