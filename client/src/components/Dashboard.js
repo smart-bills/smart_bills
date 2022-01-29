@@ -46,6 +46,8 @@ function Dashboard() {
 	/* State variables for form */
 	const [open, setOpen] = useState(false);
 	const [step, setStep] = useState(1);
+	const [hasEmptyFields, setHasEmptyFields] = useState(false);
+	const [showErrorMessage, setShowErrorMessage] = useState(false);
 	const [storeName, setStoreName] = useState('');
 	const [billAmount, setBillAmount] = useState('');
 	const [tips, setTips] = useState('');
@@ -159,6 +161,8 @@ function Dashboard() {
 
 	const resetForm = () => {
 		setStep(1);
+		setHasEmptyFields(false);
+		setShowErrorMessage(false);
 		setStoreName('');
 		setBillAmount('');
 		setTips('');
@@ -230,6 +234,12 @@ function Dashboard() {
 
 	const gotoNext = e => {
 		e.preventDefault();
+
+		if(step === 1 && hasEmptyFields) {
+			setShowErrorMessage(true);
+			return;
+		} else setShowErrorMessage(false);
+		
 		setStep(step + 1);
 	};
 
@@ -261,6 +271,8 @@ function Dashboard() {
 								setDescription={setDescription}
 								splitBy={splitBy}
 								handleSplitChange={handleSplitChange}
+								setHasEmptyFields={setHasEmptyFields}
+								showErrorMessage={showErrorMessage}
 							/>
 						</DialogContent>
 

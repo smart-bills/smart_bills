@@ -1,5 +1,5 @@
-import React from 'react';
-import { TextField, ToggleButtonGroup, ToggleButton, InputAdornment, Container} from '@mui/material';
+import React, {useEffect} from 'react';
+import { TextField, ToggleButtonGroup, ToggleButton, InputAdornment, Container, Typography} from '@mui/material';
 
 function Step1_Bill(props) {
 
@@ -8,8 +8,17 @@ function Step1_Bill(props) {
           tips, setTips,
           tax, setTax, 
           description, setDescription, 
-          splitBy, handleSplitChange } = props;
-
+          splitBy, handleSplitChange,
+          setHasEmptyFields, showErrorMessage } = props;
+  
+  useEffect(() => {
+    if(!storeName || !billAmount || !tips || !tax) {
+      setHasEmptyFields(true);
+    } else {
+      setHasEmptyFields(false);
+    }
+  }, [storeName, billAmount, tips, tax])
+  
   return (
     <React.Fragment>
       <ToggleButtonGroup
@@ -23,6 +32,12 @@ function Step1_Bill(props) {
         <ToggleButton value="Split by People">Split by People</ToggleButton>
         <ToggleButton value="Split by Dishes">Split by Dishes</ToggleButton>
       </ToggleButtonGroup>
+
+      {showErrorMessage && 
+        <Typography sx={{textAlign: 'center', color: 'red', pt: 1}}>
+          Please enter all the required fields before going next.
+        </Typography>
+      }
 
       <Container component='div' sx={{display: 'flex', justifyContent: 'space-evenly', pt: 1, pb: 1}}>
         <TextField
