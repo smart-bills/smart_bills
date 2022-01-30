@@ -77,6 +77,7 @@ router.post('/email', auth, async (req, res) => {
 	const Tips = parseFloat(req.body.tips);
 	const Amount = parseFloat(req.body.amount);
 	const Split = req.body.split;
+	const User = req.body.user;
 
 	try {
 		if (Split == 'Split by People') {
@@ -86,7 +87,7 @@ router.post('/email', auth, async (req, res) => {
 				const message = {
 					from: 'smart-bills@outlook.com',
 					to: toEmail,
-					subject: 'Smart-Bills',
+					subject: `Your friend ${User} has sent you a Smart-Bill`,
 					html: mail.bill_message(Store, Bill),
 				};
 				sgMail
@@ -102,7 +103,7 @@ router.post('/email', auth, async (req, res) => {
 				const message = {
 					to: dish.userEmail,
 					from: 'smart-bills@outlook.com',
-					subject: 'Smart-Bills',
+					subject: `Your friend ${User} has sent you a Smart-Bill`,
 					html: mail.dish_message(Store, dish.dishName, bill),
 				};
 
