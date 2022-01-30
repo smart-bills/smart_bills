@@ -73,7 +73,7 @@ function Dashboard() {
 
 		if (token) {
 			const { user } = jwt_decode(token);
-			
+
 			if (!user) {
 				localStorage.removeItem('token');
 				navigate('/login');
@@ -151,6 +151,7 @@ function Dashboard() {
 			tips: tips,
 			email: invitees,
 			split: splitBy,
+			user: userName,
 		};
 
 		const token = localStorage.getItem('token');
@@ -235,11 +236,11 @@ function Dashboard() {
 	const gotoNext = e => {
 		e.preventDefault();
 
-		if(step === 1 && hasEmptyFields) {
+		if (step === 1 && hasEmptyFields) {
 			setShowErrorMessage(true);
 			return;
 		} else setShowErrorMessage(false);
-		
+
 		setStep(step + 1);
 	};
 
@@ -405,8 +406,10 @@ function Dashboard() {
 
 	return (
 		<Container component='div' sx={{ mt: 15 }}>
-
-			<Container component='div' sx={{ display: 'flex' ,justifyContent: "space-between"}}>
+			<Container
+				component='div'
+				sx={{ display: 'flex', justifyContent: 'space-between' }}
+			>
 				<Typography variant='h4'>Welcome back, {userName}!</Typography>
 
 				<Button
