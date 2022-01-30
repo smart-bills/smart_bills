@@ -16,6 +16,14 @@ app.use('/app/register', require('./routes/registerRoute'));
 app.use('/app/auth', require('./routes/authRoute'));
 app.use('/app/bill', require('./routes/billRoute'));
 
+// Connecting Database
+const dbKey = process.env.dbKey;
+mongoose.connect(dbKey, { useNewUrlParser: true });
+const connection = mongoose.connection;
+connection.once('open', () => {
+	console.log('Connected Database Successfully');
+});
+
 // Server static assests in production
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'));
@@ -24,13 +32,5 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 	});
 }
-
-// Connecting Database
-const dbKey = process.env.dbKey;
-mongoose.connect(dbKey, { useNewUrlParser: true });
-const connection = mongoose.connection;
-connection.once('open', () => {
-	console.log('Connected Database Successfully');
-});
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
