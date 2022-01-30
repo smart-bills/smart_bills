@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const Bill = require('../models/bill');
-const sender = process.env.email;
-const pw = process.env.password;
-const nodemailer = require('nodemailer');
+
+const sgMail = require('@sendgrid/mail');
 const mail = require('../mail/template');
 const { calc_bill, calc_dish } = require('../calculator');
 require('dotenv').config({ path: '../../../.env' });
+const API_KEY = process.env.SG_API_KEY;
 
 // @route   GET app/dashboard/user
 // @desc    Get all of the user's bill
@@ -68,6 +68,8 @@ router.put('/unpaid/', auth, async (req, res) => {
 // @desc    Send email to the invitees
 // @access  Private
 router.post('/email', auth, async (req, res) => {
+	sgMail.setApiKey(API_KEY);
+
 	const Emails = req.body.email;
 	const Store = req.body.storeName;
 	const Dishes = req.body.dishes;
@@ -77,51 +79,37 @@ router.post('/email', auth, async (req, res) => {
 	const Split = req.body.split;
 
 	try {
-		const transporter = nodemailer.createTransport({
-			pool: true,
-			maxConnections: 1,
-			maxMessage: 1,
-			service: 'hotmail',
-			auth: {
-				user: sender,
-				pass: pw,
-			},
-		});
-
 		if (Split == 'Split by People') {
 			let headcount = Emails.length + 1;
 			const Bill = calc_bill(Amount, Tax, Tips, headcount);
 			Emails.forEach(toEmail => {
-				const options = {
-					from: sender,
+				const message = {
+					from: 'smart-bills@outlook.com',
 					to: toEmail,
 					subject: 'Smart-Bills',
 					html: mail.bill_message(Store, Bill),
 				};
-
-				transporter.sendMail(options, function (err, info) {
-					if (err) {
-						return console.log(err);
-					}
-				});
+				sgMail
+					.send(message)
+					.then(response => console.log('Email is sent'))
+					.catch(error => console.log(error.message));
 			});
 		} else {
 			const headcount = Dishes.length + 1;
 			Dishes.forEach(dish => {
 				let price = parseFloat(dish.amount);
 				let bill = calc_dish(Amount, price, Tips, Tax, headcount);
-				const options = {
-					from: sender,
+				const message = {
 					to: dish.userEmail,
+					from: 'smart-bills@outlook.com',
 					subject: 'Smart-Bills',
 					html: mail.dish_message(Store, dish.dishName, bill),
 				};
 
-				transporter.sendMail(options, function (err, info) {
-					if (err) {
-						return console.log(err);
-					}
-				});
+				sgMail
+					.send(message)
+					.then(response => console.log('Email is sent'))
+					.catch(error => console.log(error.message));
 			});
 		}
 
