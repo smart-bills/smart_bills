@@ -104,26 +104,27 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 							Description: {bill.description}
 						</Typography>
 					)}
-
-					{viewOrCollapse === 'View More...' ? (
-						<Button
-							onClick={showMoreDetails}
-							sx={{ pl: 3 }}
-							startIcon={<ExpandMoreIcon />}
-						>
-							{' '}
-							{viewOrCollapse}{' '}
-						</Button>
-					) : (
-						<Button
-							onClick={showMoreDetails}
-							sx={{ pl: 3 }}
-							startIcon={<ExpandLessIcon />}
-						>
-							{' '}
-							{viewOrCollapse}{' '}
-						</Button>
-					)}
+					<Box sx={{ marginLeft: 36 }}>
+						{viewOrCollapse === 'View More...' ? (
+							<Button
+								onClick={showMoreDetails}
+								sx={{ pl: 3 }}
+								startIcon={<ExpandMoreIcon />}
+							>
+								{' '}
+								{viewOrCollapse}{' '}
+							</Button>
+						) : (
+							<Button
+								onClick={showMoreDetails}
+								sx={{ pl: 3 }}
+								startIcon={<ExpandLessIcon />}
+							>
+								{' '}
+								{viewOrCollapse}{' '}
+							</Button>
+						)}
+					</Box>
 
 					<Collapse component='div' in={expanded}>
 						{bill.dishes.map((dish, index) => {
