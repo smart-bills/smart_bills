@@ -90,7 +90,7 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 								component='h4'
 								sx={{ pl: 3, pt: 1 }}
 							>
-								Total: {`$${bill.tax + bill.tips + bill.amount}`}
+								Total: {`$${(bill.tax + bill.tips + bill.amount).toFixed(2)}`}
 							</Typography>
 						</Grid>
 					</Grid>
@@ -148,7 +148,7 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 													))}
 													{[0].map(elevation => (
 														<Item key={elevation} elevation={elevation}>
-															${dish.amount}
+															${dish.amount.toFixed(2)}
 														</Item>
 													))}
 												</Box>
@@ -164,7 +164,7 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 							component='h4'
 							sx={{ pr: 2, pt: 1 }}
 						>
-							Subtotal: {`$${bill.amount}`}
+							Subtotal: {`$${bill.amount.toFixed(2)}`}
 						</Typography>
 						<Typography
 							textAlign='right'
@@ -172,7 +172,7 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 							component='h4'
 							sx={{ pr: 2, pt: 1 }}
 						>
-							Tip: {`$${bill.tips}`}
+							Tip: {`$${bill.tips.toFixed(2)}`}
 						</Typography>
 						<Typography
 							textAlign='right'
@@ -180,19 +180,25 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 							component='h4'
 							sx={{ pr: 2, pt: 1 }}
 						>
-							Tax: {`$${bill.tax}`}
+							Tax: {`$${bill.tax.toFixed(2)}`}
 						</Typography>
 
 						<Grid container column={12} spacing={1} marginTop={2}>
 							<Grid marginLeft={2} item xs={8.5}>
 								{bill.paid ? (
-									<Button onClick={markUnpaid}>Unpay</Button>
+									<Button onClick={markUnpaid}>Mark as unpaid</Button>
 								) : (
-									<Button onClick={markPaid}>Paid</Button>
+									<Button color='success' onClick={markPaid}>
+										Mark as paid
+									</Button>
 								)}
 							</Grid>
 							<Grid item xs={2}>
-								<Button onClick={deleteBill} startIcon={<DeleteIcon />}>
+								<Button
+									color='error'
+									onClick={deleteBill}
+									startIcon={<DeleteIcon />}
+								>
 									delete
 								</Button>
 							</Grid>
