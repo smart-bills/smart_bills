@@ -1,4 +1,8 @@
 {
+	"name": "smart-bills",
+	"version": "1.0.0",
+	"description": "calculate bills",
+	"main": "server.js",
 	"dependencies": {
 		"@emotion/react": "^11.5.0",
 		"@emotion/styled": "^11.3.0",
