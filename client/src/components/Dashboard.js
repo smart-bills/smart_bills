@@ -86,7 +86,7 @@ function Dashboard() {
 
 	// Query the backend and database to get all the bills.
 	async function getBills(token, userid) {
-		const url = `http://localhost:8000/app/bill/?userid=${userid}`;
+		const url = `/app/bill/?userid=${userid}`;
 		const headers = { 'x-auth-token': token };
 		const res = await axios.get(url, { headers });
 		const { bills, error } = res.data;
@@ -104,7 +104,7 @@ function Dashboard() {
 	async function addNewBill(e) {
 		e.preventDefault();
 
-		const url = 'http://localhost:8000/app/bill';
+		const url = '/app/bill';
 		const body = {
 			storeName: storeName,
 			amount: billAmount,
@@ -141,7 +141,7 @@ function Dashboard() {
 
 	async function sendBill(e) {
 		e.preventDefault();
-		const url = 'http://localhost:8000/app/dashboard/email';
+		const url = '/app/dashboard/email';
 
 		const body = {
 			storeName: storeName,

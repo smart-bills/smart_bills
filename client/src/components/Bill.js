@@ -27,7 +27,7 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 		const headers = { 'x-auth-token': token };
 
 		const billid = bill._id;
-		const url = `http://localhost:8000/app/bill/?billid=${billid}`;
+		const url = `/app/bill/?billid=${billid}`;
 
 		await axios.delete(url, { headers });
 		setIsExpanded(!expanded);
@@ -38,7 +38,7 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 		const token = localStorage.getItem('token');
 		const headers = { 'x-auth-token': token };
 		const body = { billid: bill._id };
-		const url = `http://localhost:8000/app/dashboard/paid/`;
+		const url = `/app/dashboard/paid/`;
 		await axios.put(url, body, { headers });
 		setRefresh(true);
 	}
@@ -47,7 +47,7 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 		const token = localStorage.getItem('token');
 		const headers = { 'x-auth-token': token };
 		const body = { billid: bill._id };
-		const url = `http://localhost:8000/app/dashboard/unpaid/`;
+		const url = `/app/dashboard/unpaid/`;
 		await axios.put(url, body, { headers });
 		setRefresh(true);
 	}
