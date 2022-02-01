@@ -9,7 +9,7 @@ This is a project utilizes Node.js, React.js, Axios, and Material-UI for the fro
 Add a .env in the root folder with the following
 ```
 {
-  dbKey = "<mongoDB_uri>",
+  dbKey = <mongoDB_uri>,
   jwtSecret = <any_secret>,
   SG_API_KEY = <api_key>
 }
