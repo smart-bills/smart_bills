@@ -15,16 +15,20 @@ Add a .env in the root folder with the following
 }
 ```
 
-Install server dependencies
-`npm i`
+Install server dependencies  
+```
+npm i
+```
 
 Install client dependencies
 ```
 cd client 
 npm install
 ```
-Run the Server and Client from root
-`npm run dev`
+Run the Server and Client from root  
+```
+npm run dev
+```
 
 ## Deployed Website
 [Website](http://54.157.175.231/)
