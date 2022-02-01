@@ -31,7 +31,7 @@ npm run dev
 ```
 
 ## Deployed Website
-[AWS Website](http://54.157.175.231/)
+[AWS Website](http://54.157.175.231/) 
 [Heroku Website](https://smart-billy.herokuapp.com/)
 
 # Owner
