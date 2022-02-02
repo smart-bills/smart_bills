@@ -1,7 +1,7 @@
 # Smart Bills
 > Split bills for your friends
 > 
-Smart Bills is an web application that calculates the hosts' bills based on split by bill or split by headcount, then sends email to the hosts' friends based on the calculation.
+Smart Bills is an web application that calculates the hosts' bills based on split by dishes or split by headcount, then sends email to the hosts' friends based on the calculation.
 
 This is a project utilizes Node.js, React.js, Axios, and Material-UI for the frontend and UI design. JavaScript, MongoDB, and Express for backend and database.
 
