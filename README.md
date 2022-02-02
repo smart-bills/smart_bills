@@ -5,6 +5,11 @@ Smart Bills is an web application that calculates the hosts' bills based on spli
 
 This is a project utilizes Node.js, React.js, Axios, and Material-UI for the frontend and UI design. JavaScript, MongoDB, and Express for backend and database.
 
+## Deployed Website
+[AWS Website](https://smartbills-aws.com/)  
+[Heroku Website](https://smart-billy.herokuapp.com/)
+
+
 ## How to install
 Add a .env in the root folder with the following
 ```
@@ -29,10 +34,6 @@ Run the Server and Client from root
 ```
 npm run dev
 ```
-
-## Deployed Website
-[AWS Website](https://smartbills-aws.com/)  
-[Heroku Website](https://smart-billy.herokuapp.com/)
 
 # Owner
 [Gabriel Zhen](https://github.com/gabzn)  
