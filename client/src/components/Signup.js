@@ -108,7 +108,7 @@ const Signup = () => {
 		try {
 			const body = {
 				userName: userName, 
-				email: email, 
+				email: email.toLowerCase(), 
 				password: password
 			}
 			const {data} = await axios.post('http://localhost:8000/app/register', body);
