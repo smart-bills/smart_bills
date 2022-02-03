@@ -1,37 +1,41 @@
-###
+# Smart Bills
+> Split bills for your friends
+> 
+Smart Bills is an web application that calculates the hosts' bills based on split by dishes or split by headcount, then sends email to the hosts' friends based on the calculation.
 
-## smart_bills
+This is a project utilizes Node.js, React.js, Axios, and Material-UI for the frontend and UI design. JavaScript, MongoDB, and Express for backend and database.
 
-###
+## Deployed Websites
+[Heroku Website](https://smart-billy.herokuapp.com/)
 
-## excalidraw link for draft
 
-    https://excalidraw.com/#room=adeb0ba335d66f97559a,ho36IK_Ko_HKeGB_A7EPJg
+## How to install
+Add a .env in the root folder with the following
+```
+{
+  dbKey = <mongoDB_uri>,
+  jwtSecret = <any_secret>,
+  SG_API_KEY = <api_key>
+}
+```
 
-## Run front-end and back-end
+Install server dependencies  
+```
+npm i
+```
 
-    npm run dev
+Install client dependencies
+```
+cd client 
+npm install
+```
+Run the Server and Client from root  
+```
+npm run dev
+```
 
-## create a new branch:
+# Owner
+[Gabriel Zhen](https://github.com/gabzn)  
+[Wenxu Chen](https://github.com/WenxuC)  
+[Shiyang Chen](https://github.com/channnx)
 
-    git branch <branch-name>
-
-## checkout a branch:
-
-    git checkout <branch-name>
-
-## edit files, add and commit. Then push with the -u (short for --set-upstream) option
-
-    git add .
-    git commit -m "comments"
-    git push origin <branch-name>
-
-## merge main into the current branch
-
-    git checkout <branch-name>  (stay in the branch or switch to the branch)
-    git fetch
-    git merge origin main       (merge everything in main into the current branch)
-
-## auto-generate react component
-    
-    rfce
