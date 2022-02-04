@@ -132,8 +132,8 @@ function Dashboard() {
 		const { data } = await axios.post(url, body, { headers });
 		if (data.databaseRes) {
 			setOpen(false);
-			setRefresh(true);
 			sendBill(e);
+			setRefresh(true);
 		} else {
 			addBillError(true);
 		}
