@@ -110,10 +110,7 @@ const Signup = () => {
 				email: email.toLowerCase(),
 				password: password,
 			};
-			const { data } = await axios.post(
-				'http://localhost:8000/app/register',
-				body
-			);
+			const { data } = await axios.post('/app/register', body);
 			if (data.existed) {
 				alert('This email address is already registred.');
 				return;
