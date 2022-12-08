@@ -148,7 +148,8 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 													sx={{
 														p: 2,
 														bgcolor: 'background.default',
-														display: 'grid',
+														display: 'flex',
+														justifyContent: 'flex-start',
 														gridTemplateColumns: { md: '1fr 1fr' },
 														gap: 2,
 													}}
