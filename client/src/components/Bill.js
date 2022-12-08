@@ -62,11 +62,17 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 
 	return (
 		// The default for column is 12, but it can be increased.
-		<Grid container sx={{ margin: '1.5em' }} spacing={2} column={12}>
-			<Grid item xs={3} />
 
-			<Grid item xs={6}>
-				<Paper elevation={5} sx={{ maxWidth: 450 }}>
+		<Grid
+			container
+			sx={{ margin: '1.5em' }}
+			spacing={2}
+			style={{ display: 'flex', justifyContent: 'center' }}
+		>
+			<Paper elevation={5} sx={{ maxWidth: 450 }} align='center'>
+				<Grid item xs={3} />
+
+				<Grid item xs={12}>
 					<Box
 						sx={{
 							display: 'flex',
@@ -94,7 +100,29 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 							</Typography>
 						</Grid>
 					</Grid>
-
+					<Grid item xs={12}>
+						<Box sx={{ marginLeft: 36 }}>
+							{viewOrCollapse === 'View More...' ? (
+								<Button
+									onClick={showMoreDetails}
+									sx={{ pl: 3 }}
+									startIcon={<ExpandMoreIcon />}
+								>
+									{' '}
+									{viewOrCollapse}{' '}
+								</Button>
+							) : (
+								<Button
+									onClick={showMoreDetails}
+									sx={{ pl: 3 }}
+									startIcon={<ExpandLessIcon />}
+								>
+									{' '}
+									{viewOrCollapse}{' '}
+								</Button>
+							)}
+						</Box>
+					</Grid>
 					{bill.description && (
 						<Typography
 							variant='subtitle1'
@@ -104,32 +132,15 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 							Description: {bill.description}
 						</Typography>
 					)}
-					<Box sx={{ marginLeft: 36 }}>
-						{viewOrCollapse === 'View More...' ? (
-							<Button
-								onClick={showMoreDetails}
-								sx={{ pl: 3 }}
-								startIcon={<ExpandMoreIcon />}
-							>
-								{' '}
-								{viewOrCollapse}{' '}
-							</Button>
-						) : (
-							<Button
-								onClick={showMoreDetails}
-								sx={{ pl: 3 }}
-								startIcon={<ExpandLessIcon />}
-							>
-								{' '}
-								{viewOrCollapse}{' '}
-							</Button>
-						)}
-					</Box>
 
 					<Collapse component='div' in={expanded}>
 						{bill.dishes.map((dish, index) => {
 							return (
-								<Grid columns={{ xs: 4, sm: 8, md: 7 }} marginLeft={4}>
+								<Grid
+									columns={{ xs: 4, sm: 8, md: 7 }}
+									marginLeft={4}
+									key={index}
+								>
 									{[lightTheme].map((theme, index) => (
 										<Grid item xs={6} key={index}>
 											<ThemeProvider theme={theme}>
@@ -142,13 +153,13 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 														gap: 2,
 													}}
 												>
-													{[0].map(elevation => (
-														<Item key={elevation} elevation={elevation}>
+													{[0].map((elevation, index) => (
+														<Item key={index} elevation={elevation}>
 															{dish.dishName}
 														</Item>
 													))}
-													{[0].map(elevation => (
-														<Item key={elevation} elevation={elevation}>
+													{[0].map((elevation, index) => (
+														<Item key={index} elevation={elevation}>
 															${dish.amount.toFixed(2)}
 														</Item>
 													))}
@@ -205,10 +216,8 @@ function Bill({ billInfo: bill, setRefresh, createAt }) {
 							</Grid>
 						</Grid>
 					</Collapse>
-				</Paper>
-			</Grid>
-
-			<Grid item xs={3} />
+				</Grid>
+			</Paper>
 		</Grid>
 	);
 }
