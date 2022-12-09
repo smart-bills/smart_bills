@@ -26,10 +26,7 @@ function Login() {
 		event.preventDefault();
 
 		const loginInfo = { email, password };
-		const response = await axios.post(
-			'http://localhost:8000/app/auth',
-			loginInfo
-		);
+		const response = await axios.post('/app/auth', loginInfo);
 		const data = response.data;
 
 		if (data.errors) {
@@ -49,89 +46,90 @@ function Login() {
 	}
 
 	return (
-			<Container component='main' maxWidth='xs' sx={{mt: 15}}>
-				<CssBaseline />
-				<Box
-					sx={{
-						marginTop: 8,
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-					}}
-				>
-					<Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-						<LockOutlinedIcon />
-					</Avatar>
+		<Container component='main' maxWidth='xs' sx={{ mt: 15 }}>
+			<CssBaseline />
+			<Box
+				sx={{
+					marginTop: 8,
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+			>
+				<Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+					<LockOutlinedIcon />
+				</Avatar>
 
-					<Typography component='h1' variant='h5'>
-						Smart Bills
-					</Typography>
+				<Typography component='h1' variant='h5'>
+					Smart Bills
+				</Typography>
 
-					{isInvalid && (
-						<Alert
-							severity='warning'
-							onClose={() => {
-								setIsInvalid(false);
-							}}
-						>
-							{invalidMessage}
-						</Alert>
-					)}
+				{isInvalid && (
+					<Alert
+						severity='warning'
+						onClose={() => {
+							setIsInvalid(false);
+						}}
+					>
+						{invalidMessage}
+					</Alert>
+				)}
 
-					<Box component='form' onSubmit={loginUser} noValidate sx={{ mt: 1 }}>
-						<TextField
-							margin='normal'
-							required
-							fullWidth
-							id='email'
-							label='Email Address'
-							name='email'
-							placeholder='Email'
-							autoComplete='email'
-							value={email}
-							onChange={e => setEmail(e.target.value)}
-							type='email'
-							autoFocus
-						/>
+				<Box component='form' onSubmit={loginUser} noValidate sx={{ mt: 1 }}>
+					<TextField
+						margin='normal'
+						required
+						fullWidth
+						id='email'
+						label='Email Address'
+						name='email'
+						placeholder='Email'
+						autoComplete='email'
+						value={email}
+						onChange={e => setEmail(e.target.value)}
+						type='email'
+						autoFocus
+					/>
 
-						<TextField
-							margin='normal'
-							required
-							fullWidth
-							name='password'
-							label='Password'
-							type='password'
-							id='password'
-							autoComplete='current-password'
-							value={password}
-							onChange={e => setPassword(e.target.value)}
-							placeholder='Password'
-						/>
+					<TextField
+						margin='normal'
+						required
+						fullWidth
+						name='password'
+						label='Password'
+						type='password'
+						id='password'
+						autoComplete='current-password'
+						value={password}
+						onChange={e => setPassword(e.target.value)}
+						placeholder='Password'
+					/>
 
-						<Button
-							type='submit'
-							value='Login'
-							fullWidth
-							variant='contained'
-							sx={{ mt: 3, mb: 2 }}
-						>
-							Sign In
-						</Button>
+					<Button
+						type='submit'
+						value='Login'
+						fullWidth
+						variant='contained'
+						sx={{ mt: 3, mb: 2 }}
+					>
+						Sign In
+					</Button>
 
-						<Grid container>
-							<Grid item xs>
-								<Link href='#' variant='body2' />
-							</Grid>
-
-							<Grid item>
-								<Link href='/signup' variant='body2'>
-									{' '} Don't have an account? Sign Up {' '}
-								</Link>
-							</Grid>
+					<Grid container>
+						<Grid item xs>
+							<Link href='#' variant='body2' />
 						</Grid>
-					</Box>
+
+						<Grid item>
+							<Link href='/signup' variant='body2'>
+								{' '}
+								Don't have an account? Sign Up{' '}
+							</Link>
+						</Grid>
+					</Grid>
 				</Box>
-			</Container>
+			</Box>
+		</Container>
 	);
 }
 

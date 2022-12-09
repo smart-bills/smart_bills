@@ -11,10 +11,10 @@ app.use(express.json({ limit: '50mb', extended: true }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Set up all routes
-app.use('/app/dashboard', require('./routes/dashboardRoute'));
-app.use('/app/register', require('./routes/registerRoute'));
-app.use('/app/auth', require('./routes/authRoute'));
-app.use('/app/bill', require('./routes/billRoute'));
+app.use('/app/dashboard', require('./server/routes/dashboardRoute'));
+app.use('/app/register', require('./server/routes/registerRoute'));
+app.use('/app/auth', require('./server/routes/authRoute'));
+app.use('/app/bill', require('./server/routes/billRoute'));
 
 // Connecting Database
 const dbKey = process.env.dbKey;
@@ -26,10 +26,10 @@ connection.once('open', () => {
 
 if (process.env.NODE_ENV === 'production') {
 	// Set static folder
-	app.use(express.static('client/build'));
+	app.use(express.static(path.join('client', 'build')));
 
 	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+		res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 	});
 }
 
